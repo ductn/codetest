@@ -1,0 +1,187 @@
+﻿@using ClsCommon
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Hiệp Lợi</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    @*@Styles.Render("~/bundles/core")*@
+    <link rel="stylesheet" href="@CommonConstants.DomainName/assets/HiepLoi/assets/vendors/liquid-icon/liquid-icon.min.css" />
+    <link rel="stylesheet" href="@CommonConstants.DomainName/assets/HiepLoi/assets/vendors/liquid-icon/liquid-icon.min.css" />
+    <link rel="stylesheet" href="@CommonConstants.DomainName/assets/HiepLoi/assets/vendors/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="@CommonConstants.DomainName/assets/HiepLoi/fonts/fontawesome-webfont.woff2" />
+    <link rel="stylesheet" href="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/liquid-icon.css">
+    <link rel="stylesheet" href="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/font-awesome.css">
+    <link rel="stylesheet" href="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/theme-vendors.css">
+    <link rel="stylesheet" href="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/theme.css">
+    <link rel="stylesheet" href="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/virtus-2.css">
+    <link rel="stylesheet" href="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/style.css">
+    <link rel="stylesheet" type="text/css" href="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/page.css">
+    <link rel="stylesheet" type="text/css" href="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/index.css">
+    <link rel="stylesheet" type="text/css" href="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/style_002.css">
+    <link rel="stylesheet" type="text/css" href="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/product-detail.css">
+    <link rel="stylesheet" type="text/css" href="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/cart.css">
+    <link rel="stylesheet" type="text/css" href="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/checkout.css">
+    <!--Add style product update-->
+    <link rel="stylesheet" type="text/css" href="@CommonConstants.DomainName/assets/HiepLoi/css/productStyle.css">
+    <!-- Head Libs -->
+    <script type="text/javascript" async="" src="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/analytics.js"></script>
+    <script async="" src="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/modernizr.js"></script>
+    <script language="javascript" type="text/javascript">
+        function addtocart(pid, quality) {
+            document.formtruong.productid.value = pid;
+            document.formtruong.quality.value = quality;
+            document.formtruong.command.value = 'add';
+            document.formtruong.submit();
+        }
+        //==
+        function doEnter(evt) {
+            // IE		 // Netscape/Firefox/Opera
+            var key;
+            if (evt.keyCode == 13 || evt.which == 13) {
+                onSearch(evt);
+            }
+        }
+
+        function onSearch(evt) {
+            var keyword = document.getElementById("srchFld").value;
+            if (keyword == '')
+                alert('Bạn chưa nhập từ khóa tìm kiếm!');
+            //document.getElementById("srchFld").focus();
+            else {
+                //alert(keyword);
+                //var encoded = Base64.encode(keyword);
+                location.href = "http://hieploiceramic.com/index.php?com=tim-kiem&keyword=" + keyword;
+                //alert(location.href);
+                loadPage(document.location);
+            }
+        }
+    </script>
+
+    @*<script type="text/javascript" src="@CommonConstants.DomainName/Scripts/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="@CommonConstants.DomainName/Scripts/angular.min.js"></script>
+        <script type="text/javascript" src="@CommonConstants.DomainName/Scripts/angular-sanitize.js"></script>*@
+    <!-- Head Libs -->
+    <!-- Latest compiled and minified JavaScript -->
+    @*@Scripts.Render("~/bundles/jscore")*@
+
+</head>
+<body ng-app="appShop" data-mobile-nav-trigger-alignment="right" data-mobile-nav-align="left" data-mobile-nav-style="modern" data-mobile-nav-shceme="gray" data-mobile-header-scheme="gray" data-mobile-nav-breakpoint="1199">
+
+    <!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your Plugin chat code -->
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
+
+    <script>
+        var chatbox = document.getElementById('fb-customer-chat');
+        chatbox.setAttribute("page_id", "638403139595472");
+        chatbox.setAttribute("attribution", "biz_inbox");
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v10.0'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <script>
+        var appShop = angular.module('appShop', []);
+    </script>
+    <div id="wrap">
+        <header class="main-header" style="background: url(images/bg-globalvip-banner.png) no-repeat cover" data-sticky-header="true" data-sticky-options='{ "stickyTrigger": "first-section" }'>
+            <div class="bg">
+                @{Html.RenderAction("Header", "Home");}
+            </div>
+            <div class="mainbar-wrap">
+                <div class="megamenu-hover-bg"></div><!-- /.megamenu-hover-bg -->
+                @{Html.RenderAction("MainMenu", "Home"); }<!-- /.mainbar-container -->
+            </div>
+        </header>
+        <!-- /.main-header -->
+        <main class="content home-page">
+            @{Html.RenderAction("Slider", "Home"); }
+            @RenderBody()
+        </main><!-- /#content.content -->
+
+        <footer class="footer-section">
+            @{ Html.RenderAction("Footer", "Home");}
+        </footer><!-- /.main-footer -->
+    </div><!-- /#wrap -->
+    <!-- Go top -->
+    <div id="back-to-top" class="back-to-top headroom headroom--not-top headroom--not-bottom">
+        <i class="fal fa-arrow-to-top"></i>
+    </div>
+    <!-- Chat -->
+    @*<div class="section-body">
+            <button class="chat-btn btn-messenger" data-chat-type="facebook">
+                <img alt="" src="@CommonConstants.DomainName/assets/HiepLoi/images/message.png" class="h-20 mr-2">  Messenger
+            </button>
+        </div>*@
+
+    <!--start update 10/08/2021-->
+    <link rel="stylesheet" type="text/css" href="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/update.css">
+    <!--Add style support contact right-->
+    <link rel="stylesheet" type="text/css" href="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/supportContact.css">
+    <!--Support contact right-->
+    <div class="wrapSupport">
+        <div class="float-icon-hotline">
+            <ul class="left-icon hotline">
+                <li class="hotline_float_icon"><a target="_blank" rel="nofollow" id="messengerButton" href="https://zalo.me/0909358779"><i class="fa fa-zalo animated infinite tada"></i><span>Zalo</span></a></li>
+                <li class="hotline_float_icon"><a target="_self" rel="nofollow" id="messengerButton" href="#m.me/1239707126177073#"><i class="fa fa-messenger animated infinite tada"></i><span>Facebook</span></a></li>
+            </ul>
+        </div>
+        <div class="hotline-phone-ring-wrap">
+            <div class="hotline-phone-ring">
+                <div class="hotline-phone-ring-circle"></div>
+                <div class="hotline-phone-ring-circle-fill"></div>
+                <div class="hotline-phone-ring-img-circle"> <a href="tel:0909358779" class="pps-btn-img"> <img src="https://netweb.vn/img/hotline/icon.png" alt="so dien thoai" width="50"> </a></div>
+            </div>
+            <div class="hotline-bar">
+                <a href="tel:0909358779"> <!--<span class="text-hotline">08 9898 2526</span>--> </a>
+            </div>
+
+        </div>
+    </div>
+    <!--End update 10/08/2021-->
+
+    <input type="hidden" id="URL_APPLICATION" name="URL_APPLICATION" value="@CommonConstants.DomainName" />
+    <input type="hidden" id="PROVINCE_ID" name="PROVINCE_ID" value="@CommonConstants.ProvinceId" />
+    <!-- <script src="//maps.googleapis.com/maps/api/js?key={YOUR_API_KEY}"></script> -->
+    <!--<script src="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/jquery.js"></script>
+    <script src="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/theme-vendors.js"></script>
+    <script src="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/theme.js"></script>-->
+    <!-- <script src="./assets/js/liquidAjaxContactForm.min.js"></script>
+    <script src="./assets/js/liquidAjaxMailchimp.min.js"></script> -->
+    <!--<script src="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/page.js"></script>
+    <script src="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/index.js"></script>
+    <script src="@CommonConstants.DomainName/assets/HiepLoi/san-pham_files/style.js"></script>
+    <script src="@CommonConstants.DomainName/assets/AngularjsController/BusinessPartnerAngularjs.js"></script>-->
+
+    <script type="text/javascript" async src="@CommonConstants.DomainName/assets/HiepLoi/assets/vendors/modernizr.min.js"></script>
+    <!-- <script src="//maps.googleapis.com/maps/api/js?key={YOUR_API_KEY}"></script> -->
+    <script type="text/javascript" src="@CommonConstants.DomainName/assets/HiepLoi/assets/vendors/jquery.min.js"></script>
+    <script type="text/javascript" src="@CommonConstants.DomainName/assets/HiepLoi/assets/js/theme-vendors.js"></script>
+    <script type="text/javascript" src="@CommonConstants.DomainName/assets/HiepLoi/assets/js/theme.js"></script>
+    <!-- <script src="./assets/js/liquidAjaxContactForm.min.js"></script>
+    <script src="./assets/js/liquidAjaxMailchimp.min.js"></script> -->
+    <script type="text/javascript" src="@CommonConstants.DomainName/assets/HiepLoi/js/page.js"></script>
+    <script type="text/javascript" src="@CommonConstants.DomainName/assets/HiepLoi/js/index.js"></script>
+    <script type="text/javascript" src="@CommonConstants.DomainName/assets/HiepLoi/js/style.js"></script>
+    <script src="@CommonConstants.DomainName/assets/AngularjsController/BusinessPartnerAngularjs.js"></script>
+
+    <script src="@CommonConstants.DomainName/assets/HiepLoi/js/filterSearch.js"></script>
+
+    @RenderSection("jsFooter", required: false)
+</body>
+</html>

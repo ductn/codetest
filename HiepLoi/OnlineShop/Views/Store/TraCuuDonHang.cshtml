@@ -1,0 +1,192 @@
+﻿@model Model.EF.Order
+@using ClsCommon
+@using Model.EF
+@using Model.Dao
+@{
+    ViewBag.Title = "TraCuuDonHang";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <div class="group2 col-lg-8 col-sm-12">
+            <h2 class="mt-4 mb-0 py-3">Tra cứu đơn hàng</h2>
+            <div class="bg-light pt-2 tab-pane">
+                @using (Html.BeginForm("TraCuuDonHang", "Store", FormMethod.Get, new { id = "searchFrom" }))
+                {
+                    <div class="form-group row">
+                        <div class="md-form input-group mb-4">
+                            <input type="text" value="@ViewBag.SearchString" class="form-control" name="searchString" placeholder="Số điện thoại" />
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-md btn-primary m-0 px-3" title="Tìm kiếm">
+                                    <i class="fa fa-search px-3"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="form-group row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="table-responsive-sm">
+                            <div>
+                                <table class="table border bg-white tb-list mt-3 table-striped "
+                                       cellspacing="0" rules="all" border="1" id="ctl00_ContentPlaceHolder1_Create1_grdShow" style="border-width: 1px; border-style: solid; width: 100%; border-collapse: collapse;">
+                                    <tbody>
+                                        @if (ViewBag.lstGh != null)
+                                        {
+                                            <tr class="custom_centered">
+                                                <th scope="col">STT</th>
+                                                <th scope="col">Mã đơn hàng</th>
+                                                <th scope="col">Ngày mua</th>
+                                                <th scope="col">Sản phẩm</th>
+                                                <th scope="col">Tổng tiền</th>
+                                                <th scope="col">Trạng thái</th>
+                                                <th scope="col">&nbsp;</th>
+                                            </tr>
+                                            var stt = 1;
+                                            foreach (var ghang in ViewBag.lstGh)
+                                            {
+                                                var model = new OrderDetail();
+                                                model.OrderID = ghang.ID;
+                                                dynamic TongTien = 0;
+                                                var TenSanPham = "";
+                                                var lstOrderDetail = new OrderDetailDao().ListAll(model);
+                                                if (lstOrderDetail.Count != 0)
+                                                {
+                                                    foreach (var oderDeTail in lstOrderDetail)
+                                                    {
+                                                        var product = new ProductDao().ViewDetail(oderDeTail.ProductID);
+                                                        if (product != null)
+                                                        {
+                                                            TenSanPham += product.Name + ",";
+                                                        }
+                                                        TongTien += oderDeTail.Quantity * oderDeTail.Price;
+                                                    }
+                                                }
+                                                <tr>
+                                                    <td class="text-center" style="width: 5%;">
+                                                        <span>@stt</span>
+                                                    </td>
+                                                    <td class="text-left" style="width: 20%;">
+                                                        <a href="@CommonConstants.DomainName/chi-tiet-don-hang.html?Id=@ghang.ID" target="_blank">@ghang.ID</a>
+                                                    </td>
+                                                    <td class="text-center" style="width: 20%;">
+                                                        <span class="btn-info btn-circle btn-outline btn-sm m-b-10 btn-block" style="text-transform: none;">@ghang.CreatedDate.ToString("dd/MM/yyyy")</span>
+                                                    </td>
+                                                    <td class="text-center" style="width: 40%;">
+                                                        @TenSanPham
+                                                    </td>
+                                                    <td class="text-center" style="width: 20%;">
+                                                        @TongTien.ToString("#,##0.###").Replace(",", ".")
+                                                    </td>
+                                                    <td class="text-center" style="width: 15%;">
+                                                        @if (ghang.Status == 0)
+                                                        {
+                                                            <p>Đang xử lý</p>
+                                                        }
+                                                        else if (ghang.Status == 2)
+                                                        {
+                                                            <p>Đã hủy</p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p>Hoàn thành</p>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center" style="width: 15%;">
+                                                        <a style="color:white" class="btn btn-info btn-sm" target="_blank" href="@CommonConstants.DomainName/chi-tiet-don-hang.html?Id=@ghang.ID" style="padding: 8px 13px;">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                stt = stt + 1;
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        @if (ViewBag.TotalPage > 1)
+                        {
+                            var pageDisplay = (int)ViewBag.MaxPage;
+                            int totalPage = (int)ViewBag.TotalPage;
+                            int currentPage = ((int)ViewBag.Page);
+
+                            // Create numeric links
+                            var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+                            var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+                            var search = "";
+                            if (ViewBag.SearchString != null && ViewBag.SearchString != "")
+                            {
+                                search = "&SearchString=" + ViewBag.SearchString;
+                            }
+                            var link = @CommonConstants.DomainName + "/quan-ly-don-hang-khach.html";
+                            <nav aria-label="Page navigation example my-4">
+                                <ul class="pagination pg-blue">
+                                    @if (currentPage > ViewBag.First)
+                                    {
+                                        <li class="page-item"><a href="@link?page=@ViewBag.First@search" title="Trang đầu" class="first">Trang đầu</a></li>
+                                        <li class="page-item">
+                                            <a href="@link?page=@ViewBag.Prev@search" title="Trang trước" class="prev page-link"><i class="fa fa-angle-left"></i></a>
+                                        </li>
+
+                                    }
+                                    @for (int i = startPageIndex; i <= endPageIndex; i++)
+                                    {
+                                        if (currentPage == i)
+                                        {
+
+                                            <li class="page-item active"> <a href="@link?page=@i@search" class="active page-link" title="Trang @i">@i</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item"><a href="@link?page=@i@search" title="Trang @i" class="pos page-link">@i</a></li>
+                                        }
+                                    }
+                                    @if (currentPage < totalPage)
+                                    {
+                                        <li class="page-item"><a href="@link?page=@ViewBag.Next@search" class="next page-link" title="Trang sau"><i class="fa fa-angle-right"></i></a></li>
+                                        <li class="page-item"> <a href="@link?page=@ViewBag.Last@search" class="last page-link" title="Trang cuối">Trang cuối</a></li>
+                                    }
+
+                                </ul>
+                            </nav>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="group2 col-lg-4 col-md-12 p-0 pl-4 pr-3">
+            <h2 class="mt-4 mb-0 py-3">Sản phẩm mới</h2>
+            <div class="bg-light">
+                <div class="top-products blogs new-product">
+                    <div class="p-4 row">
+                        @foreach (var item in ViewBag.MoreProduct)
+                        {
+                            dynamic price = item.Price;
+                            if (item.IsPromotion == true)
+                            {
+                                price = item.PromotionPrice;
+                            }
+                            <div class="mb-2 col-12">
+                                <div class="btn-fb btn-sm p-0">
+                                    <a href="@CommonConstants.DomainName/gian-hang/san-phan-moi-@item.StoreId/@item.MetaTitle-@item.ID@Html.Raw(".html")">
+                                        <img alt="" src="@CommonConstants.DomainName/@item.Image" class="w-25 pull-left">
+                                        <div class="pull-right w-75 px-4">
+                                            <p class="size-text">@item.Name</p>
+                                            <div class="maskbg-white">
+                                                <p class="text-orange"><b class="fa-18px">@item.Price.ToString("#,##0.###").Replace(",", ".") đ</b></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <h1 style="background:white"></h1>
+        </div>
+    </div>
+</div>

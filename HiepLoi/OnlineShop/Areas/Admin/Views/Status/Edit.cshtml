@@ -1,0 +1,67 @@
+﻿@model Model.EF.Status
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+@section header{
+    Sửa trạng thái
+}
+@section jsFooter{
+    <script src="~/assets/jscontroller/StatusController.js"></script>
+    <script>
+        function cancel() {
+            window.history.back();
+        }
+    </script>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @using (@Html.BeginForm("Edit", "Status", FormMethod.Post, new { id = "formTrangThai", @class = "frmStyle" }))
+                {
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.Id)
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.StatusId, "Status", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.EditorFor(model => model.StatusId, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Title, "Tên trạng thái", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.IdSysProcedure, "Thuộc quy trình", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.DropDownListFor(model => model.IdSysProcedure, null, htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.ValidationMessageFor(model => model.IdSysProcedure, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="control-label col-md-2 col-sm-2 col-xs-2"></div>
+                                <div class="col-md-offset-2 col-lg-9 col-sm-9">
+                                    <button type="button" class="btn btn-sm btn-success btnSave" title="Lưu"><i class="fa fa-save"></i> Cập nhật</button>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="cancel();" title="Hủy"><i class="fa fa-reply"></i> Hủy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+﻿@using Model.Dao;
+@using ClsCommon;
+@{ 
+    var category = new CategoryDao();
+    List<Model.ViewModel.ProductCategoryUnitViewModel> NhomSanPhams = ViewBag.NhomSanPhams;
+
+    int inum1 = 0;
+    int inum2 = 0;
+}
+<div class="section-footer">
+    <div class="container">
+        <div class="suggest-more-title"><span class="suggest-more-title-text">Xu hướng mua sắm không thể bỏ qua</span></div>
+        <div class="suggest-more-list">
+            <div class="suggest-more-list-row">
+                @foreach (var item in Model)
+                {
+                    if (inum1 < 8)
+                    {
+                        //var id = item.ID;
+                        var link = CommonConstants.DomainName + "/chi-tiet/" + item.MetaTitle + "-" + item.ID;
+                        var images = CommonConstants.DomainName + item.Image;
+                        var Name = item.Name;
+                        //var ViewCount = (item.ViewCount / 1000).ToString("N0") + "k";
+                        //var CateName = item.CategoryID;
+                        //var Price = (item.Price.HasValue ? item.Price.ToString("N0") : "Liên hệ");
+                        //var GioHang = CommonConstants.DomainName + "/them-gio-hang?productId=" + item.ID + "&quantity=1";
+                        //var ProductCategoryParentId = "sanphamchinh" + item.ProductCategoryParentId;
+
+                        <a href="@link" title="@Name" class="suggest-more-item">
+                            <div class="suggest-more-item-img-outer">
+                                <div class="suggest-more-item-img-inner"><img src="@images" alt="suggest-item-img__most-wished-for-boost"></div>
+                            </div>
+                            <div class="suggest-more-item-title">@Name</div>
+                        </a>
+                    }
+                    inum1++;
+                }
+            </div>
+            <div class="suggest-more-list-row">
+                @foreach (var item2 in Model)
+                {
+                    if (inum2 > 7)
+                    {
+                        //var id = item2.ID;
+                        var link = CommonConstants.DomainName + "/chi-tiet/" + item2.MetaTitle + "-" + item2.ID;
+                        var images = CommonConstants.DomainName + item2.Image;
+                        var Name = item2.Name;
+                        //var ViewCount = (item2.ViewCount / 1000).ToString("N0") + "k";
+                        //var CateName = item2.CategoryID;
+                        //var Price = (item.Price.HasValue ? @item.Price.ToString("N0") : "Liên hệ");
+                        //var GioHang = CommonConstants.DomainName + "/them-gio-hang?productId=" + item.ID + "&quantity=1";
+                        //var ProductCategoryParentId = "sanphamchinh" + item.ProductCategoryParentId;
+                        <a href="@link" title="Thời trang, Giày Dép &amp; Trang Sức" class="suggest-more-item">
+                            <div class="suggest-more-item-img-outer">
+                                <div class="suggest-more-item-img-inner"><img src="@images" alt="suggest-item-img__most-wished-for-fashion"></div>
+                            </div>
+                            <div class="suggest-more-item-title">@Name</div>
+                        </a>
+                    }
+                    inum2++;
+                }
+            </div>
+        </div>
+    </div>
+</div>

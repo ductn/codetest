@@ -1,0 +1,28 @@
+﻿@model Model.EF.Store
+@{
+    ViewBag.Title = "BanDo";
+    Layout = "~/Views/Shared/_LayoutGianHangNew.cshtml";
+}
+
+<div class="container">
+    <section class="mt-4">
+        <div class="bg-gray py-2 px-4"><h2 class="text-uppercase font-small pt-2">Bản đồ đường đi</h2></div>
+        <div class="media bg-light">
+            @Html.Raw(Model.Map)
+        </div>
+
+    </section>
+    <section class="my-4">
+        <div class="bg-gray py-2 px-4"><h2 class="text-uppercase font-small pt-2">Liên hệ</h2></div>
+        <div class="media text-md-left bg-light">
+            <div class="p-4">
+                <p><b>Điện thoại: </b> @Model.Phone</p>
+                <p><b>Địa chỉ: </b> @Model.DiaChi</p>
+                <p><b>E-mail: </b>  @Model.Email</p>
+                <p><b>Đang mở cửa 08:00 - 17:00</b></p>
+            </div>
+        </div>
+
+    </section>
+</div>
+

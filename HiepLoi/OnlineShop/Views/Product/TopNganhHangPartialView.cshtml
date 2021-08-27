@@ -1,0 +1,178 @@
+﻿@model List<Model.EF.Product>
+@using ClsCommon;
+@{ 
+    List<Model.ViewModel.ProductCategoryUnitViewModel> NhomSanPhams = ViewBag.NhomSanPhams;
+    int inum = 0;
+}
+<section class="home-trending-section">
+    <div class="full-head-bg-outer">
+    </div>
+    <div class="container">
+        <div class="home-trending-block">
+            <div class="block-head">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="head-title-col">
+                            <div class="head-title"><span>Top ngành hàng đang bán chạy</span></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pull-right">
+                        <div class="tab-item-col">
+                            <div class="liquid-filter-items justify-content-between align-items-center">
+                                <div class="liquid-filter-items-inner">
+                                    <ul class="filter-list filter-list-inline mb-0" id="pf-grid-1">
+                                        @foreach (var iNhom in NhomSanPhams)
+                                        {
+                                            var Name = iNhom.ProductCategoryName;
+                                            var filter = ".topnganhhang" + iNhom.ProductCategoryId;
+                                            if (inum == 0)
+                                            {
+                                                <li class="active" data-filter="@filter"><span>@Name</span></li>
+                                            }
+                                            else
+                                            {
+                                                <li class="" data-filter="@filter"><span>@Name</span></li>
+                                            }
+                                            inum++;
+                                        }
+                                    </ul>
+                                    <a href="@CommonConstants.DomainName/san-pham-top-ban-chay.html" class="mz-btn mz-btn-primary mz-btn-sm mz-btn-bdr-round tab-view-more-btn">
+                                        Xem tất cả
+                                    </a>
+                                </div><!-- /.liquid-filter-items-inner -->
+                            </div><!-- /.liquid-filter-items -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block-body">
+                <div id="TopNganhHang" class="product-large-row liquid-portfolio-list-row" data-liquid-masonry="true" data-masonry-options='{ "filtersID": "#pf-grid-1" }' style="position: relative; height: 363.2px;">
+                    @foreach (var item in Model)
+                    {
+                        var link = CommonConstants.DomainName + "/chi-tiet/" + item.MetaTitle + "-" + item.ID;
+                        var images = CommonConstants.DomainName + item.Image;
+                        var Name = item.Name;
+                        var CateName = item.CategoryID;
+                        var Price = (item.Price.HasValue ? item.Price.Value.ToString("N0") : "Liên hệ");
+                        var GioHang = CommonConstants.DomainName + "/them-gio-hang?productId=" + item.ID + "&quantity=1";
+                        var ProductCategoryParentId = "topnganhhang" + item.ProductCategoryParentId;
+
+                        <div class="product-large-col w-20 col-xs-12 masonry-item @ProductCategoryParentId">
+                            <div class="product-card product-item has-box">
+                                <a href="@link" class="product-card__img-field">
+                                    <span class="product-card__img-field-inner">
+                                        <img src="@images" data-src="@images" alt="@Name" class="product-card__img lazyloaded">
+                                    </span>
+                                </a>
+                                <a href="@link" class="product-card__title">
+                                    @Name
+                                </a>
+                                <div class="product-card__loading-wrap">
+                                    <div class="product-card__info-row">
+                                        <div class="product-card__price-col">
+                                            <div class="product-card__current-price">@Price <sup>đ</sup>"</div>
+                                            <!---->
+                                        </div>
+                                        <div class="product-card__interactive-btn-col">
+                                            <a href="@GioHang" title="Thêm vào giỏ hàng" class="mz-btn mz-btn-gray mz-btn-bdr-circle mz-btn-md product-card__add-cart-btn">
+                                                <div class="mz-btn__icon-col"><i class="fal fa-cart-plus"></i></div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!---->
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="product-horizontal-card-wrap row">
+                    @foreach (var item in ViewBag.ViewCount)
+                    {
+                        var link = CommonConstants.DomainName + "/chi-tiet/" + item.MetaTitle + "-" + item.ID;
+                        var images = CommonConstants.DomainName + item.Image;
+                        var Name = item.Name;
+                        var CateName = item.CategoryID;
+                        //var Price = (item.Price.HasValue ? item.Price.Value.ToString("N0") : "Liên hệ");
+                        var Price = "";
+                        if (item.PromotionPrice > 0)
+                        {
+                            Price = item.PromotionPrice.ToString("N0");
+                        }
+                        else
+                        {
+                            Price = "Liên hệ";
+                        }
+                        var giaPhanTram = Math.Round((double)(item.PromotionPrice / (item.Price + item.PromotionPrice) * 100), 0, MidpointRounding.AwayFromZero);
+                        var GioHang = CommonConstants.DomainName + "/them-gio-hang?productId=" + item.ID + "&quantity=1";
+                        var ProductCategoryParentId = "danggiamgia" + item.ProductCategoryParentId;
+                        var ViewCount = "0";
+                        if (item.ViewCount != null && item.ViewCount != 0)
+                        {
+                            if (item.ViewCount > 1000)
+                            {
+                                ViewCount = (item.ViewCount / 1000).ToString("N0") + "k";
+                            }
+                            else
+                            {
+                                ViewCount = item.ViewCount.ToString("N0");
+                            }
+
+                        }
+                        <div class="col-md-4 product-horizontal-card-outer">
+                            <div class="product-horizontal-card product-item">
+                                <a href="@link" class="product-img-col">
+                                    <span class="product-img-outer">
+                                        <img src="@images" data-src="@images" alt="">
+                                    </span>
+                                </a>
+                                <div class="product-loading-wrap">
+                                    <a href="@link" rel="" class="product-title">
+                                        @Name
+                                        <div class="keyword-meta-item-wrap">
+                                            <span class="keyword-meta-item">
+                                                @ViewCount lượt tìm
+                                            </span>
+                                            <!---->
+                                        </div>
+                                    </a>
+                                    <div class="product-info-row">
+                                        <div class="price-col">
+                                            <div class="product-card__current-price">@Price <sup>đ</sup></div>
+                                        </div>
+                                        <div class="btn-col">
+                                            <a href="@GioHang" title="Thêm vào giỏ hàng" class="mz-btn mz-btn-gray mz-btn-bdr-circle mz-btn-md product-card__add-cart-btn">
+                                                <div class="mz-btn__icon-col"><i class="fal fa-cart-plus"></i></div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="row">
+                    <!---->
+                    <div class="col-md-8 col-md-offset-2">
+                        @foreach (var item in ViewBag.TopNhanHang)
+                        {
+                            var link = CommonConstants.DomainName + item.Link;
+                            var Image = CommonConstants.DomainName + item.Image;
+                            var Name = item.Name;
+                            <div class="col-md-2 col-xs-4">
+                                <a href="@link" class="bner-item">
+                                    <div class="bner-item-inner">
+                                        <span class="bner-img-field">
+                                            <img src="@Image" alt="@Name" class="bner-img">
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        </div>
+                    <!---->
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</section>

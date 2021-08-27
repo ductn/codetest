@@ -1,0 +1,88 @@
+﻿@using Model.Dao;
+@using ClsCommon;
+@{ 
+    var category = new CategoryDao();
+    List<Model.ViewModel.ProductCategoryUnitViewModel> NhomSanPhams = ViewBag.NhomSanPhams;
+
+}
+<section class="home-global-section is-start">
+    <div class="title-block">
+        <div class="title-block__background-below" style="background: #FF9800;"><img src="@CommonConstants.DomainName/assets/HiepLoi/images/bg-globalvip-banner.png" alt="banner-image"></div>
+        <div class="title-block__text">
+            <div class="container">
+                <div class="title-block__text-inner">
+                    <div class="title-block__page-title">
+                        Sản phẩm khuyến mãi
+                    </div>
+                    <div class="title-block__page-des">
+                        Deal hot, săn ngay kẻo lỡ
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="mz-masonry">
+            <div class="row mz-masonry__body100 maxHeight">
+                @foreach (var item in Model)
+                {
+                    var id = item.ID;
+                    var link = CommonConstants.DomainName + "/chi-tiet/" + item.MetaTitle + "-" + item.ID;
+                    var images = CommonConstants.DomainName + item.Image;
+                    var Name = item.Name;
+                    var ViewCount = "0";
+                    if (item.ViewCount != null && item.ViewCount != 0)
+                    {
+                        if (item.ViewCount > 1000)
+                        {
+                            ViewCount = (item.ViewCount / 1000).ToString("N0") + "k";
+                        }
+                        else
+                        {
+                            ViewCount = item.ViewCount.ToString("N0");
+                        }
+
+                    }
+                    var CateName = item.CategoryID;
+                    //var Price = (item.Price.HasValue ? item.Price.Value.ToString("N0") : "Liên hệ");
+                    var Price = item.PromotionPrice.ToString("N0");
+                    var giaPhanTram = Math.Round((double)(item.PromotionPrice / (item.Price + item.PromotionPrice) * 100), 0, MidpointRounding.AwayFromZero);
+                    //var GioHang = CommonConstants.DomainName + "/them-gio-hang?productId=" + item.ID + "&quantity=1";
+                    //var ProductCategoryParentId = "sanphamchinh" + item.ProductCategoryParentId;
+
+                    <div class="mz-masonry__item mz-masonry__grid-4 col-md-3">
+                        <div class="global-deal-card">
+                            <div class="global-deal-card__head">
+                                <div class="discount-percent">
+                                    <div class="discount-percent-inner"><span>-@giaPhanTram<sup>%</sup></span></div>
+                                </div>
+                                <a href="@link" target="_blank" class="global-deal-card__image-link">
+                                    <img src="@images" alt="Giảm đến @giaPhanTram% - @Name" class="global-deal-card__image">
+                                </a>
+                            </div>
+                            <div class="global-deal-card__body">
+                                <div class="global-deal-card__title" style="height:40px !important;line-height:40px"><a href="@link" target="_blank" class="global-deal-card__title-link">Giảm đến @giaPhanTram% - @Name</a></div>
+                                <div class="global-deal-card__info">
+                                    <div class="global-deal-card__row">
+                                        <div class="global-deal-card__price">@Price đ</div>
+                                        <div class="global-deal-card__decoration-dot">.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="mz-masonry__footer">
+                <div class="mz-masonry__load-more">
+                    <a href="@CommonConstants.DomainName/san-pham-khuyen-mai.html" class="mz-btn mz-btn-gray mz-btn-lg mz-btn-bdr-round">
+                        <span class="mz-btn__icon-col"><i class="far fa-sort-amount-down"></i></span>
+                        <span class="mz-btn__label-col">Xem thêm</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!---->
+    </div>
+    <!---->
+</section>

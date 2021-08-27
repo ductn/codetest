@@ -1,0 +1,147 @@
+﻿@model Model.EF.User
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+@section header{
+    Cập nhật người dùng
+}
+@section jsFooter{
+    <script>
+        var my_path = $("#Avatar").val();
+        $("#ImgUpload_Avatar").attr("src", my_path);
+    </script>
+    <script src="~/assets/jscontroller/userController.js"></script>
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Nhập thông tin người dùng.
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("Edit", "User", FormMethod.Post))
+                {
+                <div class="row">
+                    <div class="col-lg-6">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                        <img style="width:100px;height:100px" id="ImgUpload_Avatar" />
+                                    </div>
+                                </div>
+                                <div class="form-group row ">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                        @Html.TextBoxFor(model => model.Avatar, htmlAttributes: new { @class = "form-control hidden" })
+                                        <input onchange='ChangeFile(this.id);' id="Upload_Avatar" class='hidden' type='file' />
+                                        <span onclick='clickBrowse(this.id);' id="Upload_Avatar" class="btn btn-xs red btn-outline btn-circle m-b-10" style="text-transform: none;width: 100px;"><i class="fa fa-cloud-upload"></i>Chọn Ảnh</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-lg-12 col-sm-12" })
+                                    <div class="col-lg-12 col-sm-12">
+                                        @Html.TextBoxFor(model => model.UserName, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-lg-12 col-sm-12" })
+                                    <div class="col-lg-12 col-sm-12">
+                                        @Html.PasswordFor(model => model.Password, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-lg-4 col-sm-4" })
+                            <div class="col-lg-8 col-sm-8">
+                                @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-lg-4 col-sm-4" })
+                            <div class="col-lg-8 col-sm-8">
+                                @Html.TextBoxFor(model => model.Address, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-lg-4 col-sm-4" })
+                            <div class="col-lg-8 col-sm-8">
+                                @Html.TextBoxFor(model => model.Email, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-lg-4 col-sm-4" })
+                            <div class="col-lg-8 col-sm-8">
+                                @Html.TextBoxFor(model => model.Phone, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-lg-4 col-sm-4" })
+                            <div class="col-lg-8 col-sm-8">
+                                @Html.CheckBoxFor(model => model.Status, htmlAttributes: new { @class = "" })
+                                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.IsLock, "Khóa tài khoản", htmlAttributes: new { @class = "control-label col-lg-4 col-sm-4" })
+                            <div class="col-lg-8 col-sm-8">
+                                @Html.CheckBoxFor(model => model.IsLock, htmlAttributes: new { @class = "" })
+                                @Html.ValidationMessageFor(model => model.IsLock, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-lg-4 col-sm-4"></div>
+                            <div class="col-lg-8 col-sm-8">
+                                <button type="submit" class="btn btn-primary" title="Lưu"><i class="fa fa-save"></i> Cập nhật </button>
+                                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-warning" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.GroupID, "Vai Trò", htmlAttributes: new { @class = "control-label col-lg-4 col-sm-4" })
+                            <div class="col-lg-8 col-sm-8">
+                                @Html.DropDownListFor(model => model.GroupID, null, htmlAttributes: new { @class = "form-control select2", @style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.GroupID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.UnitCode, "Chức vụ", htmlAttributes: new { @class = "control-label col-lg-4 col-sm-4" })
+                            <div class="col-lg-8 col-sm-8">
+                                @Html.DropDownListFor(model => model.ChucVu, null, htmlAttributes: new { @class = "form-control select2", @style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.ChucVu, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.UnitCode, "Đơn vị", htmlAttributes: new { @class = "control-label col-lg-4 col-sm-4" })
+                            <div class="col-lg-8 col-sm-8">
+                                @Html.DropDownListFor(model => model.UnitCode, null, htmlAttributes: new { @class = "form-control select2", @style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.UnitCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    @Html.HiddenFor(m => m.loaiTK)
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

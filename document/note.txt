@@ -1,0 +1,13 @@
+Quản trị admin:
+http://localhost:6324/Admin/Home/Dashboard5
+Tài khoản : bientap
+mật khẩu : abc@1234
+
+Ghi chú:
+up hình không được thì giải nén file vào OnlineShop\bin
+
+Public note:
+E:\xampp\htdocs\hieploi\HiepLoi\OnlineShop\Scripts\plugins\ckfinder\plugins
+E:\xampp\htdocs\hieploi\HiepLoi\OnlineShop\Scripts\plugins\ckfinder_2.6.3\plugins
+
+

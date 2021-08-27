@@ -1,0 +1,37 @@
+﻿@using ClsCommon;
+@{
+    int inum = 0;
+}
+<section class="vc_row pb-25">
+    <div class="slider-home">
+        <div class="row">
+            <div class="lqd-column col-md-12">
+                <div class="carousel-container carousel-nav-floated carousel-nav-center carousel-nav-middle carousel-nav-md carousel-nav-square carousel-nav-solid carousel-dots-style4">
+                    <div class="carousel-items row mx-0" data-lqd-flickity='{"cellAlign":"center","prevNextButtons":true,"buttonsAppendTo":"self","pageDots":true,"groupCells":true,"autoPlay":3000}'>
+                        @foreach (var item in Model)
+                        {
+                            var Image = CommonConstants.DomainName + item.Image;
+                            if (inum == 0)
+                            {
+                                <div class="carousel-item col-xs-12 px-0 mb-4 active">
+                                    <figure>
+                                        <img src="@Image" alt="Carousel Item">
+                                    </figure>
+                                </div>
+                            }
+                            else { 
+                                <div class="carousel-item col-xs-12 px-0 mb-4">
+                                    <figure>
+                                        <img src="@Image" alt="Carousel Item">
+                                    </figure>
+                                </div>
+                            }
+                            inum++;
+                        }
+                        <!-- /.carousel-item -->
+                    </div><!-- /.carousel-items -->
+                </div><!-- /.carousel-container -->
+            </div><!-- /.lqd-column col-md-10 col-md-offset-1 -->
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+</section>

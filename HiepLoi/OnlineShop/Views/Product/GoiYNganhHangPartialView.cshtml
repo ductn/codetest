@@ -1,0 +1,116 @@
+﻿@model List<Model.EF.Product>
+@using Model.Dao;
+@using ClsCommon;
+@{
+    var category = new CategoryDao();
+    List<Model.ViewModel.ProductCategoryUnitViewModel> NhomSanPhams = ViewBag.NhomSanPhams;
+    Model.EF.Product entity = new Model.EF.Product();
+    entity.StatusId = 3;
+    entity.GoiYMuaSam = true;
+    int inum = 0;
+}
+<div class="section-head">
+    <div class="section-title">
+        <div class="section-title-decoration"></div>
+        <div class="section-title-text">
+            Gợi ý hôm nay, mua sắm liền tay
+        </div>
+        <div class="section-title-decoration"></div>
+    </div>
+</div>
+<div class="container">
+    @foreach (var iCategory in category.ListByGoiYMuaSam())
+    {
+        entity.CategoryID = iCategory.ID;
+        entity.GoiYMuaSam = true;
+        var nganhHangId = iCategory.ID;
+        var _categoryMetaTitle = iCategory.MetaTitle;
+        inum = 0;
+        <div class="home-suggest-block">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="block-head">
+                        <div class="block-head-title">
+                            <a href="">
+                                @iCategory.Name
+                            </a>
+                            <i class="fal fa-angle-right"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 pull-right">
+                    <div class="liquid-filter-items justify-content-between align-items-center">
+                        <div class="liquid-filter-items-inner">
+                            <ul class="filter-list filter-list-inline mb-0" id="pf-grid-goiymuasam-@nganhHangId">
+                                @foreach (var item1 in new ProductDao().GroupByNhomSanPham(entity))
+                                {
+                                    var Name = item1.ProductCategoryName;
+                                    var filter = "." + item1.CategoryMetaTitle + item1.ProductCategoryId;
+                                    if (inum == 0)
+                                    {
+                                        <li class="active" data-filter="@filter"><span>@Name</span></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="" data-filter="@filter"><span>@Name</span></li>
+                                    }
+                                    inum++;
+                                }
+                            </ul>
+                            <a href="@CommonConstants.DomainName/nhanh-san-pham/@_categoryMetaTitle-@nganhHangId" class="mz-btn mz-btn-primary mz-btn-sm mz-btn-bdr-round tab-view-more-btn">
+                                Xem tất cả
+                            </a>
+                        </div><!-- /.liquid-filter-items-inner -->
+                    </div><!-- /.liquid-filter-items -->
+                </div>
+            </div>
+            <div class="block-body">
+                <div class="product-suggest-card-wrap row liquid-portfolio-list-row" data-liquid-masonry="true" data-masonry-options='{ "filtersID": "#pf-grid-goiymuasam-@nganhHangId" }'>
+                    @foreach (var item1 in new ProductDao().GroupByNhomSanPham(entity))
+                    {
+                        entity.ProductCategoryParentId = (int)item1.ProductCategoryId;
+                        foreach (var item2 in new ProductDao().ListByEntity(entity).Skip(0).Take(4))
+                        {
+                            var link = CommonConstants.DomainName + "/chi-tiet/" + item2.MetaTitle + "-" + item2.ID;
+                            var images = CommonConstants.DomainName + item2.Image;
+                            var Name = item2.Name;
+                            var CateName = item2.CategoryID;
+                            var Price = (item2.Price.HasValue ? item2.Price.Value.ToString("N0") : "Liên hệ");
+                            var GioHang = CommonConstants.DomainName + "/them-gio-hang?productId=" + item2.ID + "&quantity=1";
+                            var ProductCategoryParentId = item1.CategoryMetaTitle + item1.ProductCategoryId;
+
+                            <div class="col-md-2 masonry-item @ProductCategoryParentId">
+                                <div class="product-card product-item" data-merchant-id="ATVPDKIKX0DER">
+                                    <a href="@link" class="product-card__img-field">
+                                        <span class="product-card__img-field-inner">
+                                            <img src="@images" data-src="@images" alt="" class="product-card__img">
+                                        </span>
+                                    </a>
+                                    <a href="@link" class="product-card__title">
+                                        @Name
+                                    </a>
+                                    <div class="product-card__loading-wrap">
+                                        <div class="product-card__info-row">
+                                            <div class="product-card__price-col">
+                                                <div class="product-card__current-price">
+                                                    @Price <sup>đ</sup>
+                                                </div>
+                                                <!---->
+                                            </div>
+                                            <div class="product-card__interactive-btn-col">
+                                                <a href="@GioHang" title="Thêm vào giỏ hàng" class="mz-btn mz-btn-gray mz-btn-bdr-circle mz-btn-md product-card__add-cart-btn">
+                                                    <div class="mz-btn__icon-col"><i class="fal fa-cart-plus"></i></div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!---->
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

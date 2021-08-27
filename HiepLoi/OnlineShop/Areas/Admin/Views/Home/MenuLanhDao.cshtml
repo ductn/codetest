@@ -1,0 +1,23 @@
+﻿@using ClsCommon
+@{
+    ViewBag.Title = "MenuLanhDao";
+    Layout = "~/Areas/Admin/Views/Shared/lanhdao/_Layouts.cshtml";
+}
+
+<!-- InstanceBeginEditable name="Editable Region" -->
+<div class="bg-header">
+    <h2 class="text-uppercase text-center m-0">HỆ THỐNG DỮ LIỆU DOANH NGHIỆP</h2>
+    <h1 class="text-uppercase text-center m-0">TỈNH BẾN TRE</h1>
+</div>
+<div class="container my-4 min-vh">
+    <ul class="list-group list-group-flush">
+        @*<li class="list-group-item"><a href="GioiThieu.html">Giới thiệu</a></li>
+        <li class="list-group-item"><a href="TaiLieuVanBan.html">Tài liệu văn bản</a></li>*@
+        <li class="list-group-item"><a href="@CommonConstants.DomainName/Admin/Report/BaoCaoDoanhNghiep">Báo cáo thống kê doanh nghiệp</a></li>
+        <li class="list-group-item"><a href="@CommonConstants.DomainName/Admin/Report/BaoCaoHopTacXa">Báo cáo thống kê hợp tác xã</a></li>
+        <li class="list-group-item"><a href="@CommonConstants.DomainName/Admin/Report/BaoCaoHoKinhDoanh">Báo cáo thống kê hộ kinh doanh</a></li>
+        <li class="list-group-item"><a href="@CommonConstants.DomainName/Admin/GisDoanhNghiep/Index">Bản đồ doanh nghiệp</a></li>
+        <li class="list-group-item"><a href="~/Login/Logout">Thoát</a></li>
+    </ul>
+</div>
+<!-- InstanceEndEditable -->

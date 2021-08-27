@@ -1,0 +1,70 @@
+﻿@model  OnlineShop.Areas.Admin.Models.LoginModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/Login/_Layout.cshtml";
+}
+<script>
+    $('body').on('click', '.viewQuenMatKhau', function () {
+        $('#viewQuenMatKhau').modal();
+    });
+</script>
+<div class="limiter">
+    <div class="container-login100 page-background">
+        <div class="wrap-login100">
+            @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "login100-form validate-form" }))
+            {
+                <span class="login100-form-logo">
+                    <img alt="" src="~/Data/Logo/logo_login.png">
+                </span>
+                <span class="login100-form-title p-b-34 p-t-27" style="font-size:22px">
+                    HỆ THỐNG DỮ LIỆU HIỆP LỢI
+                </span>
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" });
+                <div class="wrap-input100 validate-input" data-validate="Nhập tài khoản">
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "input100", @autofocus = "autofocus", @placeholder = "Tài khoản" })
+                    <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate="Nhập mật khẩu">
+                    @Html.PasswordFor(model => model.Password, new { @class = "input100", @placeholder = "Mật khẩu" })
+                    <span class="focus-input100" data-placeholder="&#xf191;"></span>
+                </div>
+                <div class="contact100-form-checkbox">
+                    @Html.CheckBoxFor(model => model.RememberMe, new { @id = "RememberMe", @class = "input-checkbox100" })
+                    <label class="label-checkbox100" for="RememberMe">
+                        Ghi nhớ đăng nhập
+                    </label>
+                </div>
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn">
+                        Đăng Nhập
+                    </button>
+                </div>
+                <div class="text-center p-t-50">
+                    <a data-toggle="modal" class="txt1 viewQuenMatKhau" style="cursor:pointer">
+                        Quên mật khẩu?
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!--Modal: modalSocial-->
+<div class="modal fade" id="viewQuenMatKhau" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog cascading-modal modal-notify modal-info modal-dialog-centered" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <div class="modal-header justify-content-center">
+                <header>Quên mật khẩu</header>
+                <button style="color:white" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+                <p>Vui lòng liên hệ quản trị</p>
+                <p>Email: support@hieploi.vn</p>
+                <p>Số điện thoại : (0275) 9999999</p>
+            </div>
+        </div>
+    </div>
+</div>
+

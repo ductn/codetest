@@ -1,0 +1,142 @@
+﻿@model OnlineShop.Models.LoginModel
+@using ClsCommon;
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<div class="content">
+        @using (Html.BeginForm("Login", "User", FormMethod.Post))
+                {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                <h4>Đăng nhập</h4>
+                <hr />
+
+                <div class="form-group">
+                    <label class="control-label col-md-2"></label>
+                    <div class="col-md-10">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Đăng nhập" class="btn btn-default" />
+                        <a class="btn btn-facebook" href="/User/LoginFacebook">
+                            <i class="fa fa-facebook"></i>
+                            Đăng nhập bằng Facebook
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>*@
+    <div class="container mb-5">
+        <div class="row">
+            <div class="group2 col-lg-12 col-sm-12">
+                <nav aria-label="breadcrumb" class="mt-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="@CommonConstants.DomainName">Hiệp Lợi</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Đăng nhập</li>
+                    </ol>
+                </nav>
+
+                <div class="bg-light pt-2 tab-pane">
+                    <div class="form-group row">
+                        @if (ViewBag.ckError == 1)
+                        {
+                            <div class="alert alert-success" role="alert">
+                                @ViewBag.CustomError
+                            </div>
+                            @*<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>*@
+                        }
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-xs-12 col-sm-3 col-md-3">
+
+                        </div>
+                        <div class=" col-xs-12 col-sm-6 col-md-6">
+                            <h3>Đăng nhập hoặc <a href="@CommonConstants.DomainName/dang-ky.html" style="color:blue"> Đăng ký</a><br></h3>
+                            Vui lòng nhập thông tin theo yêu cầu bên dưới:
+                        </div>
+                    </div>
+                    @using (Html.BeginForm("Login", "User", FormMethod.Post))
+                    {
+                        <div class="form-group row">
+                            <div class="col-xs-12 col-sm-3 col-md-3">
+
+                            </div>
+                            <div class=" col-xs-12 col-sm-6 col-md-6">
+                                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control mb-3", placeholder = "Tên đăng nhập" })
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-md-3">
+                                <span style="color:Red;visibility:hidden;">*</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-12 col-sm-3 col-md-3">
+
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Mật khẩu" })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-xs-12 col-sm-3 col-md-3">
+                                <span style="color:Red;visibility:hidden;">*</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputuser3" class="col-xs-12 col-sm-3 col-md-3 padding-col-5 control-label">&nbsp;</label>
+                            <div class="col-xs-12 col-sm-3 col-md-3 padding-col-5">
+                                @*<input type="checkbox"><label for="ctl00_ContentPlaceHolder1_Login1_chkRemember"> Ghi nhớ đăng nhập</label>*@
+                                @Html.CheckBoxFor(model => model.RememberMe, new { @id = "RememberMe", @class = "input-checkbox100" })
+                                <label class="label-checkbox100" for="RememberMe">
+                                    Ghi nhớ đăng nhập
+                                </label>
+                                <span>|</span>
+                                <a href="@CommonConstants.DomainName/quen-mat-khau.html" style="color:blue">Quên mật khẩu!</a>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xs-12 col-sm-3 col-md-3">
+
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <span class="waves-input-wrapper">
+                                    <button style="color:white" type="submit" value="Đăng nhập" class="btn btn-primary">Đăng nhập</button>
+                                </span>
+                                <span class="waves-input-wrapper">
+                                    <button style="color:white" type="reset" value="Đặt lại" class="btn btn-info">Đặt lại</button>
+                                </span>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+

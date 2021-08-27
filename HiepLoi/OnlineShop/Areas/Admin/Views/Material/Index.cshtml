@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+@section header{
+    Danh sách chất liệu
+}
+@section jsFooter{
+    <script src="~/Scripts/mustache.min.js"></script>
+    <script src="~/Scripts/jquery.twbsPagination.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/assets/jscontroller/MaterialController.js"></script>
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+
+                <div class="row form-group">
+                    <div class="col-md-10">
+                        <div class="row form-group">
+                            <div class="col-md-4">
+                                <input type="text" value="" class="form-control" id="txtSearchS" />
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-control" id="ddlStatusS">
+                                    <option value="true">Kích hoạt</option>
+                                    <option value="false">Không kích hoạt</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-primary btn-sm" id="btnSearch">Tìm kiếm</button>
+                                <button class="btn btn-primary btn-sm" id="btnReset">Xóa tìm kiếm</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="javascript:void(0)" title="Xóa nhiều" id="btnDeleteAll" class="btn btn-danger btn-sm pull-right" style="margin-left:5px;"><i class="fa fa-trash-o"></i></a>
+                        <a href="javascript:void(0)" title="Thêm mới" id="btnAddNew" class="btn btn-success btn-sm pull-right"><i class="fa fa-plus"></i></a>
+                    </div>
+                </div>
+
+                <div class=" row form-group">
+                    <div id="link-parent-id" class="col-md-12">
+
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <h4 id="tblNoDataTable" class="text-center">Không có dữ liệu !</h4>
+                    <table id="tblDataTable" class="table table table-striped table-hover" style="margin-bottom:0px">
+                        <thead>
+                            <tr>
+                                <th width="1%" class="text-center"><label><input class="checkbox" type="checkbox" id="CheckAll" /></label></th>
+                                <th width="5%" class="text-center">STT</th>
+                                <th width="30%" class="text-center">Tên</th>
+                                <th width="29%" class="text-center">Mô tả</th>
+                                <th width="10%" class="text-center">Sắp xếp</th>
+                                <th width="10%" class="text-center">Kích hoạt</th>
+                                <th width="15%"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblDataIndex">
+                        </tbody>
+                    </table>
+                    <!-- /.table-responsive -->
+                    <script id="data-template-index" type="x-tmpl-mustache">
+                        <tr id="row_{{Id}}">
+                            <td class="text-center"><input class="checkbox checkSingle" type="checkbox" data-id="{{Id}}" /></td>
+                            <td class="text-center">{{STT}}</td>
+                            <td class="text-left">{{{Name}}}</td>
+                            <td class="text-left">{{{Desription}}}</td>
+                            <td class="text-center">{{Sort}}</td>
+                            <td class="text-center"><a href="javascript:void(0)" data-id="{{Id}}" class="btn-active">{{{Status}}}</a></td>
+                            <td class="text-center">
+                                <a title="Sửa" class="btn btn-primary btn-xs m-b-10 btn-edit" data-id="{{Id}}"><i class="fa fa-pencil"></i></a>
+                                <a title="Xóa" class="btn btn-danger btn-xs m-b-10 btn-delete" data-id="{{Id}}"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                    </script>
+                </div>
+                <!-- pagination -->
+                <div id="tblDatapagination" class="row">
+                    <div class="col-md-6 pull-left">
+                        <div style="margin: 20px 0;">
+                            <span style="float: left;line-height: 30px">Số bản ghi trên trang </span>
+                            <span style="float: left;padding: 5px 5px;">
+                                <select style="width:50px" size="1" id="filter_count_perpage">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </span>
+                            <span style="float: left;line-height: 30px;margin-right: 5px;">Hiển thị <span id="from_record"></span> </span>
+                            <span style="float: left;line-height: 30px"> đến <span id="to_record"></span> trong tổng số <span id="total_count_row"></span> bản ghi.</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="pagination-index" class="pull-right"></div>
+                    </div>
+                </div>
+                <!-- /pagination -->
+                <!-- /.panel-body -->
+            </div>
+        </div>
+    </div>
+</div>
+@RenderPage("_AddUpdateModal.cshtml")

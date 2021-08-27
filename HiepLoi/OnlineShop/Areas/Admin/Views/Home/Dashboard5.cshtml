@@ -1,0 +1,229 @@
+﻿@using ClsCommon;
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+@section header{
+    @if (ViewBag.ShowDashboardAdmin != null && ViewBag.ShowDashboardAdmin == true)
+    {
+        @Html.Raw("Danh sách chức năng");
+    }
+    else
+    {
+        @Html.Raw("");
+    }
+}
+@section jsFooter{
+
+}
+@* Css dashboard *@
+<link href="@CommonConstants.DomainName/assets/admin/cssDashboard/styleDashboard.css" rel="stylesheet" type="text/css" />
+
+<div class="card card-topline-red" style="background-color:transparent">
+    <div style="padding-top: 20px; padding-left: 10px; padding-right: 10px;" class="state-overview">
+        @if (ViewBag.ShowDashboardAdmin == true)
+        {
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <a href="~/Admin/sysFunction/index">
+                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+                            <div class="md-card md-card-stats md-theme-default">
+                                <div class="md-card-header" data-background-color="purple"><i class="fa fa-bars usr-clr"></i></div>
+                                <div class="md-card-content">
+                                    <p class="category">Chức năng</p>
+                                    <h3 class="title">1</h3>
+                                </div>
+                                <div class="md-card-actions md-alignment-left">
+                                    <div class="stats"><i class="fa fa-bars usr-clr"></i>24H</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="~/Admin/UserGroup/index">
+                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+                            <div class="md-card md-card-stats md-theme-default">
+                                <div class="md-card-header" data-background-color="blue"><i class="fa fa-book"></i></div>
+                                <div class="md-card-content">
+                                    <p class="category">Vai trò</p>
+                                    <h3 class="title">2</h3>
+                                </div>
+                                <div class="md-card-actions md-alignment-left">
+                                    <div class="stats"><i class="fa fa-bars usr-clr"></i>24H</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="~/Admin/Credential/Create">
+                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+                            <div class="md-card md-card-stats md-theme-default">
+                                <div class="md-card-header" data-background-color="green"><i class="fa fa-stack-overflow"></i></div>
+                                <div class="md-card-content">
+                                    <p class="category">Vai trò - chức năng</p>
+                                    <h3 class="title">3</h3>
+                                </div>
+                                <div class="md-card-actions md-alignment-left">
+                                    <div class="stats"><i class="fa fa-bars usr-clr"></i>24H</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="~/Admin/User/Index">
+                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+                            <div class="md-card md-card-stats md-theme-default">
+                                <div class="md-card-header" data-background-color="orange"><i class="fa fa-briefcase"></i></div>
+                                <div class="md-card-content">
+                                    <p class="category">Người dùng</p>
+                                    <h3 class="title">4</h3>
+                                </div>
+                                <div class="md-card-actions md-alignment-left">
+                                    <div class="stats"><i class="fa fa-bars usr-clr"></i>24H</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <a href="~/Admin/SysProcedure/index">
+                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+                            <div class="md-card md-card-stats md-theme-default">
+                                <div class="md-card-header" data-background-color="red"><i class="fa fa-briefcase"></i></div>
+                                <div class="md-card-content">
+                                    <p class="category">Quy trình</p>
+                                    <h3 class="title">5</h3>
+                                </div>
+                                <div class="md-card-actions md-alignment-left">
+                                    <div class="stats"><i class="fa fa-bars usr-clr"></i>24H</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="~/Admin/Status/index">
+                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+                            <div class="md-card md-card-stats md-theme-default">
+                                <div class="md-card-header" data-background-color="orange"><i class="fa fa-window-restore"></i></div>
+                                <div class="md-card-content">
+                                    <p class="category">Trạng thái</p>
+                                    <h3 class="title">6</h3>
+                                </div>
+                                <div class="md-card-actions md-alignment-left">
+                                    <div class="stats"><i class="fa fa-bars usr-clr"></i>24H</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="~/Admin/SysAction/index">
+                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+                            <div class="md-card md-card-stats md-theme-default">
+                                <div class="md-card-header" data-background-color="red"><i class="fa fa-question-circle"></i></div>
+                                <div class="md-card-content">
+                                    <p class="category">Thao tác - quy trình</p>
+                                    <h3 class="title">7</h3>
+                                </div>
+                                <div class="md-card-actions md-alignment-left">
+                                    <div class="stats"><i class="fa fa-bars usr-clr"></i>24H</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="~/Admin/PositionDict/Index">
+                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+                            <div class="md-card md-card-stats md-theme-default">
+                                <div class="md-card-header" data-background-color="blue"><i class="fa fa-book"></i></div>
+                                <div class="md-card-content">
+                                    <p class="category">Chức vụ</p>
+                                    <h3 class="title">8</h3>
+                                </div>
+                                <div class="md-card-actions md-alignment-left">
+                                    <div class="stats"><i class="fa fa-bars usr-clr"></i>24H</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+        @if (ViewBag.ShowDashboardBienTap != null && ViewBag.ShowDashboardBienTap == true)
+        {
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <a href="~/Admin/Product/index">
+                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+                            <div class="md-card md-card-stats md-theme-default">
+                                <div class="md-card-header" data-background-color="purple"><i class="fa fa-bars usr-clr"></i></div>
+                                <div class="md-card-content">
+                                    <p class="category">Sản Phẩm</p>
+                                    <h3 class="title">1</h3>
+                                </div>
+                                <div class="md-card-actions md-alignment-left">
+                                    <div class="stats"><i class="fa fa-bars usr-clr"></i>24H</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="~/Admin/Order/index">
+                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+                            <div class="md-card md-card-stats md-theme-default">
+                                <div class="md-card-header" data-background-color="blue"><i class="fa fa-book"></i></div>
+                                <div class="md-card-content">
+                                    <p class="category">Đơn Hàng</p>
+                                    <h3 class="title">2</h3>
+                                </div>
+                                <div class="md-card-actions md-alignment-left">
+                                    <div class="stats"><i class="fa fa-bars usr-clr"></i>24H</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="~/Admin/Feedback/index">
+                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+                            <div class="md-card md-card-stats md-theme-default">
+                                <div class="md-card-header" data-background-color="green"><i class="fa fa-stack-overflow"></i></div>
+                                <div class="md-card-content">
+                                    <p class="category">Phản hồi khách hàng</p>
+                                    <h3 class="title">3</h3>
+                                </div>
+                                <div class="md-card-actions md-alignment-left">
+                                    <div class="stats"><i class="fa fa-bars usr-clr"></i>24H</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="~/Admin/Content/index">
+                        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+                            <div class="md-card md-card-stats md-theme-default">
+                                <div class="md-card-header" data-background-color="orange"><i class="fa fa-briefcase"></i></div>
+                                <div class="md-card-content">
+                                    <p class="category">Tin Tức</p>
+                                    <h3 class="title">4</h3>
+                                </div>
+                                <div class="md-card-actions md-alignment-left">
+                                    <div class="stats"><i class="fa fa-bars usr-clr"></i>24H</div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

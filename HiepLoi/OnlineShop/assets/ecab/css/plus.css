@@ -1,0 +1,29 @@
+.page-container {
+	background-color: #eaeef3 !important;
+}
+.row.display-flex {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+.row.display-flex > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}
+.track {
+	margin-top: 30px;
+	text-align: center;
+}
+.track .card-header {
+	font-weight: bold
+}
+.all-caps {
+	text-transform: uppercase;
+}
+.track .card-title { margin-bottom: 0 !important; }
+.track .col-num { padding: 10px; }
+@media (min-height: 992px) {
+	.track .card {
+		height: 100%;
+	}
+}

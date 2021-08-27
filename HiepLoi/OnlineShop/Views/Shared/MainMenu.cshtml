@@ -1,0 +1,128 @@
+﻿@model List<Model.EF.Menu>
+@using Model.Dao
+@using ClsCommon;
+@{
+    var categorys = (List<Model.EF.Category>)ViewBag.Categorys;
+    var categoryUnitDao = new CategoryUnitDao();
+    var unitDao = new UnitDao();
+}
+<div class="container mainbar-container">
+    <div class="mainbar">
+        <div class="row mainbar-row align-items-lg-stretch">
+            <!--<div class="col-auto visible-when-stuck">
+                <div class="navbar-header">
+                    <span class="navbar-brand-inner">
+                        <div class="logo logo-sticky">
+                            <a href="@CommonConstants.DomainName">-->
+                                <!-- <h3>Hiệp Lợi ceramic</h3> -->
+                                <!--<img src="@CommonConstants.DomainName/assets/HiepLoi/imgs/logo.png" alt="">
+                            </a>
+                        </div>
+                    </span>
+
+                    <button type="button" class="navbar-toggle collapsed nav-trigger style-mobile" data-toggle="collapse" data-target="#main-header-collapse" aria-expanded="false" data-changeclassnames='{ "html": "mobile-nav-activated overflow-hidden" }'>
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bars">
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                        </span>
+                    </button>
+                </div>--><!-- /.navbar-header -->
+            <!--</div>--><!-- /.col -->
+
+            <div class="col-auto visible-when-stuck">
+                <div class="navbar-header">
+                    <span class="navbar-brand-inner">
+                        <div class="logo logo-sticky">
+                            <a href="@CommonConstants.DomainName">
+                                <!-- <h3>Hiệp Lợi ceramic</h3> -->
+                                <img src="@CommonConstants.DomainName/assets/HiepLoi/imgs/logo.png" alt="">
+                            </a>
+                        </div>
+                    </span>
+
+                    <button type="button" class="navbar-toggle collapsed nav-trigger style-mobile" data-toggle="collapse" data-target="#main-header-collapse" aria-expanded="false" data-changeclassnames="{ &quot;html&quot;: &quot;mobile-nav-activated overflow-hidden&quot; }">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bars">
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                            <span class="bar"></span>
+                        </span>
+                    </button>
+                </div><!-- /.navbar-header -->
+            </div><!-- /.col -->
+
+            <div class="col">
+                <div class="collapse navbar-collapse" id="main-header-collapse">
+                    <ul id="primary-nav" class="main-nav nav align-items-lg-stretch justify-content-lg-center" data-submenu-options='{ "toggleType":"fade", "handler":"mouse-in-out" }' data-localscroll="true">
+                        <li class="is-active">
+                            <a href="@CommonConstants.DomainName">
+                                <span class="link-txt">
+                                    <span class="txt">Trang chủ</span>
+                                </span>
+                            </a>
+                        </li>
+                        @foreach (var item in Model)
+                        {
+                            if (@item.IsProduct)
+                            {
+                                var link1 = @CommonConstants.DomainName + "/san-pham/danh-sach";
+                                <li class="menu-item-has-children megamenu megamenu-fullwidth columns-4 position-applied" data-bg-color="rgb(255, 255, 255)" data-megamenu-bg-scheme="light">
+                                    <a href="@link1">
+                                        <span class="link-txt">
+                                            <span class="txt">
+                                                @item.Text
+                                                <span class="submenu-expander">
+                                                    <i class="fa fa-angle-down"></i>
+                                                </span>
+                                            </span>
+
+                                        </span>
+                                    </a>
+                                    <ul class="nav-item-children">
+                                        <li>
+                                            <div class="container megamenu-container">
+                                                <div class="vc_row row megamenu-inner-row bg-white">
+                                                    <div class="container ld-container">
+                                                        <div class="row ld-row">
+                                                            @foreach (var category in categorys)
+                                                            {
+                                                                var link2 = @CommonConstants.DomainName + "/san-pham-nganh-hang/" + @category.MetaTitle + "-" + @category.ID;
+                                                                <div class="megamenu-column col-md-3">
+                                                                    <h3 class="megamenu-heading"> <a href="@link2">@category.Name</a><i class="px-2 fal fa-angle-right"></i></h3>
+                                                                    <ul class="lqd-custom-menu reset-ul">
+                                                                        @foreach (var categoryUnit in categoryUnitDao.ListByCategoryId(category.ID))
+                                                                        {
+                                                                            var unit = unitDao.GetById(categoryUnit.UnitId);
+                                                                            var link3 = @CommonConstants.DomainName + "/san-pham/" + @category.MetaTitle + "-" + @category.ID + "/" + @unit.MetaTitleUnit + "-" + @categoryUnit.UnitId;
+                                                                            <li><a href="@link3"> @unit.Title</a></li>
+                                                                        }
+                                                                    </ul>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="@CommonConstants.DomainName@item.Link" target="@item.Target">
+                                        <span class="link-txt">
+                                            <span class="txt">@item.Text</span>
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul><!-- /#primary-nav  -->
+                </div><!-- /#main-header-collapse -->
+            </div><!-- /.col -->
+        </div><!-- /.mainbar-row -->
+    </div><!-- /.mainbar -->
+</div> 

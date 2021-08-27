@@ -1,0 +1,24 @@
+﻿@using ClsCommon;
+@{
+    ViewBag.Title = "AcceptRegister";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mb-5">
+    <div class="row">
+        <div class="group2 col-lg-12 col-sm-12">
+            <nav aria-label="breadcrumb" class="mt-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@CommonConstants.DomainName">Hiệp Lợi</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Đăng ký</li>
+                </ol>
+            </nav>
+            <div class="bg-light pt-2 tab-pane">
+                <div class="form-group row">
+                    <p>Đăng ký tài khoản thành công, bấm vào <a href="@CommonConstants.DomainName/dang-nhap.html?UserName=@ViewBag.UserName" style="color:red">đây</a> để đăng nhập</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

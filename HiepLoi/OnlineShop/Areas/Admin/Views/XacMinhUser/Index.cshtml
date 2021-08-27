@@ -1,0 +1,215 @@
+﻿@model Model.EF.User
+@using PagedList.Mvc;
+@using Model.Dao
+@using Model.EF;
+@using ClsCommon;
+@{
+    ViewBag.Title = "Quản lý người dùng";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+@section header{
+    Danh sách xác minh
+}
+
+@section jsFooter{
+    <script src="~/assets/jscontroller/userController.js"></script>
+    <script src="~/assets/layout/jsindex.js"></script>
+    <script>
+        function funcLamMoi() {
+            window.location.href = window.location.href;
+        }
+    </script>
+}
+@{
+    var positionDictDao = new PositionDictDao();
+
+}
+<div class="row">
+
+    <div class="col-lg-12">
+
+        <div class="panel panel-default">
+            @*<div class="panel-heading">
+                    Danh sách người dùng
+                </div>*@
+
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" style="margin-bottom:0px">
+                        <thead>
+                            <tr>
+                                <th width="1%" class="text-center"><label><input class="checkbox" type="checkbox" id="CheckAll" /></label></th>
+                                <th width="5%" class="text-center">STT</th>
+                                <th width="20%" class="text-center">Tài khoản</th>
+                                <th width="30%" class="text-center">Mã Doanh Nghiệp / Giấy chứng nhận</th>
+                                <th width="10%" class="text-center">Email</th>
+                                <th width="30%" class="text-center">File xác minh</th>
+                                <th width="5%" class="text-center">Xác minh</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i = 1; }
+                            @foreach (var item in ViewBag.listUser)
+                            {
+                                <tr id="row_@item.ID">
+                                    <td class="text-center"><input class="checkbox checkSingle" type="checkbox" data-id="@item.ID" /></td>
+                                    <td class="text-center">@(i++)</td>
+                                    <td>
+                                        @item.UserName
+                                        <div class="alert alert-success">
+                                            <div style="padding:5px;width:200px;">
+                                                <span class="position-relative" style="height:35px;">
+                                                    @item.GroupID
+                                                    <small class="feedLblStyle lblReplyStyle" style="position:absolute;top:-15px;left:0px;font-size:8px;width:110px;">
+                                                        <i class="fa fa-circle"></i> Vai trò
+                                                    </small>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @item.UserName
+                                    </td>
+                                    <td>@item.Email</td>
+                                    <td>
+                                        @if (@item.tenFileDinhKem != null)
+                                        {
+                                            <a href="@item.urlFileDinhKem">
+                                                <img style="width: 30px;height: 30px;" alt="" src="@CommonConstants.DomainName/MediaUploader/pdf.png">
+                                                <span>@item.tenFileDinhKem</span>
+                                            </a>
+                                        }
+
+                                    </td>
+                                    <td><a data-id="@item.ID" title="Xác minh" class="btn btn-primary btn-xs m-b-10 btn-xac-minh"><i class="fa fa-check"></i></a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+                <!-- pagination -->
+                <div class="row">
+                    <div class="col-md-6 pull-left">
+                        <div style="margin: 20px 0;">
+                            <span style="float: left;line-height: 30px">Số bản ghi trên trang </span>
+                            <span style="float: left;padding: 5px 5px;">
+                                <select style="width:50px" size="1" id="filter_count_perpage">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </span>
+                            <span style="float: left;line-height: 30px;margin-right: 5px;">Hiển thị @ViewBag.fromRecord </span>
+                            <span style="float: left;line-height: 30px"> đến @ViewBag.toRecord trong tổng số @ViewBag.Total bản ghi.</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        @{
+                            PagedList.IPagedList<User> listUser = ViewBag.listUser;
+                        }
+                        @Html.PagedListPager(listUser, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+                        {
+                       ContainerDivClasses = new string[] { "pull-right" },
+                       FunctionToTransformEachPageLink = (li, a) =>
+                       {
+                           a.Attributes.Add("class", "page-link");
+                           li.InnerHtml = a.ToString();
+                           return li;
+                       },
+                       LiElementClasses = new[] { "page-item" },
+                       LinkToFirstPageFormat = "«",
+                       LinkToPreviousPageFormat = "Trước",
+                       LinkToNextPageFormat = "Tiếp",
+                       LinkToLastPageFormat = "»",
+                       MaximumPageNumbersToDisplay = 5,
+                       DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                   })
+                    </div>
+                </div>
+                <!-- /pagination -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+</div>
+<script>
+    $('body').on('click', '.btn-xac-minh', function () {
+        var id = $(this).attr("data-id");
+        $('#idXacMinh').val(id);
+        $('#modal-xacminh').modal();
+    });
+    $('body').on('click', '.btn-duyet', function () {
+        var ghichu = $('#ghichu').html();
+        var id = $('#idXacMinh').val();
+        $.ajax({
+            url: URL_APPLICATION + '/Admin/XacMinhUser/DuyetTK',
+            data: {
+                ghichu: ghichu,
+                id :id
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                if (response.status == true) {
+                    window.location.href = window.location.href;
+                } else {
+                    bootbox.alert(response.message);
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+    $('body').on('click', '.btn-khongduyet', function () {
+        var ghichu = $('#ghichu').html();
+        var id = $('#idXacMinh').val();
+        $.ajax({
+            url: URL_APPLICATION + '/Admin/XacMinhUser/KhongDuyetTK',
+            data: {
+                ghichu: ghichu,
+                id: id
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                if (response.status == true) {
+                    window.location.href = window.location.href;
+                } else {
+                    bootbox.alert(response.message);
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+</script>
+<div class="modal fade style-16" id="modal-xacminh">
+    <div class="modal-dialog modal-xs modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-weight:bold;">XÁC MINH TÀI KHOẢN</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-md-3">Ghi chú</label>
+                    <div class="col-md-9">
+                        <input type="hidden" name="idXacMinh" id="idXacMinh" />
+                        <textarea id="ghiChu" name="ghiChu" class="form-group" rows="5" style="width:100%"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-duyet">Duyệt</button>
+                <button type="button" class="btn btn-danger btn-khongduyet">Không duyệt</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+            </div>
+        </div>
+    </div>
+</div>

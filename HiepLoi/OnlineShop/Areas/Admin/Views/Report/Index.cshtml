@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+
+@section header{
+    Vai Trò - chức năng
+}
+@section jsFooter{
+    <script>
+        var url = $("#url").val();
+        Download(url);
+        function Download(url) {
+            document.getElementById('my_iframe').src = url;
+        };
+    </script>
+}
+<iframe id="my_iframe" style="display:none;"></iframe>
+
+<input type="hidden" id="url" value="@ViewBag.url">
+

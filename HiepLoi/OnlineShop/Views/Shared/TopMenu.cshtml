@@ -1,0 +1,40 @@
+﻿@*@model List<Model.EF.Menu>
+    <div class="call">
+        <p><span>Need help?</span> call us <span class="number">1-22-3456789</span></span></p>
+    </div>
+    <div class="account_desc">
+        @{
+            var session = (UserLogin)Session[OnlineShop.Common.CommonConstants.USER_SESSION];
+        }
+        @if (session == null)
+        {
+            <ul>
+                @foreach (var item in Model)
+                {
+                    <li><a href="@item.Link" target="@item.Target">@item.Text</a></li>
+                }
+
+            </ul>
+        }
+        else
+        {
+            <ul>
+                <li>Xin chào:@session.UserName</li>
+                <li>@Html.ActionLink("Thoát", "Logout", "User")</li>
+            </ul>
+        }
+
+    </div>
+    <div class="clear"></div>*@
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <a class="mr-4"><i class="fa fa-phone pr-3"></i>0909 358 779</a>
+                <a><i class="fa fa-envelope pr-3"></i>hieploiceramic@gmail.com</a>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 text-right">
+                <i class="fa fa-calendar pr-3"></i><span class="date_time pr-3" id="date_time"> </span>
+                <i class="fa fa-clock-o px-2"></i><span class="date_time" id="date_time1"></span>
+            </div>
+        </div>
+    </div>

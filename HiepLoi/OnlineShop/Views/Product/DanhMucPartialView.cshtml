@@ -1,0 +1,25 @@
+﻿@using ClsCommon;
+<section class="home-quicklink-section">
+    <div class="container">
+        <div class="home-quicklink-block">
+            <div class="quicklink-item-wrap">
+                @foreach (var item in Model)
+                {
+                    var Icons = CommonConstants.DomainName + item.Icons;
+                    var Name = item.Title;
+                    var link = CommonConstants.DomainName + "/san-pham-nhan-hang/" + item.MetaTitleUnit + "-" + item.Id;
+                    <div class="quicklink-item-col gtm_promotion" data-gtm-promotion-id="block62">
+                        <a href="@link" class="quicklink-item">
+                            <div class="item-icon-shape shape-1">
+                                <img class="item-icon-img svg-img" src="@Icons" alt="@Name">
+                            </div>
+                            <div class="item-title-box">
+                                <span class="item-title">@Name</span>
+                            </div>
+                        </a> <!-- quicklink-item -->
+                    </div>
+                }
+            </div> <!-- quicklink-item-wrap -->
+        </div> <!-- home-quicklink-block -->
+    </div>
+</section>

@@ -1,0 +1,139 @@
+﻿@using ClsCommon
+@{
+    ViewBag.Title = "BieuDoThongKeLanhDao";
+    Layout = "~/Areas/Admin/Views/Shared/lanhdao/_Layouts.cshtml";
+}
+@section jsFooter{
+    <script src="@CommonConstants.DomainName/assets/client/js/lanhdao/AppIndex.js"></script>
+}
+<!-- InstanceBeginEditable name="Editable Region" -->
+<div class="bg-header">
+    <h2 class="text-uppercase text-center my-3">Biểu đồ thống kê</h2>
+</div>
+<div class="container my-3">
+    <ul class="nav nav-pills" id="pills-tabBDTK" role="tablist">
+        <li class="nav-item w-100">
+            <a class="nav-link active" id="pill-2-tabHKT" data-toggle="pill" href="#pill-2HKT" role="tab"
+               aria-controls="pills-home" aria-selected="true">
+                <div class="box-shadow">
+                    <div class="button">
+                        <div class="icon"><img alt="" src="@CommonConstants.DomainName/assets/BenTreApp/img/huyenthi.svg"></div>
+                        <p>Doanh nghiệp</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="nav-item w-100">
+            <a class="nav-link " id="pill-1-tabHKT" data-toggle="pill" href="#pill-1HKT" role="tab"
+               aria-controls="pills-home" aria-selected="true">
+                <div class="box-shadow">
+                    <div class="button">
+                        <div class="icon"><img alt="" src="@CommonConstants.DomainName/assets/BenTreApp/img/loaihinh.svg"></div>
+                        <p>Vốn doanh nghiệp</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li class="nav-item w-100">
+            <a class="nav-link " id="pill-3-tabHKT" data-toggle="pill" href="#pill-3HKT" role="tab"
+               aria-controls="pills-home" aria-selected="true">
+                <div class="box-shadow">
+                    <div class="button">
+                        <div class="icon"><img alt="" src="@CommonConstants.DomainName/assets/BenTreApp/img/nganhlinhvuc.svg"></div>
+                        <p>Số lao động</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content pt-2" id="pills-tabContentHKT">
+        <div class="tab-pane fade show active" id="pill-2HKT" role="tabpanel" aria-labelledby="pill-2HKT">
+            <div class="d-table w-100 my-3 px-2">
+                <p class="d-table-cell text-bold w-60 align-bottom">
+                    Doanh nghiệp:
+                    <select id="huyenDNBieuDo" class="d-block mt-2">
+                        <option selected value="0">--Toàn tỉnh--</option>
+                        <option value="836">thành phố Bến Tre</option>
+                        <option value="838">huyện Chợ Lách</option>
+                        <option value="837">huyện Châu Thành</option>
+                        <option value="844">huyện Mỏ Cày Bắc</option>
+                        <option value="840">huyện Giồng Trôm</option>
+                        <option value="839">huyện Mỏ Cày Nam</option>
+                        <option value="843">huyện Thạnh Phú</option>
+                        <option value="842">huyện Ba Tri</option>
+                        <option value="841">huyện Bình Đại</option>
+                    </select>
+                </p>
+                <p class="d-table-cell text-right text-bold align-bottom">
+                    Tổng (DN)
+                    <span class="d-block number mt-2 border" id="TongDN">23.890.908</span>
+                </p>
+            </div>
+            <div id="piechart_DN2" class="w-100 mt-3 chart"></div>
+            <div id="columnchart_DN2" class="w-100 chart"></div>
+            <div id="trendline_DN2" class="w-100 my-3 chart"></div>
+            <div id="columnschart_DN2" class="w-100 my-3 chart"></div>
+            <div id="linechart_DN2" class="w-100 my-4 chart"></div>
+        </div>
+
+        <div class="tab-pane fade" id="pill-1HKT" role="tabpanel" aria-labelledby="pill-1HKT">
+            <div class="d-table w-100 my-3 px-2">
+                <p class="d-table-cell text-bold w-60 align-bottom text-small">
+                    Vốn doanh nghiệp:
+                    <select id="huyenDNBieuDo2" class="d-block mt-2">
+                        <option selected value="0">--Toàn tỉnh--</option>
+                        <option value="836">thành phố Bến Tre</option>
+                        <option value="838">huyện Chợ Lách</option>
+                        <option value="837">huyện Châu Thành</option>
+                        <option value="844">huyện Mỏ Cày Bắc</option>
+                        <option value="840">huyện Giồng Trôm</option>
+                        <option value="839">huyện Mỏ Cày Nam</option>
+                        <option value="843">huyện Thạnh Phú</option>
+                        <option value="842">huyện Ba Tri</option>
+                        <option value="841">huyện Bình Đại</option>
+                    </select>
+                </p>
+                <p class="d-table-cell text-right text-bold align-bottom">
+                    Tổng (tỷ đồng)
+                    <span class="d-block number mt-2 border" id="TongVonDN">1.890.908</span>
+                </p>
+            </div>
+            <div id="piechart_VDN2" class="w-100 mt-3 chart"></div>
+            <div id="columnchart_VDN2" class="w-100 chart"></div>
+            <div id="trendline_VDN2" class="w-100 my-3 chart"></div>
+            <div id="columnschart_VDN2" class="w-100 my-3 chart"></div>
+            <div id="linechart_VDN2" class="w-100 my-4 chart"></div>
+        </div>
+
+        <div class="tab-pane fade" id="pill-3HKT" role="tabpanel" aria-labelledby="pill-3HKT">
+            <div class="d-table w-100 my-3 px-2">
+                <p class="d-table-cell text-bold w-60 align-bottom">
+                    Số lao động:
+                    <select id="huyenDNBieuDo3" class="d-block mt-2">
+                        <option selected value="0">--Toàn tỉnh--</option>
+                        <option value="836">thành phố Bến Tre</option>
+                        <option value="838">huyện Chợ Lách</option>
+                        <option value="837">huyện Châu Thành</option>
+                        <option value="844">huyện Mỏ Cày Bắc</option>
+                        <option value="840">huyện Giồng Trôm</option>
+                        <option value="839">huyện Mỏ Cày Nam</option>
+                        <option value="843">huyện Thạnh Phú</option>
+                        <option value="842">huyện Ba Tri</option>
+                        <option value="841">huyện Bình Đại</option>
+                    </select>
+                </p>
+                <p class="d-table-cell text-right text-bold align-bottom">
+                    Tổng (người)
+                    <span class="d-block number mt-2 border" id="TongLDDN">23.890</span>
+                </p>
+            </div>
+            <div id="piechart_LDDN2" class="w-100 mt-3 chart"></div>
+            <div id="columnchart_LDDN2" class="w-100 chart"></div>
+            <div id="trendline_LDDN2" class="w-100 my-3 chart"></div>
+            <div id="columnschart_LDDN2" class="w-100 my-3 chart"></div>
+            <div id="linechart_LDDN2" class="w-100 my-4 chart"></div>
+        </div>
+
+    </div>
+</div>
+<!-- InstanceEndEditable -->

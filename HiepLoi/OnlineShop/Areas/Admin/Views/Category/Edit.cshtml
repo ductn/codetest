@@ -1,0 +1,98 @@
+﻿@model Model.EF.Category
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+@section header{
+    Sửa ngành hàng
+}
+@section jsFooter{
+    <script>
+        var my_path = $("#Icons").val();
+        $("#ImgUpload_Icons").attr("src", my_path);
+    </script>
+    <script src="~/assets/jscontroller/CategoryController.js"></script>
+    <script>
+        function cancel() {
+            window.history.back();
+        }
+    </script>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @using (@Html.BeginForm("Edit", "Category", FormMethod.Post, new { id = "formCategory", @class = "frmStyle" }))
+                {
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.ID)
+                            <div class="form-group row">
+                                <div class="col-lg-2 col-sm-2">
+
+                                </div>
+                                <div class="col-lg-2 col-sm-2">
+                                    <div class="form-group row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <img style="width:100px;height:100px" id="ImgUpload_Icons" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row ">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            @Html.TextBoxFor(model => model.Icons, htmlAttributes: new { @class = "form-control hidden" })
+                                            <input onchange='ChangeFile(this.id);' id="Upload_Icons" class='hidden' type='file' />
+                                            <span onclick='clickBrowse(this.id);' id="Upload_Icons" class="btn btn-xs red btn-outline btn-circle m-b-10" style="text-transform: none;width: 100px;"><i class="fa fa-cloud-upload"></i>Chọn Ảnh</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Name, "Tên ngành hàng", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.DisplayOrder, htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.EditorFor(model => model.DisplayOrder, "Vị trí", new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Status, "Trạng thái", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-3 col-sm-3">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(model => model.Status)
+                                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.GoiYMuaSam, "Gợi ý mua sắm", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-3 col-sm-3">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(model => model.GoiYMuaSam)
+                                        @Html.ValidationMessageFor(model => model.GoiYMuaSam, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="control-label col-md-2 col-sm-2 col-xs-2"></div>
+                                <div class="col-md-offset-2 col-lg-9 col-sm-9">
+                                    <button type="button" class="btn btn-sm btn-success btnSave" title="Lưu"><i class="fa fa-save"></i> Cập nhật</button>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="cancel();" title="Hủy"><i class="fa fa-reply"></i> Hủy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

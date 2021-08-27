@@ -1,0 +1,78 @@
+﻿@model Model.EF.DeptIdentify
+
+@{
+    ViewBag.Title = "Tạo mớ Cơ quan cấp CMND";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+
+@section header{
+    Chỉnh sửa Cơ quan cấp CMND
+}
+@section jsFooter{
+    <script src="/assets/jscontroller/DeptIdentifyController.js"></script>
+    <script>
+        function cancel() {
+            window.history.back();
+        }
+        $(document).ready(function () {
+            console.log("ready!");
+        });
+       @* $('#btnSelectImage').on('click', function (e) {
+            e.preventDefault();
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (url) {
+                $('#txtImage').val(url);
+            };
+            finder.popup();
+        })*@
+
+        var editor = CKEDITOR.replace('NoiDung', {
+            customConfig: '~/Scripts/plugins/ckeditor/config.js',
+        });
+    </script>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @using (@Html.BeginForm("Edit", "DeptIdentify", FormMethod.Post, new { id = "formAction", @class = "frmStyle" }))
+                {
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @Html.Hidden("Sort")
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Code, "Mã số", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextBoxFor(model => model.Code, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Name, "Cơ quan cấp", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Desription, "Ghi chú", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextAreaFor(model => model.Desription, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="control-label col-md-2 col-sm-2 col-xs-2"></div>
+                                <div class="col-md-offset-2 col-lg-9 col-sm-9">
+                                    <button type="button" class="btn btn-sm btn-success btnSave" title="Cập nhật"><i class="fa fa-save"></i> Cập nhật</button>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="cancel();" title="Hủy"><i class="fa fa-reply"></i> Hủy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

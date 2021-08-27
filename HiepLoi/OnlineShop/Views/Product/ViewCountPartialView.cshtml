@@ -1,0 +1,58 @@
+﻿@using ClsCommon;
+@{ 
+
+}
+<section class="vc_row">
+    <div class="subSliderBanner home-keyword-section">
+        <div class="container">
+            <div class="row">
+                <div class="lqd-column col-md-12">
+                    <div class="carousel-container carousel-nav-left carousel-nav-md carousel-dots-style4">
+                        <div class="carousel-items row" data-lqd-flickity='{"cellAlign":"center","prevNextButtons":true,"buttonsAppendTo":"self","pageDots":false,"groupCells":true,"adaptiveHeight": true}'>
+                            @foreach (var item in Model)
+                            {
+                                var id = item.ID;
+                                var link = CommonConstants.DomainName + "/san-pham-nganh-hang/" + item.MetaTitle + "-" + item.ID;
+                                var images = CommonConstants.DomainName + item.Icons;
+                                var Name = item.Name;
+                                var ViewCount = "0";
+                                if (item.ViewCount != null && item.ViewCount != 0)
+                                {
+                                    if (item.ViewCount > 1000)
+                                    {
+                                        ViewCount = (item.ViewCount / 1000).ToString("N0") + "k";
+                                    }
+                                    else
+                                    {
+                                        ViewCount = item.ViewCount.ToString("N0");
+                                    }
+
+                                }
+                                <div class="w-20 col-xs-4">
+                                    <figure class="text-left">
+                                        <a href="@link" class="keyword-item">
+                                            <div class="keyword-img-col">
+                                                <div class="keyword-img-outer"><img src="@images" alt="" class="keyword-img"></div>
+                                            </div>
+                                            <div class="keyword-info-col">
+                                                <div class="keyword-info">
+                                                    <div class="keyword-info-title">@Name</div>
+                                                    <div class="keyword-meta-item-wrap">
+                                                        <span class="keyword-meta-item">
+                                                            @ViewCount lượt tìm
+                                                        </span>
+                                                        <!---->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </figure>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

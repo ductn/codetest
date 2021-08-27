@@ -1,0 +1,522 @@
+﻿@using ClsCommon;
+@using Model.Dao;
+@using Model.ViewModel;
+@using System.Web.Script.Serialization;
+@model Model.EF.Product
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var category = (Model.EF.Category)ViewBag.Category;
+    var relatedProducts = (List<Model.EF.Product>)ViewBag.RelatedProducts;
+    var unitDao = new UnitDao();
+    int num = 0;
+}
+<link rel="stylesheet" type="text/css" href="@CommonConstants.DomainName/assets/HiepLoi/css/product-detail.css">
+<link rel="stylesheet" type="text/css" href="@CommonConstants.DomainName/assets/HiepLoi/css/cart.css">
+<link rel="stylesheet" type="text/css" href="@CommonConstants.DomainName/assets/HiepLoi/css/checkout.css">
+<script type="text/javascript">
+    $(document).ready(function () {
+        try {
+            var _id = $('#PRODUCT_ID').val();
+            var url = $('#URL_APPLICATION').val() + '/Product/ChangeViewCount';
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    id: _id
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.status == true) {
+                        
+                    }
+                },
+                error: function (data, Status) {
+                    console.log(data.responseText);
+                }
+            });
+        } catch (e) {
+            // TODO: handle exception
+        }
+    });
+</script>
+
+<section class="mz-breadcrumb-section">
+    <div class="container">
+        <div class="mz-breadcrumb-block">
+            <ul class="mz-breadcrumb-block__list">
+                <li class="mz-breadcrumb-block__item is-home">
+                    <a class="mz-breadcrumb-block__item-inner" href="@CommonConstants.DomainName">
+                        <i class="fas fa-home"></i>
+                    </a>
+                </li>
+                <li class="mz-breadcrumb-block__item">
+                    <a class="mz-breadcrumb-block__item-inner" href="@CommonConstants.DomainName/san-pham-nganh-hang/@category.MetaTitle-@category.ID">@category.Name</a>
+                </li>
+                <li class="mz-breadcrumb-block__item">
+                    <div class="mz-breadcrumb-block__item-inner">
+                        @Model.Name
+                    </div>
+                </li>
+            </ul>
+        </div><!-- .mz-breadcrumb-block__inner -->
+    </div><!-- .container -->
+</section>
+<section class="product-detail-section">
+    <div class="container">
+        <div id="product-detail-block" class="product-detail-block">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="ld-media-row row d-flex" data-liquid-masonry="true" data-custom-animations="true" data-ca-options='{"triggerHandler":"inview","animationTarget":".ld-media-item","duration":700,"delay":100,"easing":"easeOutQuint","initValues":{"scale":1},"animations":{"scale":1}}'>
+                                <div class="row">
+                                    <input type="hidden" id="PRODUCT_ID" name="PRODUCT_ID" value="@Model.ID" />
+                                    @if (Model.MoreImages != null && Model.MoreImages != "")
+                                    {
+                                        JavaScriptSerializer jss = new JavaScriptSerializer();
+                                        List<MoreImages> Objs = jss.Deserialize<List<MoreImages>>(Model.MoreImages);
+                                        foreach (var iMoreImages in Objs)
+                                        {
+                                            var image1 = CommonConstants.DomainName + iMoreImages.urldownload;
+                                            <div class="lqd-column col-md-12 col-sm-12 masonry-item">
+                                                <div class="ld-media-item">
+                                                    <figure data-responsive-bg="true">
+                                                        <img class="invisible" src="@image1" alt="Media Gallery">
+                                                    </figure>
+                                                    <div class="ld-media-item-overlay d-flex flex-column align-items-center text-center justify-content-center">
+                                                        <div class="ld-media-bg"></div>
+                                                        <div class="ld-media-content">
+                                                            <span class="ld-media-icon">
+                                                                <span class="ld-media-icon-inner">
+                                                                    <i class="icon-ion-ios-add"></i>
+                                                                </span>
+                                                            </span>
+                                                        </div><!-- /.ld-media-content -->
+                                                    </div><!-- /.ld-media-item-overlay -->
+                                                    <a href="@image1" class="liquid-overlay-link fresco" data-fresco-group="media-group-1"></a>
+                                                </div><!-- /.ld-media-item -->
+                                            </div>
+                                            break;
+                                        }
+                                    }
+                                </div>
+                                <div class="row thumPro">
+                                    @if (Model.MoreImages != null && Model.MoreImages != "")
+                                    {
+                                        JavaScriptSerializer jss = new JavaScriptSerializer();
+                                        List<MoreImages> Objs = jss.Deserialize<List<MoreImages>>(Model.MoreImages);
+                                        foreach (var iMoreImages in Objs)
+                                        {
+                                            var image = CommonConstants.DomainName + iMoreImages.urldownload;
+                                            if (num != 0)
+                                            {
+                                                <div class="lqd-column col-md-3 col-sm-4 masonry-item">
+                                                    <div class="ld-media-item">
+                                                        <figure data-responsive-bg="true">
+                                                            <img class="invisible" src="@image" alt="Media Gallery">
+                                                        </figure>
+                                                        <div class="ld-media-item-overlay d-flex flex-column align-items-center text-center justify-content-center">
+                                                            <div class="ld-media-bg"></div>
+                                                            <div class="ld-media-content">
+                                                                <span class="ld-media-icon">
+                                                                    <span class="ld-media-icon-inner">
+                                                                        <i class="icon-ion-ios-add"></i>
+                                                                    </span>
+                                                                </span>
+                                                            </div><!-- /.ld-media-content -->
+                                                        </div><!-- /.ld-media-item-overlay -->
+                                                        <a href="@image" class="liquid-overlay-link fresco" data-fresco-group="media-group-1"></a>
+                                                    </div><!-- /.ld-media-item -->
+                                                </div><!-- /.col-md-3 -->
+                                            }
+                                            num++;
+                                        }
+                                    }
+                                </div>
+                            </div><!-- /.ld-media-row -->
+                            
+                            
+                        </div><!-- .product-detail-block__col-md-6 -->
+                        <div class="col-md-6">
+                            <div class="product-name-segment">
+                                <h1 class="product-name">
+                                    @Model.Name
+                                </h1>
+                            </div>
+                            <div class="brand-segment">
+                                <div class="brand-name-outer">
+                                    <span class="text-mirnor">Thương hiệu:</span>
+                                    <a class="brand-name" href="@CommonConstants.DomainName/san-pham-nganh-hang/@category.MetaTitle-@category.ID">
+                                        @if (@Model.UnitId != 0)
+                                        {
+                                            @unitDao.GetById(@Model.UnitId).Title
+                                        }
+                                    </a>
+                                </div>
+                                <div class="sale-at-field">
+                                    <span class="text-mirnor">Bán tại:</span>
+                                    Tp. HCM
+                                </div>
+                                <div class="condition-field">
+                                    <span class="text-mirnor">Tình trạng:</span>
+                                    <b>New</b>
+                                </div>
+                            </div><!-- .brand-segment -->
+                            <div class="rating-segment">
+                                @*<div class="rating-segment__rating-star-field">
+                                    <span>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-gray-light"></i>
+                                    </span>
+                                    <b class="mx-3">4</b>
+                                    <a class="font-size-normal align-self-start" href="#danh-gia" data-scroll-to="">
+                                        (858 đánh giá)
+                                    </a>
+                                </div>*@
+                                @*<div class="feedback-field">
+                                    ⟶
+                                    <div class="mz-feedback-product-tag mz-feedback-product-3 feedback-product-tag-item">
+                                        <span class="mz-feedback-product__label">
+                                            Tương đối tốt - rất nhiều người đã mua
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="rating-segment__btn-wrap">
+                                    <button class="favorite-btn js-ttip" data-ttip-title="Yêu thích" data-ttip="true">
+                                        <div class="icon"></div>
+                                    </button>
+                                    <button class="compare-btn js-ttip" data-ttip-title="So sánh" data-ttip="true">
+                                        <div class="icon"></div>
+                                    </button>
+                                </div>*@
+                            </div><!-- .rating-segment -->
+                            <div class="mz-basic-tab change-price-tab">
+                                <a class="js-ttip mz-basic-tab__item is-active" href="" data-ttip-title="Dành cho người mua cá nhân.<br/>Giá đã bao gồm tất cả các loại thuế phí" data-ttip="true">
+                                    Giá bán
+                                </a>
+                                <a class=" js-ttip mz-basic-tab__item" href="" data-ttip-title="Dành cho khách hàng công ty<br/>Cung cấp hóa đơn giá trị gia tăng" data-ttip="true" aria-describedby="tooltip_q08rzg6t7o">
+                                    
+                                </a>
+                                <button class="mz-grd-btn mz-grd-btn-outline-mixed mz-grd-btn-bdr-round mz-grd-btn-xs ml-auto align-self-center" data-toggle="modal" data-target="#alert-change-price-modal">
+                                    <div class="mz-grd-btn__inner">
+                                        <i class="fal fa-bell mr-2"></i> Theo dõi giá
+                                    </div>
+                                </button>
+                                <div class="my-tooltip" role="tooltip" id="tooltip_q08rzg6t7o" aria-hidden="true" x-placement="top" style="position: fixed; will-change: transform; visibility: hidden; top: 0px; left: 0px; transform: translate3d(895px, 373px, 0px);">
+                                    <div class="tooltip-arrow" style="left: 98px;"></div>
+                                    <div class="tooltip-inner">Dành cho khách hàng công ty<br>Cung cấp hóa đơn giá trị gia tăng </div>
+                                </div>
+                            </div><!-- .change-price-tab -->
+                            <div class=" price-segment is-show" data-shipping-provider-id="2">
+                                <div class="price-segment__curr-price-panel">
+                                    <span class="curr-price">
+                                        @if (@Model.Price.HasValue)
+                                        {
+                                            @Model.Price.Value.ToString("N0") <sup>đ</sup>
+                                        }
+                                        else
+                                        {
+                                            <label>Liên hệ</label>
+                                        }
+                                    </span>
+                                    <span class="infomation">
+                                        <i class="fas fa-info-circle js-ttip align-middle" data-ttip-title="Giá đã bao gồm tất cả các loại thuế phí,<br/>không phát sinh phụ phí" data-ttip="true"></i>
+                                    </span>
+                                </div>
+                            </div><!-- .price-segment -->
+                            @*<div class="mz-alert mz-alert-primary login-alert text-sm">
+                                <a class="text-primary" href="">Đăng nhập để trải nghiệm mua sắm tốt nhất và nhận giá ưu đãi thành viên!</a>
+                            </div>
+                            <div class="desc-segment">
+                                <div class="desc-segment__content">
+                                    <ul class="desc-segment__list">
+                                        <li>
+                                            Chúng tôi đang trở thành một trong những nơi mấu chốt cung cấp vật liệu xây dựng trên địa bàn Tphcm
+                                        </li>
+                                        <li>
+                                            Sản phẩm chính hãng, bảo đảm chất lượng, giao hàng tận nơi
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="desc-segment__foot">
+                                    <a class="desc-segment__view-more-btn seeDetail" href="#mo-ta" data-scroll-to="">Xem thêm</a>
+                                </div>
+                            </div>*@<!-- .desc-segment -->
+                            
+                            <div class="option-segment">
+                            </div><!-- .option-segment -->
+                            <div class="provider-segment">
+                                <input type="hidden" name="shippingProviderId" value="2">
+                                <div class="segment-head" data-stop-propagation="">
+                                    <div class="segment-head__col-1">
+                                        Mô tả
+                                    </div>
+                                    <div class="segment-head__col-2">
+                                        <div class="provider-info is-show provider-info-ghmd">
+                                            <div class="provider-icon-shape">
+                                                <i class="svg -svg-24px -svg-shipping-normal"></i>
+                                            </div>
+                                            <span class="provider-name">Vận Chuyển Tiêu Chuẩn</span>
+                                        </div>
+                                        <i class="arrow-icon fal fa-angle-down"></i>
+                                    </div>
+                                </div><!-- .segment-head -->
+                                <div class="segment-dropdown">
+                                    <div class="provider-panel is-active" data-shipping-provider-id="2" data-shipping-provider-code="GHMD">
+                                        <div class="check-icon"></div>
+                                        <div class="panel-head">
+                                            <div class="provider-icon-shape">
+                                                <i class="svg -svg-24px -svg-shipping-normal"></i>
+                                            </div>
+                                            <span class="provider-name">
+                                                Vận Chuyển Tiêu Chuẩn
+                                            </span>
+                                        </div>
+                                        <div class="panel-body">
+                                            @Model.Description
+                                        </div>
+                                    </div><!-- .provider-panel -->
+                                </div><!-- .segment-dropdown -->
+                            </div>
+    <!-- .provider-segment -->
+                            <div class="current-provider-segment">
+                                @Model.Description
+                            </div>
+                            <div class="cart-segment">
+                                <form id="fake-buy-now-form" class="fake-buy-now-form" method="post" action="/xac-nhan-thong-tin-dat-hang">
+                                    <input id="list-asin-input" type="hidden" class="list-asin-input" name="listAsin" value="B07QYC41BX-AE3OF9B9T3KSD-new">
+                                </form>
+                                <div class="quantity-control-group">
+                                    <button class="down-btn is-disabled">-</button>
+                                    <input type="text" class="quantity-input" value="1" name="quantity" im-insert="true" style="text-align: right;">
+                                    <button class="up-btn">+</button>
+                                </div>
+                                <button class="buy-now-btn mz-btn mz-btn-primary mz-btn-lg mz-btn-bdr-round">
+                                    <span class="mz-btn__label-col">Mua ngay</span>
+                                </button>
+                                <a href="@CommonConstants.DomainName/them-gio-hang?productId=@Model.ID&quantity=1"  class="add-cart-btn mz-btn mz-btn-outline-primary mz-btn-lg mz-btn-bdr-round">
+                                    <span class="mz-grd-btn__icon-col"><i class="fal fa-cart-plus"></i></span>
+                                    <span class="mz-grd-btn__label-col">Giỏ hàng</span>
+                                </a>
+                            </div><!-- .cart-segment -->
+                        </div><!-- .product-detail-block__col-md-6-->
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="merchant-segment">
+                        <div class="segment-title">
+                            Người bán:
+                            <a class="merchant-name" href="">
+                                VLXD Hiệp Lợi
+                            </a>
+                        </div>
+                        <div class="merchant-rating">
+                            <span class="merchant-rating-star">
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star text-primary"></i>
+                                <i class="fas fa-star-half-alt text-primary"></i>
+                            </span>
+                            <span class="merchant-reputation">
+                                95% đánh giá uy tín
+                            </span>
+                        </div>
+                    </div><!-- .merchant-segment -->
+                    <div class="support-segment">
+                        <div class="segment-title">Hỗ trợ khách hàng</div>
+                        <form id="product-detail-block__support-form" class="support-form" novalidate="novalidate">
+                            <input type="hidden" name="asin" value="B07QYC41BX">
+                            <input type="hidden" name="lang" value="jp">
+                            <input type="hidden" name="type" value="detail">
+                            <div class="mz-form-control mz-form-control-sm support-form-control">
+                                <input type="text" class="mz-form-control__input phone-input" placeholder="Số điện thoại của quý khách" name="phoneNumber" value="">
+                                <button class="support-submit-btn">
+                                    <i class="fal fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </form>
+                        <div class="support-segment-desc">Chúng tôi sẽ gọi quý khách trong thời gian sớm nhất để hỗ trợ.</div>
+                        <div class="support-item">
+                            <div class="support-item-icon"><i class="fal fa-phone-volume"></i></div>
+                            <div class="support-item-label">
+                                <a href="tel:0909358779" class="pps-btn-img">0909358779</a>
+                            </div>
+                        </div>
+                        <div class="support-item">
+                            <div class="support-item-icon"><i class="fal fa-mailbox"></i></div>
+                            <div class="support-item-label">
+                                <a class="text-default" href="mailto:support@hieploi.net">support@hieploi.net</a>
+                            </div>
+                        </div>
+                        <div class="support-item">
+                            <div class="support-item-icon"><i class="fal fa-shopping-cart"></i></div>
+                            <div class="support-item-label">
+                                <a class="text-default" href="/ho-tro/huong-dan-dat-mua-hang-cach-dat-mua-hang.n37" target="_blank">
+                                    Hướng dẫn mua hàng
+                                </a>
+                            </div>
+                        </div>
+                        <div class="support-item">
+                            <div class="support-item-icon"><i class="fal fa-exchange"></i></div>
+                            <div class="support-item-label">
+                                <a class="text-default" href="#" data-toggle="modal" data-target="#feature-service-modal">
+                                    Đổi trả xuyên biên giới
+                                </a>
+                            </div>
+                        </div>
+                        <div class="support-item">
+                            <div class="support-item-icon"><i class="fal fa-tasks"></i></div>
+                            <div class="support-item-label">
+                                <a class="text-default" href="#" data-toggle="modal" data-target="#order-timeline-modal">
+                                    Quy trình giao hàng của chúng tôi
+                                </a>
+                            </div>
+                        </div>
+                    </div><!-- .support-segment -->
+                    <!--<div class="feature-segment">
+                        <div class="feature-segment-bg"></div>
+                        <div class="feature-segment-title">Duy nhất tại đây</div>
+                        <div class="feature-segment-body">
+                            <div id="product-detail-block__feature-swiper-container" class="swiper-container swiper-container-fade swiper-container-initialized swiper-container-horizontal">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide swiper-slide-duplicate swiper-slide-next swiper-slide-duplicate-prev" data-swiper-slide-index="5">
+                                        <div class="feature-item">
+                                            <div class="feature-item-head">
+                                                Hệ thống thông minh
+                                            </div>
+                                            <div class="feature-item-content">
+                                                Gợi ý mua sắm ở đâu, khi nào. Công cụ săn giảm giá xuyên lục địa 24/7
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide swiper-slide-duplicate-active" data-swiper-slide-index="0">
+                                        <div class="feature-item">
+                                            <div class="feature-item-head">
+                                                Yên tâm mua sắm
+                                            </div>
+                                            <div class="feature-item-content">
+                                                Chúng tôi đảm bảo giao dịch, hỗ trợ khiếu nại, đổi trả xuyên biên giới dễ dàng, bảo vệ người mua
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div>
+                                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                            </div>--><!-- .swiper-container -->
+                            <!--<div id="product-detail-block__feature-prev-btn" class="feature-prev-btn" tabindex="0" role="button" aria-label="Previous slide">
+                                <i class="fal fa-angle-left"></i>
+                            </div>
+                            <div id="product-detail-block__feature-next-btn" class="feature-next-btn" tabindex="0" role="button" aria-label="Next slide">
+                                <i class="fal fa-angle-right"></i>
+                            </div>
+                        </div>--><!-- .segment-body -->
+                    <!--</div>-->
+    <!-- .feature-segment -->
+                </div><!-- .product-detail-block__col-md-3 -->
+            </div>
+        </div><!-- .product-detail-block__inner -->
+    </div><!-- .container -->
+</section>
+<div class="product-other-info-section">
+    <div id="product-scroll-section-sticky-wrapper" class="product-scroll-section-outer" style="height: 80px;">
+        <section id="product-scroll-section" class="product-scroll-section">
+            <div class="container">
+                <div class="product-scroll-section__inner">
+                    <div class="product-scroll-section__col-1">
+                        <div class="price-type-segment">
+                            Giá bán
+                        </div>
+                        <div class="price-segment is-show" data-shipping-provider-id="2">
+                            <div class="price-segment__curr-price-panel">
+                                <span class="curr-price">
+                                    615,475 <sup>đ</sup>
+                                </span>
+                            </div>
+                        </div>
+                    </div><!-- .product-scroll-section__col-1 -->
+                    <div class="product-scroll-section__col-2">
+                        <div class="cart-segment">
+                            <div class="quantity-control-group">
+                                <button class="down-btn is-disabled">-</button>
+                                <input type="text" class="quantity-input" value="1" name="quantity" im-insert="true" style="text-align: right;">
+                                <button class="up-btn">+</button>
+                            </div>
+                            <button class="buy-now-btn mz-btn mz-btn-primary mz-btn-lg mz-btn-bdr-round">
+                                <span class="mz-btn__label-col">Mua ngay</span>
+                            </button>
+                            <a href="@CommonConstants.DomainName/them-gio-hang?productId=@Model.ID&quantity=1" class="add-cart-btn mz-btn mz-btn-outline-primary mz-btn-lg mz-btn-bdr-round">
+                                <span class="mz-btn__icon-col"><i class="fal fa-cart-plus"></i></span>
+                                <span class="mz-btn__label-col">Giỏ hàng</span>
+                            </a>
+                        </div><!-- .cart-segment -->
+                        <div class="interactive-segment">
+                            <button class="favorite-btn">
+                                <div class="icon"></div>
+                            </button>
+                            <button class="compare-btn">
+                                <div class="icon"></div>
+                            </button>
+                        </div><!-- .interactive-segment -->
+                    </div><!-- .product-scroll-section__col-2 -->
+                </div><!-- .container -->
+            </div><!-- .container -->
+        </section>
+    </div><!-- .product-scroll-section -->
+    <div class="container" id="mo-ta">
+        <div class="product-other-info-section__inner">
+            <div class="product-other-info-section__col-1">
+                <!--<section class="product-desc-block mz-basic-block">
+                    <div class="mz-basic-block__head">
+                        <div class="mz-basic-block__title">
+                            Mô tả
+                        </div>
+                    </div>
+                    <div class="mz-basic-block__body">
+                        @Model.Description-->
+                        @*<ul class="desc-list">
+            <li>
+                Nhắm đến mục tiêu hàng đầu là tạo sự tin tưởng dành cho khách hàng bởi giá cả, dịch vụ chất lượng tốt. Chúng tôi đang trở thành một trong những nơi mấu chốt cung cấp vật liệu xây dựng trên địa bàn Tphcm. Chúng tôi đang trở thành một trong những nơi mấu chốt cung cấp vật liệu xây dựng trên địa bàn Tphcm
+            </li>
+            <li>
+                Nhắm đến mục tiêu hàng đầu là tạo sự tin tưởng dành cho khách hàng bởi giá cả, dịch vụ chất lượng tốt. Chúng tôi đang trở thành một trong những nơi mấu chốt cung cấp vật liệu xây dựng trên địa bàn Tphcm. Chúng tôi đang trở thành một trong những nơi mấu chốt cung cấp vật liệu xây dựng trên địa bàn Tphcm
+            </li>
+            <li>
+                Nhắm đến mục tiêu hàng đầu là tạo sự tin tưởng dành cho khách hàng bởi giá cả, dịch vụ chất lượng tốt. Chúng tôi đang trở thành một trong những nơi mấu chốt cung cấp vật liệu xây dựng trên địa bàn Tphcm. Chúng tôi đang trở thành một trong những nơi mấu chốt cung cấp vật liệu xây dựng trên địa bàn Tphcm
+            </li>
+            <li>
+                Nhắm đến mục tiêu hàng đầu là tạo sự tin tưởng dành cho khách hàng bởi giá cả, dịch vụ chất lượng tốt. Chúng tôi đang trở thành một trong những nơi mấu chốt cung cấp vật liệu xây dựng trên địa bàn Tphcm. Chúng tôi đang trở thành một trong những nơi mấu chốt cung cấp vật liệu xây dựng trên địa bàn Tphcm
+            </li>
+            <li>
+                Nhắm đến mục tiêu hàng đầu là tạo sự tin tưởng dành cho khách hàng bởi giá cả, dịch vụ chất lượng tốt. Chúng tôi đang trở thành một trong những nơi mấu chốt cung cấp vật liệu xây dựng trên địa bàn Tphcm. Chúng tôi đang trở thành một trong những nơi mấu chốt cung cấp vật liệu xây dựng trên địa bàn Tphcm
+            </li>
+        </ul>*@
+                    <!--</div>
+                </section>-->
+                <section class="product-info-block mz-basic-block">
+                    <div class="mz-basic-block__head">
+                        <div class="mz-basic-block__title">
+                            Thông tin
+                        </div>
+                    </div>
+                    <div class="mz-basic-block__body">
+                        @Html.Raw(Model.Detail)
+                        @*<p>Nhắm đến mục tiêu hàng đầu là tạo sự tin tưởng dành cho khách hàng bởi giá cả, dịch vụ chất lượng tốt</p>
+        <p>Chúng tôi đang trở thành một trong những nơi mấu chốt cung cấp vật liệu xây dựng trên địa bàn Tphcm</p>
+        <p>Chăm sóc khách hàng chu đáo bằng cách dịch vụ sẵn có nếu quý khách gọi điện</p>
+        <p>Báo giá đầy đủ về sản phẩm, cách vận chuyển</p>
+        <p>Ngoài ra, sẽ có những ưu đãi dành cho khách hàng lâu năm và khách đặt hàng với số lượng lớn</p>
+        <p>Kí kết hợp đồng nếu hai bên đã thương thảo hoàn thành</p>
+        <p>Vận chuyển sản phẩm đến nơi tiêu thụ, xuất hóa đơn chứng từ hợp lệ</p>
+        <p>Thanh toán số dư</p>*@
+                    </div>
+                </section>
+            </div><!-- .product-other-info-section__col-1 -->
+        </div>
+    </div><!-- .mz-contai\ner -->
+</div>

@@ -1,0 +1,230 @@
+﻿@model Model.ViewModel.HomeSearchViewModel
+@using ClsCommon;
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+@section header{
+}
+
+@section jsFooter{
+    <script src="@CommonConstants.DomainName/assets/jscontroller/HomeController.js"></script>
+    <script src="@CommonConstants.DomainName/assets/thongtindoanhnghiep/js/canvasjs.min.js"></script>
+}
+<style>
+    .lanhdao {
+        border: 1px solid #92a8d1 !important;
+    }
+
+    .text-left {
+        text-align: left !important;
+    }
+
+    .text-right {
+        text-align: right !important;
+    }
+
+    .text-center {
+        text-align: center !important;
+    }
+</style>
+@* Lãnh đạo sở*@
+@if (ViewBag.ShowDashboardLanhDaoSo == "true")
+{
+    //@Html.Raw(ViewBag.scriptChart)
+    <script src="~/assets/admin/js/canvasjs.min.js"></script>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-box">
+                <div class="card-head">
+                    <header>
+                        Tra Cứu
+                        <span id="ctl00_Content_Dashboard1_lblTuNgayDenNgayLinhVuc"></span>
+                    </header>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("DashboardLanhDaoSo", "Home", FormMethod.Post, new { id = "searchFromLanhDao" }))
+                    {
+                        <div class="form-group row">
+                            <div class="col-md-4 col-sm-12">
+                                <label class="col-sm-12 col-md-12">Huyện, Thị</label>
+                                <div class="col-sm-12 col-md-12">
+                                    @Html.DropDownListFor(model => model.HuyenId, null, htmlAttributes: new { @class = "form-control select2", @style = "width:100%" })
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <label class="col-sm-12">Phường, Xã, Thị trấn</label>
+                                <div class="col-sm-12">
+                                    <select id="XaPhuongId" class="form-control select2" style="width:100%">
+                                        <option selected="selected" value="0">--- Chọn ---</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            @Html.HiddenFor(m => m.XaPhuongId)
+                            <div class="col-md-4 col-sm-12">
+                                <label class="col-sm-12 col-md-12">Loại hình</label>
+                                <div class="col-sm-12 col-md-12">
+                                    @Html.DropDownList("LoaiHinh", new List<SelectListItem>
+                                         {
+                                               new SelectListItem { Text = "Doanh Nghiệp", Value = "3", Selected=true},
+                                               new SelectListItem { Text = "Hộ kinh doanh", Value = "1"},
+                                               new SelectListItem { Text = "Hợp tác xã", Value = "2"}
+                                         }, htmlAttributes: new { @class = "form-control select2", @style = "width:100%" })
+                                    @Html.ValidationMessageFor(model => model.LoaiHinh, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-4 col-sm-12">
+                                <label class="col-sm-12">Từ ngày</label>
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(model => model.FromDate, htmlAttributes: new { @class = "form-control", type = "date" })
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <label class="col-sm-12">Đến ngày</label>
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(model => model.ToDate, htmlAttributes: new { @class = "form-control", type = "date" })
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <label class="col-sm-12">Lĩnh vực</label>
+                                <div class="col-sm-12">
+                                    @Html.DropDownListFor(model => model.LinhVuc, null, htmlAttributes: new { @class = "form-control select2", @style = "width:100%" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-8 col-md-8">
+                                <div class="col-sm-12 col-md-12">
+                                    <input type="radio" id="rdDN" name="gender" checked="checked">
+                                    <label for="rdDN">Số lượng</label>
+                                    <input type="radio" id="rdVon" name="gender">
+                                    <label for="rdVon">Vốn</label>
+                                    <input type="radio" id="rdLaoDong" name="gender">
+                                    <label for="rdLaoDong">Lao động</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="col-sm-12 col-md-12">
+                                    <button type="button" class="btn btn-sm btn-primary btn-LanhDao-Search" title="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i> Tìm kiếm</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="card card-box">
+                <div class="card-head">
+                    <header id="headerHo"></header>
+                    <br>
+                    <header id="headerTongHo"></header>
+                    <br>
+                    <content id="htmlBanDoI">
+                        <div id="chartHo" style="height: 500px; width: 100%;"></div>
+                    </content>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="card card-box">
+                <div class="card-head">
+                    <header id="headerVon"></header>
+                    <br>
+                    <header id="headerTongVon"></header>
+                    <br>
+                    <content id="htmlBanDoII">
+                        <div id="chartVon" style="height: 500px; width: 100%;"></div>
+                    </content>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="card card-box">
+                <div class="card-head">
+                    <header id="headerChartColumnHo"></header>
+                    <br>
+                    <div id="chartColunmHo" style="height: 370px; width: 100%;"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="card card-box">
+                <div class="card-head">
+                    <header id="headerChartLineHo"></header>
+                    <br>
+                    <div id="chartLineHo" style="height: 370px; width: 100%;"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="card card-box">
+                <div class="card-head">
+                    <header id="headerChartColunmTheoQuyHo"></header>
+                    <br>
+                    <div id="chartColunmTheoQuyHo" style="height: 370px; width: 100%;"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="card card-box">
+                <div class="card-head">
+                    <header id="headerChartLineTheoThangHo"></header>
+                    <br>
+                    <div id="chartLineTheoThangHo" style="height: 370px; width: 100%;"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="card card-box">
+                <div class="card-head">
+                    <header id="headerTableHoatDong"></header>
+                </div>
+                <div class="card-body ">
+                    <div class="table-scrollable">
+                        <table class="table lanhdao">
+                            <thead>
+
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

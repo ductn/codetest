@@ -1,0 +1,73 @@
+﻿@using ClsCommon
+@using Model.EF;
+@using Model.Dao;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+<!-- InstanceBeginEditable name="Editable Region" -->
+<div class="container mb-5">
+    <div class="row">
+        <div class="group2 col-lg-9 col-sm-12">
+            <nav aria-label="breadcrumb" class="mt-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@CommonConstants.DomainName">Bến tre</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Giới thiệu</li>
+                </ol>
+            </nav>
+
+            <div class="bg-light pt-2 tab-pane">
+                @{
+                    var daoMenu = new MenuDao();
+                    var itMenu = new Menu();
+                    itMenu.ParentId = 0;
+                    itMenu.TypeID = 1;// Loại hiển thị trên menu
+                    List<Menu> lstMenu = daoMenu.ListAll(itMenu);
+                }
+                @foreach (var item in lstMenu)
+                {
+                    <dl class="cate-list-item ">
+                        <dt class="text-statistics">
+                            <a href="@CommonConstants.DomainName@item.Link">@item.Text</a>
+                        </dt>
+                        @{
+                            itMenu.TypeID = 2;// Loại  hiển thị sitemap
+                            itMenu.ParentId = item.ID;
+                            List<Menu> lstChildMenu = daoMenu.ListAll(itMenu);
+                            if (lstChildMenu != null)
+                            {
+                               
+                                <dd style="top: 0px; width: 380px;" class="sub-cate-list">
+                                    <!--first column-->
+                                    <div class="box-column">
+                                        @foreach (var child in lstChildMenu)
+                                        {
+                                        <li style="color: #000000; list-style: none;">
+                                            <a class="sty" href="@CommonConstants.DomainName@child.Link" style="color: #000000; list-style: none;">|__@child.Text</a>
+                                        </li>
+                                        }
+
+                                    </div>
+                                    <!--end first column-->
+                                </dd>
+                            }
+                        }
+                        
+                    </dl>
+
+                }
+            </div>
+        </div>
+
+        <div class="group2 col-lg-3 col-md-12 p-0 pl-4 pr-3">
+            @{ Html.RenderAction("HoTroTrucTuyen", "Home");}
+
+            @{ Html.RenderAction("ThongTinTienIch", "Home");}
+
+            @{ Html.RenderAction("LienKetWeb", "Home");}
+
+            @{ Html.RenderAction("VideoGioiThieu", "Home");}
+        </div>
+    </div>
+</div>
+<!-- InstanceEndEditable -->

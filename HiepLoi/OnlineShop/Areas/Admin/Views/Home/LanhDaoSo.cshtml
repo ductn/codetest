@@ -1,0 +1,2225 @@
+﻿@using ClsCommon;
+@{
+    ViewBag.Title = "LanhDaoSo";
+    Layout = "~/Views/Shared/_LayoutBenTreLanhDao.cshtml";
+}
+@section jsFooter{
+    <script src="@CommonConstants.DomainName/assets/client/js/home/dulieuDoanhNghiep.js"></script>
+    <script src="@CommonConstants.DomainName/assets/client/js/home/dulieuHoKinhDoanh.js"></script>
+    <script src="@CommonConstants.DomainName/assets/client/js/home/dulieuHopTacXa.js"></script>
+    <script src="@CommonConstants.DomainName/assets/client/js/home/dulieuNhaDauTu.js"></script>
+    <script src="@CommonConstants.DomainName/assets/client/js/home/bieuDoDoanhNghiep.js"></script>
+    <script src="@CommonConstants.DomainName/assets/client/js/home/bieuDoSoSanhNamDoanhNghiep.js"></script>
+    <script src="@CommonConstants.DomainName/assets/client/js/home/bieuDoDinhHuongDoanhNghiep.js"></script>
+    <script src="@CommonConstants.DomainName/assets/client/js/home/bieuDoHoKinhDoanh.js"></script>
+    <script src="@CommonConstants.DomainName/assets/client/js/home/bieuDoHopTacXa.js"></script>
+    <script src="@CommonConstants.DomainName/assets/client/js/home/bieuDoNhaDauTu.js"></script>
+    <script src="@CommonConstants.DomainName/assets/client/js/home/mapHanhChinh.js"></script>
+    <script>
+        $("a[href='#viewCSDLDN']:not([href='#])").click(function () {
+            let target = $(this).attr("href");
+            $('html,body').stop().animate({
+                scrollTop: $(target).offset().top - 70
+            }, 1000);
+            event.preventDefault();
+        });
+        $("a[href='#viewCSDLHKD']:not([href='#])").click(function () {
+            let target = $(this).attr("href");
+            $('html,body').stop().animate({
+                scrollTop: $(target).offset().top - 70
+            }, 1000);
+            event.preventDefault();
+        });
+        $("a[href='#viewCSDLNDT']:not([href='#])").click(function () {
+            let target = $(this).attr("href");
+            $('html,body').stop().animate({
+                scrollTop: $(target).offset().top - 70
+            }, 1000);
+            event.preventDefault();
+        });
+        $("a[href='#viewCSDLHTX']:not([href='#])").click(function () {
+            let target = $(this).attr("href");
+            $('html,body').stop().animate({
+                scrollTop: $(target).offset().top - 70
+            }, 1000);
+            event.preventDefault();
+        });
+    </script>
+}
+<style>
+    .mauViewBanDo {
+        background-color: white;
+        color: red;
+        font-size: 20px;
+    }
+
+    .jvectormap-tip {
+        border: 1px solid blue !important;
+    }
+
+    @@media only screen and (max-width: 990px) {
+        #GisIframe {
+            height: 1200px;
+        }
+    }
+
+    .rutgonGianHang {
+        width: 200px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
+<section>
+    <!-- Slider -->
+    <div class="banner-slider position-relative">
+        <div class="banner ">
+            <img alt="" src="@CommonConstants.DomainName/assets/thongtindoanhnghiepnew/img/bg.png" class="w-100">
+            <img alt="" src="@CommonConstants.DomainName/assets/thongtindoanhnghiepnew/img/bg.png" class="w-100">
+        </div>
+        <div class="container data">
+            <div class="row w-70 m-auto">
+                <div class="col-md-2 col-sm-12 px-3 mb-3">
+                    <div class="text-center bg-blue-gradient" style="padding-left:5px !important;padding-right:5px !important">
+                        <a href="#viewCSDLDN" style="cursor:pointer">
+                            <h2 style="min-height:48px" class="text-white"><span class="text-center">Doanh nghiệp</span></h2>
+                            <h3 class="text-yellow">@ViewBag.tongDN</h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12 px-3 mb-3">
+                    <div class="text-center bg-blue-gradient" style="padding-left:5px !important;padding-right:5px !important">
+                        <a href="#viewCSDLHTX" style="cursor:pointer">
+                            <h2 style="min-height:48px" class="text-white"><span class="text-center">Hợp tác xã</span></h2>
+                            <h3 class="text-yellow">@ViewBag.tongHTX</h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12 px-3 mb-3">
+                    <div class="text-center bg-blue-gradient" style="padding-left:5px !important;padding-right:5px !important">
+                        <a href="#viewCSDLHKD" style="cursor:pointer">
+                            <h2 style="min-height:48px;" class="text-white"><span class="text-center">Hộ kinh doanh</span></h2>
+                            <h3 class="text-yellow">@ViewBag.tongHKD</h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12 px-3 mb-3">
+                    <div class="text-center bg-blue-gradient" style="padding-left:5px !important;padding-right:5px !important">
+                        <a href="#viewCSDLNDT" style="cursor:pointer">
+                            <h2 style="min-height:48px" class="text-white"><span class="text-center">Dự án đầu tư</span></h2>
+                            <h3 class="text-yellow">@ViewBag.tongNDT</h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12 px-3 mb-3">
+                    <div class="text-center bg-blue-gradient" style="padding-left:5px !important;padding-right:5px !important">
+                        <a href="#viewCSDLLangNghe" style="cursor:pointer">
+                            <h2 style="min-height:48px" class="text-white"><span class="text-center">Làng nghề</span></h2>
+                            <h3 class="text-yellow">@ViewBag.tongLangNghe</h3>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Doanh nghiệp-->
+<section class="bg-lightGray py-5" id="viewCSDLDN">
+    <div class="container bg-light">
+        <p style="text-align:center;font-size: 18px;line-height: 1.3em;font-family: 'UTM AvoBold';color:blue">Doanh Nghiệp</p>
+        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pill-21-tab" data-toggle="pill" href="#pill-21" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Biểu đồ thống kê</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pill-1-tab" data-toggle="pill" href="#pill-1" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Lũy kế đến năm @ViewBag.yearNow</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pill-11-tab" data-toggle="pill" href="#pill-11" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Từ năm @ViewBag.yearNow đến nay</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pill-3-tabDN" data-toggle="pill" href="#pill-3DN" role="tab"
+                   aria-controls="pills-home" aria-selected="true">So sánh giữa các năm</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pill-4-tabDN" data-toggle="pill" href="#pill-4DN" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Định hướng phát triển</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pill-2-tab" data-toggle="pill" href="#pill-2" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Cơ sở dữ liệu</a>
+            </li>
+        </ul>
+        <div class="tab-content pt-2" id="pills-tabContent">
+
+            <div class="tab-pane fade show active" id="pill-21" role="tabpanel" aria-labelledby="pill-21">
+                <div class="form-group row mb-3">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="huyenDNBieuDo">
+                                <option value="0">--Toàn tỉnh--</option>
+                                <option value="836">thành phố Bến Tre</option>
+                                <option value="838">huyện Chợ Lách</option>
+                                <option value="837">huyện Châu Thành</option>
+                                <option value="844">huyện Mỏ Cày Bắc</option>
+                                <option value="840">huyện Giồng Trôm</option>
+                                <option value="839">huyện Mỏ Cày Nam</option>
+                                <option value="843">huyện Thạnh Phú</option>
+                                <option value="842">huyện Ba Tri</option>
+                                <option value="841">huyện Bình Đại</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="xaDNBieuDo">
+                                <option value="0">Chọn</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    @*<div class="col-md-4 col-sm-12">
+                            <div class="px-3 mb-3">
+                                <select id="loaihinh">
+                                    <option value="Doanh nghiệp">Doanh nghiệp</option>
+                                </select>
+                            </div>
+                        </div>*@
+                </div>
+                <h2 class="text-uppercase text-center py-4 title"><span>TỈ LỆ (%) VỐN @*DOANH NGHIỆP*@ THEO LĨNH VỰC  <titledn class="titleDNCSDL"></titledn></span></h2>
+                <div id="htmlBanDoI">
+                    <div id="container" style="width: 100%; height: 500px"></div>
+                </div>
+                <h2 class="text-uppercase text-center py-4 title"><span>TỈ LỆ (%) SỐ LƯỢNG @*DOANH NGHIỆP*@ THEO LĨNH VỰC <titledn class="titleDNCSDL"></titledn></span></h2>
+                <div id="htmlBanDoII">
+                    <div id="container2" style="width: 100%; height: 500px"></div>
+                </div>
+                @*<h2 class="text-uppercase text-center py-4 title"><span>Tình hình hoạt động doanh nghiệp</span></h2>
+                    <div class="table-responsive-sm">
+                        <table class="table border bg-white tb-status mt-3 table-striped ">
+                            <thead>
+                                <tr class="font-weight-bold">
+                                    <th class="text-center" width="10%">STT</th>
+                                    <th width="60%">Địa bàn</th>
+                                    <th class="text-center" width="30%">Đang hoạt động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.lstHuyen)
+                                {
+                                    <tr>
+                                        <td class="text-center count"></td>
+                                        <td>@item.Title</td>
+                                        <td class="text-center">@Html.Action("getSoLieu", "Home", new { Id = item.Id }) </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>*@
+            </div>
+
+            <div class="tab-pane fade" id="pill-2" role="tabpanel" aria-labelledby="pill-2">
+                <div class="form-group row mb-3">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="huyenDN">
+                                <option value="0">--Toàn tỉnh--</option>
+                                <option value="836">thành phố Bến Tre</option>
+                                <option value="838">huyện Chợ Lách</option>
+                                <option value="837">huyện Châu Thành</option>
+                                <option value="844">huyện Mỏ Cày Bắc</option>
+                                <option value="840">huyện Giồng Trôm</option>
+                                <option value="839">huyện Mỏ Cày Nam</option>
+                                <option value="843">huyện Thạnh Phú</option>
+                                <option value="842">huyện Ba Tri</option>
+                                <option value="841">huyện Bình Đại</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="xaDN">
+                                <option value="0">Chọn</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    @*<div class="col-md-4 col-sm-12">
+                            <div class="px-3 mb-3">
+                                <select id="loaihinh">
+                                    <option value="Doanh nghiệp">Doanh nghiệp</option>
+                                </select>
+                            </div>
+
+                        </div>*@
+                </div>
+
+                <h2 class="text-uppercase">Doanh nghiệp <span class="titleDNCSDL"></span>: <span class="totalDN"></span></h2>
+
+                <div class="md-form input-group mb-4">
+                    <input type="text" id="nameDN" class="form-control" placeholder="Mã số thuế/CMND/GCN/Ngành nghề/Tên">
+                    <div class="input-group-append" id="searchDN">
+                        <button class="btn btn-md btn-primary m-0 px-3 rounded-0" type="button"><i class="fa fa-search px-3"></i></button>
+                    </div>
+                </div>
+                <div class="table-responsive-sm mb-3">
+                    <table class="table border bg-white tb-list mt-3 table-striped ">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th width="30%">Doanh nghiệp</th>
+                                <th width="20%">Mã doanh nghiệp</th>
+                                <th width="20%">Đại diện pháp luật</th>
+                                <th width="30%">Địa chỉ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblDataIndexDN"></tbody>
+
+                    </table>
+                </div>
+                <script id="data-template-index-dn" type="x-tmpl-mustache">
+                    <tr>
+                        <td><a class="ViewDetail" data-id="{{ID}}">{{TenDN}}</a></td>
+                        <td>{{MaST}} </td>
+                        <td class="text-uppercase">{{DaiDienPL}}</td>
+                        <td>{{DiaChi}}</td>
+                    </tr>
+                </script>
+                <nav aria-label="Page navigation example">
+                    <ul id="pagination-index" class="pagination pg-blue pull-left mr-5"></ul>
+                    <p class="py-1">Tổng số: <span class="totalDN"></span></p>
+                </nav>
+            </div>
+
+            <div class="tab-pane fade" id="pill-1" role="tabpanel" aria-labelledby="pill-1">
+                <div class="table-responsive-sm">
+                    <table class="table border bg-white tb-list table-striped table-custom">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th>Tỉnh thành, Huyện thị</th>
+                                <th>Doanh nghiệp</th>
+                                <th>Vốn (tỷ)</th>
+                                <th>Lao động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tb-parentDN">
+                            <tr>
+                                <td><a href="#viewBanDoDN" class="viewLuyKeQuyDN active2 pointer" data-id="@ViewBag.objTinhDN.Id" data-title="@ViewBag.objTinhDN.Title">@ViewBag.objTinhDN.Title</a></td>
+                                <td>@ViewBag.objTinhDN.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objTinhDN.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objTinhDN.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN" class="viewLuyKeQuyDN pointer" data-id="@ViewBag.objtpBenTreDN.Id" data-title="@ViewBag.objtpBenTreDN.Title">@ViewBag.objtpBenTreDN.Title</a></td>
+                                <td>@ViewBag.objtpBenTreDN.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objtpBenTreDN.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objtpBenTreDN.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN" class="viewLuyKeQuyDN pointer" data-id="@ViewBag.objhChoLachDN.Id" data-title="@ViewBag.objhChoLachDN.Title">@ViewBag.objhChoLachDN.Title</a></td>
+                                <td>@ViewBag.objhChoLachDN.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChoLachDN.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChoLachDN.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN" class="viewLuyKeQuyDN pointer" data-id="@ViewBag.objhChauThanhDN.Id" data-title="@ViewBag.objhChauThanhDN.Title">@ViewBag.objhChauThanhDN.Title</a></td>
+                                <td>@ViewBag.objhChauThanhDN.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChauThanhDN.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChauThanhDN.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN" class="viewLuyKeQuyDN pointer" data-id="@ViewBag.objhMoCayBacDN.Id" data-title="@ViewBag.objhMoCayBacDN.Title">@ViewBag.objhMoCayBacDN.Title</a></td>
+                                <td>@ViewBag.objhMoCayBacDN.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayBacDN.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayBacDN.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN" class="viewLuyKeQuyDN pointer" data-id="@ViewBag.objhGiongTromDN.Id" data-title="@ViewBag.objhGiongTromDN.Title">@ViewBag.objhGiongTromDN.Title</a></td>
+                                <td>@ViewBag.objhGiongTromDN.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhGiongTromDN.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhGiongTromDN.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN" class="viewLuyKeQuyDN pointer" data-id="@ViewBag.objhMoCayNamDN.Id" data-title="@ViewBag.objhMoCayNamDN.Title">@ViewBag.objhMoCayNamDN.Title</a></td>
+                                <td>@ViewBag.objhMoCayNamDN.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayNamDN.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayNamDN.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN" class="viewLuyKeQuyDN pointer" data-id="@ViewBag.objhThanhPhuDN.Id" data-title="@ViewBag.objhThanhPhuDN.Title">@ViewBag.objhThanhPhuDN.Title</a></td>
+                                <td>@ViewBag.objhThanhPhuDN.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhThanhPhuDN.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhThanhPhuDN.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN" class="viewLuyKeQuyDN pointer" data-id="@ViewBag.objhBaTriDN.Id" data-title="@ViewBag.objhBaTriDN.Title">@ViewBag.objhBaTriDN.Title</a></td>
+                                <td>@ViewBag.objhBaTriDN.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBaTriDN.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBaTriDN.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN" class="viewLuyKeQuyDN pointer" data-id="@ViewBag.objhBinhDaiDN.Id" data-title="@ViewBag.objhBinhDaiDN.Title">@ViewBag.objhBinhDaiDN.Title</a></td>
+                                <td>@ViewBag.objhBinhDaiDN.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBinhDaiDN.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td id="viewBanDoDN">@ViewBag.objhBinhDaiDN.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group row ">
+                    <div class="col-lg-12">
+                        <input type="radio" name="rdLuyKeDoanhNghiep" value="1" checked="checked">
+                        <label for="rdLuyKeDoanhNghiep">Doanh nghiệp</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="2" name="rdLuyKeDoanhNghiep">
+                        <label for="rdLuyKeDoanhNghiep">Vốn</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="3" name="rdLuyKeDoanhNghiep">
+                        <label for="rdLuyKeDoanhNghiep">Lao động</label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-3">
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <span style="color:blue;font-family:Tahoma;font-size:16px" class="tilteBDDN"></span>
+                        @*<span style="color:red;font-family:Tahoma;font-size:16px"  class="titleDNCSDL"></span>*@
+                        <select id="huyenDNBanDoLuyKe" style="width:auto;color: red;border-radius: 12px;text-transform: uppercase;font-family: 'UTM AvoBold';">
+                            <option value="235">--tỉnh Bến Tre--</option>
+                            <option value="836">thành phố Bến Tre</option>
+                            <option value="838">huyện Chợ Lách</option>
+                            <option value="837">huyện Châu Thành</option>
+                            <option value="844">huyện Mỏ Cày Bắc</option>
+                            <option value="840">huyện Giồng Trôm</option>
+                            <option value="839">huyện Mỏ Cày Nam</option>
+                            <option value="843">huyện Thạnh Phú</option>
+                            <option value="842">huyện Ba Tri</option>
+                            <option value="841">huyện Bình Đại</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="chartColunmTheoQuyDN" style="height: 370px; width: 100%;"></div>
+            </div>
+
+            <div class="tab-pane fade" id="pill-11" role="tabpanel" aria-labelledby="pill-11">
+                <div class="table-responsive-sm">
+                    <table class="table border bg-white tb-list table-striped table-custom">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th>Tỉnh thành, Huyện thị</th>
+                                <th>Doanh nghiệp</th>
+                                <th>Vốn (tỷ)</th>
+                                <th>Lao động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tb-parentDN2">
+                            <tr>
+                                <td><a href="#viewBanDoDN2" class="viewLuyKeQuyDN2 active2 pointer" data-id="@ViewBag.objTinhDN.Id" data-title="@ViewBag.objTinhDN.Title">@ViewBag.objTinhDN.Title</a></td>
+                                <td>@ViewBag.objTinhDN.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objTinhDN.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objTinhDN.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN2" class="viewLuyKeQuyDN2 pointer" data-id="@ViewBag.objtpBenTreDN.Id" data-title="@ViewBag.objtpBenTreDN.Title">@ViewBag.objtpBenTreDN.Title</a></td>
+                                <td>@ViewBag.objtpBenTreDN.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objtpBenTreDN.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objtpBenTreDN.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN2" class="viewLuyKeQuyDN2 pointer" data-id="@ViewBag.objhChoLachDN.Id" data-title="@ViewBag.objhChoLachDN.Title">@ViewBag.objhChoLachDN.Title</a></td>
+                                <td>@ViewBag.objhChoLachDN.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChoLachDN.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChoLachDN.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN2" class="viewLuyKeQuyDN2 pointer" data-id="@ViewBag.objhChauThanhDN.Id" data-title="@ViewBag.objhChauThanhDN.Title">@ViewBag.objhChauThanhDN.Title</a></td>
+                                <td>@ViewBag.objhChauThanhDN.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChauThanhDN.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChauThanhDN.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN2" class="viewLuyKeQuyDN2 pointer" data-id="@ViewBag.objhMoCayBacDN.Id" data-title="@ViewBag.objhMoCayBacDN.Title">@ViewBag.objhMoCayBacDN.Title</a></td>
+                                <td>@ViewBag.objhMoCayBacDN.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayBacDN.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayBacDN.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN2" class="viewLuyKeQuyDN2 pointer" data-id="@ViewBag.objhGiongTromDN.Id" data-title="@ViewBag.objhGiongTromDN.Title">@ViewBag.objhGiongTromDN.Title</a></td>
+                                <td>@ViewBag.objhGiongTromDN.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhGiongTromDN.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhGiongTromDN.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN2" class="viewLuyKeQuyDN2 pointer" data-id="@ViewBag.objhMoCayNamDN.Id" data-title="@ViewBag.objhMoCayNamDN.Title">@ViewBag.objhMoCayNamDN.Title</a></td>
+                                <td>@ViewBag.objhMoCayNamDN.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayNamDN.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayNamDN.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN2" class="viewLuyKeQuyDN2 pointer" data-id="@ViewBag.objhThanhPhuDN.Id" data-title="@ViewBag.objhThanhPhuDN.Title">@ViewBag.objhThanhPhuDN.Title</a></td>
+                                <td>@ViewBag.objhThanhPhuDN.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhThanhPhuDN.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhThanhPhuDN.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN2" class="viewLuyKeQuyDN2 pointer" data-id="@ViewBag.objhBaTriDN.Id" data-title="@ViewBag.objhBaTriDN.Title">@ViewBag.objhBaTriDN.Title</a></td>
+                                <td>@ViewBag.objhBaTriDN.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBaTriDN.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBaTriDN.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoDN2" class="viewLuyKeQuyDN2 pointer" data-id="@ViewBag.objhBinhDaiDN.Id" data-title="@ViewBag.objhBinhDaiDN.Title">@ViewBag.objhBinhDaiDN.Title</a></td>
+                                <td>@ViewBag.objhBinhDaiDN.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBinhDaiDN.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td id="viewBanDoDN2">@ViewBag.objhBinhDaiDN.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <input type="radio" name="rdLuyKeDoanhNghiep2" value="1" checked="checked">
+                        <label for="rdLuyKeDoanhNghiep2">Doanh nghiệp</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="2" name="rdLuyKeDoanhNghiep2">
+                        <label for="rdLuyKeDoanhNghiep2">Vốn</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="3" name="rdLuyKeDoanhNghiep2">
+                        <label for="rdLuyKeDoanhNghiep2">Lao động</label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-3">
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <span style="color:blue;font-family:Tahoma;font-size:16px" class="tilteBDDN2"></span>
+                        @*<span style="color:red;font-family:Tahoma;font-size:16px"  class="titleDNCSDL"></span>*@
+                        <select id="huyenDNBanDoLuyKe2" style="width:auto;color: red;border-radius: 12px;text-transform: uppercase;font-family: 'UTM AvoBold';">
+                            <option value="235">--tỉnh Bến Tre--</option>
+                            <option value="836">thành phố Bến Tre</option>
+                            <option value="838">huyện Chợ Lách</option>
+                            <option value="837">huyện Châu Thành</option>
+                            <option value="844">huyện Mỏ Cày Bắc</option>
+                            <option value="840">huyện Giồng Trôm</option>
+                            <option value="839">huyện Mỏ Cày Nam</option>
+                            <option value="843">huyện Thạnh Phú</option>
+                            <option value="842">huyện Ba Tri</option>
+                            <option value="841">huyện Bình Đại</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="chartLineTheoThangDN" style="height: 370px; width: 100%;"></div>
+            </div>
+
+            <div class="tab-pane fade" id="pill-3DN" role="tabpanel" aria-labelledby="pill-3DN">
+                <div class="form-group row mb-3">
+                    <div class="col-md-4 col-sm-12">
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="huyenSSDN" style="width:auto;color: red;border-radius: 12px;text-transform: uppercase;font-family: 'UTM AvoBold';">
+                                <option value="0">--Toàn tỉnh--</option>
+                                <option value="836">thành phố Bến Tre</option>
+                                <option value="838">huyện Chợ Lách</option>
+                                <option value="837">huyện Châu Thành</option>
+                                <option value="844">huyện Mỏ Cày Bắc</option>
+                                <option value="840">huyện Giồng Trôm</option>
+                                <option value="839">huyện Mỏ Cày Nam</option>
+                                <option value="843">huyện Thạnh Phú</option>
+                                <option value="842">huyện Ba Tri</option>
+                                <option value="841">huyện Bình Đại</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                    </div>
+                </div>
+                <div class="table-responsive-sm mb-3">
+                    <table class="table border bg-white tb-list mt-3 table-striped ">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th width="30%" colspan="2">
+                                    Chọn năm được so sánh
+                                    <select id="namDuocSSDN" style="width:auto">
+                                        <option value="0">--Chọn--</option>
+                                        <option value="2010">2010</option>
+                                        <option value="2011">2011</option>
+                                        <option value="2012">2012</option>
+                                        <option value="2013">2013</option>
+                                        <option value="2014">2014</option>
+                                        <option value="2015">2015</option>
+                                        <option value="2016">2016</option>
+                                        <option value="2017">2017</option>
+                                        <option value="2018">2018</option>
+                                        <option value="2019" selected>2019</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2025">2025</option>
+                                        <option value="2026">2026</option>
+                                        <option value="2027">2027</option>
+                                        <option value="2028">2028</option>
+                                        <option value="2029">2029</option>
+                                        <option value="2030">2030</option>
+                                    </select>
+                                </th>
+                                <th width="30%" colspan="2">
+                                    So sánh với năm
+                                    <select id="namSSDN" style="width:auto">
+                                        <option value="0">--Chọn--</option>
+                                        <option value="2010">2010</option>
+                                        <option value="2011">2011</option>
+                                        <option value="2012">2012</option>
+                                        <option value="2013">2013</option>
+                                        <option value="2014">2014</option>
+                                        <option value="2015">2015</option>
+                                        <option value="2016">2016</option>
+                                        <option value="2017">2017</option>
+                                        <option value="2018">2018</option>
+                                        <option value="2019">2019</option>
+                                        <option value="2020" selected>2020</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2025">2025</option>
+                                        <option value="2026">2026</option>
+                                        <option value="2027">2027</option>
+                                        <option value="2028">2028</option>
+                                        <option value="2029">2029</option>
+                                        <option value="2030">2030</option>
+                                    </select>
+                                </th>
+                                <th width="20%">Tăng/ giảm</th>
+                                <th width="20%">Chiếm %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Số doanh nghiệp </td>
+                                <td id="soDNNamDuocSoSanh" style="color: #212529 !important;font-family: 'UTM AvoRegular'">300</td>
+                                <td>Số doanh nghiệp</td>
+                                <td id="soDNNamSoSanh">350</td>
+                                <td id="ttsoDNNam">Tăng</td>
+                                <td id="ptsoDNNam">14.28</td>
+                            </tr>
+                            <tr>
+                                <td>Số vốn hóa (tỷ đồng)</td>
+                                <td id="soVonHoaNamDuocSoSanh" style="color: #212529 !important;font-family: 'UTM AvoRegular'">200</td>
+                                <td>Số vốn hóa (tỷ đồng)</td>
+                                <td id="soVonHoaNamSoSanh">205</td>
+                                <td id="ttsoVonHoaNam">Tăng</td>
+                                <td id="ptsoVonHoaNam">2.5</td>
+                            </tr>
+                            <tr>
+                                <td>Số lao động (người)</td>
+                                <td id="soLDNamDuocSoSanh" style="color: #212529 !important;font-family: 'UTM AvoRegular'">100</td>
+                                <td>Số lao động (người)</td>
+                                <td id="soLDNamSoSanh">112</td>
+                                <td id="ttsoLDNam">Tăng</td>
+                                <td id="ptsoLDNam">10.71</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4 col-sm-12">
+                        <div id="chartContainerSSDN" style="height: 280px; width: 100%;"></div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div id="chartContainerSSVonDN" style="height: 280px; width: 100%;"></div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div id="chartContainerSSSLDDN" style="height: 280px; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pill-4DN" role="tabpanel" aria-labelledby="pill-4DN">
+                <button type="button" id="taoMucTieuNam" class="btn btn-sm btn-primary">Tạo mục tiêu năm</button>
+                <div class="table-responsive-sm mb-3">
+                    <table class="table border bg-white tb-list mt-3 table-striped ">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th width="30%" colspan="2">
+                                    Chọn năm tham chiếu
+                                    <select id="namThamChieu" style="width:auto">
+                                        <option value="2010">2010</option>
+                                        <option value="2011">2011</option>
+                                        <option value="2012">2012</option>
+                                        <option value="2013">2013</option>
+                                        <option value="2014">2014</option>
+                                        <option value="2015">2015</option>
+                                        <option value="2016">2016</option>
+                                        <option value="2017">2017</option>
+                                        <option value="2018">2018</option>
+                                        <option value="2019">2019</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2025">2025</option>
+                                        <option value="2026">2026</option>
+                                        <option value="2027">2027</option>
+                                        <option value="2028">2028</option>
+                                        <option value="2029">2029</option>
+                                        <option value="2030">2030</option>
+                                    </select>
+                                </th>
+                                <th width="30%" colspan="2">
+                                    Mục tiêu năm
+                                    <select id="mucTieuNam" style="width:auto">
+                                        <option value="2021">2021</option>
+                                    </select>
+                                </th>
+                                <th width="20%">Tăng/ giảm</th>
+                                <th width="20%">Chiếm %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Số doanh nghiệp </td>
+                                <td id="soDNNamThamChieu" style="color: #212529 !important;font-family: 'UTM AvoRegular'">300</td>
+                                <td>Số doanh nghiệp</td>
+                                <td id="soDNNamMucTieu" >350</td>
+                                <td id="ttsoDNNamDinhHuong">Tăng</td>
+                                <td id="ptsoDNNamDinhHuong">14.28</td>
+                            </tr>
+                            <tr>
+                                <td>Số vốn hóa (tỷ đồng)</td>
+                                <td id="soVonHoaNamThamChieu" style="color: #212529 !important;font-family: 'UTM AvoRegular'">200</td>
+                                <td>Số vốn hóa (tỷ đồng)</td>
+                                <td id="soVonHoaNamMucTieu">205</td>
+                                <td id="ttsoVonHoaNamDinhHuong">Tăng</td>
+                                <td id="ptsoVonHoaNamDinhHuong">2.5</td>
+                            </tr>
+                            <tr>
+                                <td>Số lao động (người)</td>
+                                <td id="soLDNamThamChieu"  style="color: #212529 !important;font-family: 'UTM AvoRegular'">100</td>
+                                <td>Số lao động (người)</td>
+                                <td id="soLDNamMucTieu">112</td>
+                                <td id="ttsoLDNamDinhHuong">Tăng</td>
+                                <td id="ptsoLDNamDinhHuong">10.71</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-responsive-sm mb-3">
+                    <p style="color:red;font-family: 'UTM AvoBold';font-size:16px"><span id="namHienTaiMucTieu"></span></p>
+                    <table class="table border bg-white tb-list mt-3 table-striped ">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th width="50%" colspan="2">
+
+                                </th>
+                                <th width="25%">Đạt % mục tiêu năm</th>
+                                <th width="25%">Cảnh báo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Số doanh nghiệp </td>
+                                <td id="duLieuDinhHuongSoLuongHT" style="color: #212529 !important;font-family: 'UTM AvoRegular'">300</td>
+                                <td id="ptDinhHuongSoLuongHT">12.19</td>
+                                <td id="ttDinhHuongSoLuongHT">Đang thực hiện</td>
+                            </tr>
+                            <tr>
+                                <td>Số vốn hóa (tỷ đồng)</td>
+                                <td id="duLieuDinhHuongSoVonHT"  style="color: #212529 !important;font-family: 'UTM AvoRegular'">200</td>
+                                <td id="ptDinhHuongSoVonHT">17.5</td>
+                                <td id="ttDinhHuongSoVonHT">Đang thực hiện</td>
+                            </tr>
+                            <tr>
+                                <td>Số lao động (người)</td>
+                                <td id="duLieuDinhHuongSoLDHT"  style="color: #212529 !important;font-family: 'UTM AvoRegular'">100</td>
+                                <td id="ptDinhHuongSoLDHT">9.6</td>
+                                <td id="ttDinhHuongSoLDHT">Đang thực hiện</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4 col-sm-12">
+                        <div id="chartContainerDHMTDN" style="height: 280px; width: 100%;"></div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div id="chartContainerDHMTVonDN" style="height: 280px; width: 100%;"></div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div id="chartContainerDHMTSLDDN" style="height: 280px; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Hộ kinh doanh-->
+<section class="bg-gray py-5" id="viewCSDLHKD">
+    <div class="container bg-light">
+        <p style="text-align:center;font-size: 18px;line-height: 1.3em;font-family: 'UTM AvoBold';color:blue">Hộ kinh doanh</p>
+        <ul class="nav nav-pills" id="pills-tabHKT" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pill-21-tabHKT" data-toggle="pill" href="#pill-21HKT" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Biểu đồ thống kê</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pill-1-tabHKT" data-toggle="pill" href="#pill-1HKT" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Lũy kế đến năm @ViewBag.yearNow</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pill-11-tabHKT" data-toggle="pill" href="#pill-11HKT" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Từ năm @ViewBag.yearNow đến nay</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pill-2-tabHKT" data-toggle="pill" href="#pill-2HKT" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Cơ sở dữ liệu@*Hộ kinh doanh*@</a>
+            </li>
+        </ul>
+        <div class="tab-content pt-2" id="pills-tabContentHKT">
+            <div class="tab-pane fade show active" id="pill-21HKT" role="tabpanel" aria-labelledby="pill-21HKT">
+                <div class="form-group row mb-3">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="huyenHKDBieuDo">
+                                <option value="0">--Toàn tỉnh--</option>
+                                <option value="836">thành phố Bến Tre</option>
+                                <option value="838">huyện Chợ Lách</option>
+                                <option value="837">huyện Châu Thành</option>
+                                <option value="844">huyện Mỏ Cày Bắc</option>
+                                <option value="840">huyện Giồng Trôm</option>
+                                <option value="839">huyện Mỏ Cày Nam</option>
+                                <option value="843">huyện Thạnh Phú</option>
+                                <option value="842">huyện Ba Tri</option>
+                                <option value="841">huyện Bình Đại</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="xaHKDBieuDo">
+                                <option value="0">Chọn</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    @*<div class="col-md-4 col-sm-12">
+                            <div class="px-3 mb-3">
+                                <select id="loaihinh">
+                                    <option value="Hộ kinh doanh">Hộ kinh doanh</option>
+                                </select>
+                            </div>
+                        </div>*@
+                </div>
+                <h2 class="text-uppercase text-center py-4 title"><span>TỈ LỆ (%) VỐN @*HỘ KINH DOANH*@ THEO LĨNH VỰC  <titleHKD class="titleHKDCSDL"></titleHKD></span></h2>
+                <div id="htmlBanDoHKTI">
+                    <div id="containerHKT" style="width: 100%; height: 500px"></div>
+                </div>
+                <h2 class="text-uppercase text-center py-4 title"><span>TỈ LỆ (%) SỐ LƯỢNG @*HỘ KINH DOANH*@ THEO LĨNH VỰC <titleHKD class="titleHKDCSDL"></titleHKD></span></h2>
+                <div id="htmlBanDoHKTII">
+                    <div id="containerHKT2" style="width: 100%; height: 500px"></div>
+                </div>
+                @*<h2 class="text-uppercase text-center py-4 title"><span>Tình hình hoạt động hộ kinh doanh</span></h2>
+                    <div class="table-responsive-sm">
+                        <table class="table border bg-white tb-status mt-3 table-striped ">
+                            <thead>
+                                <tr class="font-weight-bold">
+                                    <th class="text-center" width="10%">STT</th>
+                                    <th width="60%">Địa bàn</th>
+                                    <th class="text-center" width="30%">Đang hoạt động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.lstHuyen)
+                                {
+                                    <tr>
+                                        <td class="text-center count"></td>
+                                        <td>@item.Title</td>
+                                        <td class="text-center">@Html.Action("getSoLieu", "ThongTinHoKinhDoanh", new { Id = item.Id }) </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>*@
+            </div>
+
+            <div class="tab-pane fade" id="pill-2HKT" role="tabpanel" aria-labelledby="pill-2HKT">
+                <div class="form-group row mb-3">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="huyenHKD">
+                                <option value="0">--Toàn tỉnh--</option>
+                                <option value="836">thành phố Bến Tre</option>
+                                <option value="838">huyện Chợ Lách</option>
+                                <option value="837">huyện Châu Thành</option>
+                                <option value="844">huyện Mỏ Cày Bắc</option>
+                                <option value="840">huyện Giồng Trôm</option>
+                                <option value="839">huyện Mỏ Cày Nam</option>
+                                <option value="843">huyện Thạnh Phú</option>
+                                <option value="842">huyện Ba Tri</option>
+                                <option value="841">huyện Bình Đại</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="xaHKD">
+                                <option value="0">Chọn</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    @*<div class="col-md-4 col-sm-12">
+                            <div class="px-3 mb-3">
+                                <select id="loaihinh">
+                                    <option value="Hộ Kinh Doanh">Hộ Kinh Doanh</option>
+                                </select>
+                            </div>
+
+                        </div>*@
+                </div>
+
+                <h2 class="text-uppercase">Hộ kinh doanh <span class="titleHKDCSDL"></span>: <span class="totalHKD"></span></h2>
+
+                <div class="md-form input-group mb-4">
+                    <input type="text" id="nameHKD" class="form-control" placeholder="Mã số thuế/CMND/GCN/Ngành nghề/Tên">
+                    <div class="input-group-append" id="searchHKD">
+                        <button class="btn btn-md btn-primary m-0 px-3 rounded-0" type="button"><i class="fa fa-search px-3"></i></button>
+                    </div>
+                </div>
+                <div class="table-responsive-sm mb-3">
+                    <table class="table border bg-white tb-list mt-3 table-striped ">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th width="30%">Hộ kinh doanh</th>
+                                <th width="20%">Giấy chứng nhận</th>
+                                <th width="20%">Đại diện pháp luật</th>
+                                <th width="30%">Địa chỉ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblDataIndexHKD"></tbody>
+                    </table>
+                </div>
+                <script id="data-template-index-HKD" type="x-tmpl-mustache">
+                    <tr>
+                        <td><a class="ViewDetail" data-id="{{ID}}">{{TenHKD}}</a></td>
+                        <td>{{MaST}} </td>
+                        <td class="text-uppercase">{{DaiDienPL}}</td>
+                        <td>{{DiaChi}}</td>
+                    </tr>
+                </script>
+                <nav aria-label="Page navigation example">
+                    <ul id="pagination-index-HKD" class="pagination pg-blue pull-left mr-5"></ul>
+                    <p class="py-1">Tổng số: <span class="totalHKD"></span></p>
+                </nav>
+            </div>
+
+            <div class="tab-pane fade" id="pill-1HKT" role="tabpanel" aria-labelledby="pill-1HKT">
+                <div class="table-responsive-sm">
+                    <table class="table border bg-white tb-list table-striped table-custom">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th>Tỉnh thành, Huyện thị</th>
+                                <th>Hộ kinh doanh</th>
+                                <th>Vốn (tỷ)</th>
+                                <th>Lao động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tb-parentHKD">
+                            <tr>
+                                <td><a href="#viewBanDoHKD" class="viewLuyKeQuyHKD active2 pointer" data-id="@ViewBag.objTinhHKD.Id" data-title="@ViewBag.objTinhHKD.Title">@ViewBag.objTinhHKD.Title</a></td>
+                                <td>@ViewBag.objTinhHKD.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objTinhHKD.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objTinhHKD.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD" class="viewLuyKeQuyHKD pointer" data-id="@ViewBag.objtpBenTreHKD.Id" data-title="@ViewBag.objtpBenTreHKD.Title">@ViewBag.objtpBenTreHKD.Title</a></td>
+                                <td>@ViewBag.objtpBenTreHKD.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objtpBenTreHKD.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objtpBenTreHKD.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD" class="viewLuyKeQuyHKD pointer" data-id="@ViewBag.objhChoLachHKD.Id" data-title="@ViewBag.objhChoLachHKD.Title">@ViewBag.objhChoLachHKD.Title</a></td>
+                                <td>@ViewBag.objhChoLachHKD.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChoLachHKD.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChoLachHKD.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD" class="viewLuyKeQuyHKD pointer" data-id="@ViewBag.objhChauThanhHKD.Id" data-title="@ViewBag.objhChauThanhHKD.Title">@ViewBag.objhChauThanhHKD.Title</a></td>
+                                <td>@ViewBag.objhChauThanhHKD.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChauThanhHKD.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChauThanhHKD.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD" class="viewLuyKeQuyHKD pointer" data-id="@ViewBag.objhMoCayBacHKD.Id" data-title="@ViewBag.objhMoCayBacHKD.Title">@ViewBag.objhMoCayBacHKD.Title</a></td>
+                                <td>@ViewBag.objhMoCayBacHKD.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayBacHKD.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayBacHKD.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD" class="viewLuyKeQuyHKD pointer" data-id="@ViewBag.objhGiongTromHKD.Id" data-title="@ViewBag.objhGiongTromHKD.Title">@ViewBag.objhGiongTromHKD.Title</a></td>
+                                <td>@ViewBag.objhGiongTromHKD.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhGiongTromHKD.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhGiongTromHKD.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD" class="viewLuyKeQuyHKD pointer" data-id="@ViewBag.objhMoCayNamHKD.Id" data-title="@ViewBag.objhMoCayNamHKD.Title">@ViewBag.objhMoCayNamHKD.Title</a></td>
+                                <td>@ViewBag.objhMoCayNamHKD.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayNamHKD.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayNamHKD.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD" class="viewLuyKeQuyHKD pointer" data-id="@ViewBag.objhThanhPhuHKD.Id" data-title="@ViewBag.objhThanhPhuHKD.Title">@ViewBag.objhThanhPhuHKD.Title</a></td>
+                                <td>@ViewBag.objhThanhPhuHKD.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhThanhPhuHKD.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhThanhPhuHKD.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD" class="viewLuyKeQuyHKD pointer" data-id="@ViewBag.objhBaTriHKD.Id" data-title="@ViewBag.objhBaTriHKD.Title">@ViewBag.objhBaTriHKD.Title</a></td>
+                                <td>@ViewBag.objhBaTriHKD.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBaTriHKD.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBaTriHKD.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD" class="viewLuyKeQuyHKD pointer" data-id="@ViewBag.objhBinhDaiHKD.Id" data-title="@ViewBag.objhBinhDaiHKD.Title">@ViewBag.objhBinhDaiHKD.Title</a></td>
+                                <td>@ViewBag.objhBinhDaiHKD.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBinhDaiHKD.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td id="viewBanDoHKD">@ViewBag.objhBinhDaiHKD.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <input type="radio" name="rdLuyKeHoKinhDoanh" value="1" checked="checked">
+                        <label for="rdLuyKeHoKinhDoanh">Hộ kinh doanh</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="2" name="rdLuyKeHoKinhDoanh">
+                        <label for="rdLuyKeHoKinhDoanh">Vốn</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="3" name="rdLuyKeHoKinhDoanh">
+                        <label for="rdLuyKeHoKinhDoanh">Lao động</label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-3">
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <span style="color:blue;font-family:Tahoma;font-size:16px" class="tilteBDHKD"></span>
+                        @*<span style="color:red;font-family:Tahoma;font-size:16px"  class="titleDNCSDL"></span>*@
+                        <select id="huyenHKDBanDoLuyKe" style="width:auto;color: red;border-radius: 12px;text-transform: uppercase;font-family: 'UTM AvoBold';">
+                            <option value="235">--tỉnh Bến Tre--</option>
+                            <option value="836">thành phố Bến Tre</option>
+                            <option value="838">huyện Chợ Lách</option>
+                            <option value="837">huyện Châu Thành</option>
+                            <option value="844">huyện Mỏ Cày Bắc</option>
+                            <option value="840">huyện Giồng Trôm</option>
+                            <option value="839">huyện Mỏ Cày Nam</option>
+                            <option value="843">huyện Thạnh Phú</option>
+                            <option value="842">huyện Ba Tri</option>
+                            <option value="841">huyện Bình Đại</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="chartColunmTheoQuyHKD" style="height: 370px; width: 100%;"></div>
+            </div>
+
+            <div class="tab-pane fade" id="pill-11HKT" role="tabpanel" aria-labelledby="pill-11HKT">
+                <div class="table-responsive-sm">
+                    <table class="table border bg-white tb-list table-striped table-custom">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th>Tỉnh thành, Huyện thị</th>
+                                <th>Hộ kinh doanh</th>
+                                <th>Vốn (tỷ)</th>
+                                <th>Lao động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tb-parentHKD2">
+                            <tr>
+                                <td><a href="#viewBanDoHKD2" class="viewLuyKeQuyHKD2 active2 pointer" data-id="@ViewBag.objTinhHKD.Id" data-title="@ViewBag.objTinhHKD.Title">@ViewBag.objTinhHKD.Title</a></td>
+                                <td>@ViewBag.objTinhHKD.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objTinhHKD.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objTinhHKD.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD2" class="viewLuyKeQuyHKD2 pointer" data-id="@ViewBag.objtpBenTreHKD.Id" data-title="@ViewBag.objtpBenTreHKD.Title">@ViewBag.objtpBenTreHKD.Title</a></td>
+                                <td>@ViewBag.objtpBenTreHKD.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objtpBenTreHKD.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objtpBenTreHKD.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD2" class="viewLuyKeQuyHKD2 pointer" data-id="@ViewBag.objhChoLachHKD.Id" data-title="@ViewBag.objhChoLachHKD.Title">@ViewBag.objhChoLachHKD.Title</a></td>
+                                <td>@ViewBag.objhChoLachHKD.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChoLachHKD.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChoLachHKD.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD2" class="viewLuyKeQuyHKD2 pointer" data-id="@ViewBag.objhChauThanhHKD.Id" data-title="@ViewBag.objhChauThanhHKD.Title">@ViewBag.objhChauThanhHKD.Title</a></td>
+                                <td>@ViewBag.objhChauThanhHKD.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChauThanhHKD.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChauThanhHKD.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD2" class="viewLuyKeQuyHKD2 pointer" data-id="@ViewBag.objhMoCayBacHKD.Id" data-title="@ViewBag.objhMoCayBacHKD.Title">@ViewBag.objhMoCayBacHKD.Title</a></td>
+                                <td>@ViewBag.objhMoCayBacHKD.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayBacHKD.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayBacHKD.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD2" class="viewLuyKeQuyHKD2 pointer" data-id="@ViewBag.objhGiongTromHKD.Id" data-title="@ViewBag.objhGiongTromHKD.Title">@ViewBag.objhGiongTromHKD.Title</a></td>
+                                <td>@ViewBag.objhGiongTromHKD.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhGiongTromHKD.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhGiongTromHKD.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD2" class="viewLuyKeQuyHKD2 pointer" data-id="@ViewBag.objhMoCayNamHKD.Id" data-title="@ViewBag.objhMoCayNamHKD.Title">@ViewBag.objhMoCayNamHKD.Title</a></td>
+                                <td>@ViewBag.objhMoCayNamHKD.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayNamHKD.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayNamHKD.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD2" class="viewLuyKeQuyHKD2 pointer" data-id="@ViewBag.objhThanhPhuHKD.Id" data-title="@ViewBag.objhThanhPhuHKD.Title">@ViewBag.objhThanhPhuHKD.Title</a></td>
+                                <td>@ViewBag.objhThanhPhuHKD.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhThanhPhuHKD.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhThanhPhuHKD.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD2" class="viewLuyKeQuyHKD2 pointer" data-id="@ViewBag.objhBaTriHKD.Id" data-title="@ViewBag.objhBaTriHKD.Title">@ViewBag.objhBaTriHKD.Title</a></td>
+                                <td>@ViewBag.objhBaTriHKD.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBaTriHKD.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBaTriHKD.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHKD2" class="viewLuyKeQuyHKD2 pointer" data-id="@ViewBag.objhBinhDaiHKD.Id" data-title="@ViewBag.objhBinhDaiHKD.Title">@ViewBag.objhBinhDaiHKD.Title</a></td>
+                                <td>@ViewBag.objhBinhDaiHKD.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBinhDaiHKD.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td id="viewBanDoHKD2">@ViewBag.objhBinhDaiHKD.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <input type="radio" name="rdLuyKeHoKinhDoanh2" value="1" checked="checked">
+                        <label for="rdLuyKeHoKinhDoanh2">Hộ kinh doanh</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="2" name="rdLuyKeHoKinhDoanh2">
+                        <label for="rdLuyKeHoKinhDoanh2">Vốn</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="3" name="rdLuyKeHoKinhDoanh2">
+                        <label for="rdLuyKeHoKinhDoanh2">Lao động</label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-3">
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <span style="color:blue;font-family:Tahoma;font-size:16px" class="tilteBDHKD2"></span>
+                        @*<span style="color:red;font-family:Tahoma;font-size:16px"  class="titleDNCSDL"></span>*@
+                        <select id="huyenHKDBanDoLuyKe2" style="width:auto;color: red;border-radius: 12px;text-transform: uppercase;font-family: 'UTM AvoBold';">
+                            <option value="235">--tỉnh Bến Tre--</option>
+                            <option value="836">thành phố Bến Tre</option>
+                            <option value="838">huyện Chợ Lách</option>
+                            <option value="837">huyện Châu Thành</option>
+                            <option value="844">huyện Mỏ Cày Bắc</option>
+                            <option value="840">huyện Giồng Trôm</option>
+                            <option value="839">huyện Mỏ Cày Nam</option>
+                            <option value="843">huyện Thạnh Phú</option>
+                            <option value="842">huyện Ba Tri</option>
+                            <option value="841">huyện Bình Đại</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="chartLineTheoThangHKD" style="height: 370px; width: 100%;"></div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Dự án đầu tư-->
+<section class="bg-lightGray py-5" id="viewCSDLNDT">
+    <div class="container bg-light">
+        <p style="text-align:center;font-size: 18px;line-height: 1.3em;font-family: 'UTM AvoBold';color:blue"> Dự án đầu tư</p>
+        <ul class="nav nav-pills" id="pills-tabNDT" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pill-21-tabNDT" data-toggle="pill" href="#pill-21NDT" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Biểu đồ thống kê</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pill-1-tabNDT" data-toggle="pill" href="#pill-1NDT" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Lũy kế đến năm @ViewBag.yearNow</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pill-11-tabNDT" data-toggle="pill" href="#pill-11NDT" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Từ năm @ViewBag.yearNow đến nay</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pill-2-tabNDT" data-toggle="pill" href="#pill-2NDT" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Cơ sở dữ liệu@*Dự án đầu tư*@</a>
+            </li>
+        </ul>
+        <div class="tab-content pt-2" id="pills-tabContentNDT">
+
+            <div class="tab-pane fade show active" id="pill-21NDT" role="tabpanel" aria-labelledby="pill-21NDT">
+                <div class="form-group row mb-3">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="huyenNDTBieuDo">
+                                <option value="0">--Toàn tỉnh--</option>
+                                <option value="836">thành phố Bến Tre</option>
+                                <option value="838">huyện Chợ Lách</option>
+                                <option value="837">huyện Châu Thành</option>
+                                <option value="844">huyện Mỏ Cày Bắc</option>
+                                <option value="840">huyện Giồng Trôm</option>
+                                <option value="839">huyện Mỏ Cày Nam</option>
+                                <option value="843">huyện Thạnh Phú</option>
+                                <option value="842">huyện Ba Tri</option>
+                                <option value="841">huyện Bình Đại</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="xaNDTBieuDo">
+                                <option value="0">Chọn</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    @*<div class="col-md-4 col-sm-12">
+                            <div class="px-3 mb-3">
+                                <select id="loaihinh">
+                                    <option value="Dự án đầu tư">Dự án đầu tư</option>
+                                </select>
+                            </div>
+                        </div>*@
+                </div>
+                <h2 class="text-uppercase text-center py-4 title"><span>TỈ LỆ (%) VỐN @*Dự án đầu tư*@ THEO LĨNH VỰC  <titleNDT class="titleNDTCSDL"></titleNDT></span></h2>
+                <div id="htmlBanDoNDTI">
+                    <div id="containerNDT" style="width: 100%; height: 500px"></div>
+                </div>
+                <h2 class="text-uppercase text-center py-4 title"><span>TỈ LỆ (%) SỐ LƯỢNG @*Dự án đầu tư*@ THEO LĨNH VỰC <titleNDT class="titleNDTCSDL"></titleNDT></span></h2>
+                <div id="htmlBanDoNDTII">
+                    <div id="containerNDT2" style="width: 100%; height: 500px"></div>
+                </div>
+                @*<h2 class="text-uppercase text-center py-4 title"><span>Tình hình hoạt động hợp tác xã</span></h2>
+                    <div class="table-responsive-sm">
+                        <table class="table border bg-white tb-status mt-3 table-striped ">
+                            <thead>
+                                <tr class="font-weight-bold">
+                                    <th class="text-center" width="10%">STT</th>
+                                    <th width="60%">Địa bàn</th>
+                                    <th class="text-center" width="30%">Đang hoạt động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.lstHuyen)
+                                {
+                                    <tr>
+                                        <td class="text-center count"></td>
+                                        <td>@item.Title</td>
+                                        <td class="text-center">@Html.Action("getSoLieu", "ThongTinHopTacXa", new { Id = item.Id }) </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>*@
+            </div>
+
+            <div class="tab-pane fade" id="pill-2NDT" role="tabpanel" aria-labelledby="pill-2NDT">
+                <div class="form-group row mb-3">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="huyenNDT">
+                                <option value="0">--Toàn tỉnh--</option>
+                                <option value="836">thành phố Bến Tre</option>
+                                <option value="838">huyện Chợ Lách</option>
+                                <option value="837">huyện Châu Thành</option>
+                                <option value="844">huyện Mỏ Cày Bắc</option>
+                                <option value="840">huyện Giồng Trôm</option>
+                                <option value="839">huyện Mỏ Cày Nam</option>
+                                <option value="843">huyện Thạnh Phú</option>
+                                <option value="842">huyện Ba Tri</option>
+                                <option value="841">huyện Bình Đại</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="xaNDT">
+                                <option value="0">Chọn</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    @*<div class="col-md-4 col-sm-12">
+                            <div class="px-3 mb-3">
+                                <select id="loaihinh">
+                                    <option value="Dự án đầu tư">Dự án đầu tư</option>
+                                </select>
+                            </div>
+
+                        </div>*@
+                </div>
+
+                <h2 class="text-uppercase">Dự án đầu tư <span class="titleNDTCSDL"></span>: <span class="totalNDT"></span></h2>
+
+                <div class="md-form input-group mb-4">
+                    <input type="text" id="nameNDT" class="form-control" placeholder="Số CNĐT/Tên">
+                    <div class="input-group-append" id="searchNDT">
+                        <button class="btn btn-md btn-primary m-0 px-3 rounded-0" type="button"><i class="fa fa-search px-3"></i></button>
+                    </div>
+                </div>
+                <div class="table-responsive-sm mb-3">
+                    <table class="table border bg-white tb-list mt-3 table-striped ">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th width="30%">Nhà đầu tư / Dự án</th>
+                                <th width="20%">Số CNĐT</th>
+                                <th width="20%">Đại diện pháp luật</th>
+                                <th width="30%">Địa điểm thực hiện dự án</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblDataIndexNDT"></tbody>
+
+                    </table>
+                </div>
+                <script id="data-template-index-NDT" type="x-tmpl-mustache">
+                    <tr>
+                        <td><a class="ViewDetail" data-id="{{ID}}">{{TenNDT}}</a></td>
+                        <td>{{MaST}} </td>
+                        <td class="text-uppercase">{{DaiDienPL}}</td>
+                        <td>{{DiaChi}}</td>
+                    </tr>
+                </script>
+                <nav aria-label="Page navigation example">
+                    <ul id="pagination-index-NDT" class="pagination pg-blue pull-left mr-5"></ul>
+                    <p class="py-1">Tổng số: <span class="totalNDT"></span></p>
+                </nav>
+            </div>
+
+            <div class="tab-pane fade" id="pill-1NDT" role="tabpanel" aria-labelledby="pill-1NDT">
+                <div class="table-responsive-sm">
+                    <table class="table border bg-white tb-list table-striped table-custom">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th>Tỉnh thành, Huyện thị</th>
+                                <th>Dự án đầu tư</th>
+                                <th>Vốn (tỷ)</th>
+                                @*<th>Lao động</th>*@
+                            </tr>
+                        </thead>
+                        <tbody class="tb-parentNDT">
+                            <tr>
+                                <td><a href="#viewBanDoNDT" class="viewLuyKeQuyNDT active2 pointer" data-id="@ViewBag.objTinhNDT.Id" data-title="@ViewBag.objTinhNDT.Title">@ViewBag.objTinhNDT.Title</a></td>
+                                <td>@ViewBag.objTinhNDT.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objTinhNDT.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objTinhNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT" class="viewLuyKeQuyNDT pointer" data-id="@ViewBag.objtpBenTreNDT.Id" data-title="@ViewBag.objtpBenTreNDT.Title">@ViewBag.objtpBenTreNDT.Title</a></td>
+                                <td>@ViewBag.objtpBenTreNDT.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objtpBenTreNDT.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objtpBenTreNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT" class="viewLuyKeQuyNDT pointer" data-id="@ViewBag.objhChoLachNDT.Id" data-title="@ViewBag.objhChoLachNDT.Title">@ViewBag.objhChoLachNDT.Title</a></td>
+                                <td>@ViewBag.objhChoLachNDT.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChoLachNDT.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhChoLachNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT" class="viewLuyKeQuyNDT pointer" data-id="@ViewBag.objhChauThanhNDT.Id" data-title="@ViewBag.objhChauThanhNDT.Title">@ViewBag.objhChauThanhNDT.Title</a></td>
+                                <td>@ViewBag.objhChauThanhNDT.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChauThanhNDT.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhChauThanhNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT" class="viewLuyKeQuyNDT pointer" data-id="@ViewBag.objhMoCayBacNDT.Id" data-title="@ViewBag.objhMoCayBacNDT.Title">@ViewBag.objhMoCayBacNDT.Title</a></td>
+                                <td>@ViewBag.objhMoCayBacNDT.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayBacNDT.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhMoCayBacNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT" class="viewLuyKeQuyNDT pointer" data-id="@ViewBag.objhGiongTromNDT.Id" data-title="@ViewBag.objhGiongTromNDT.Title">@ViewBag.objhGiongTromNDT.Title</a></td>
+                                <td>@ViewBag.objhGiongTromNDT.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhGiongTromNDT.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhGiongTromNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT" class="viewLuyKeQuyNDT pointer" data-id="@ViewBag.objhMoCayNamNDT.Id" data-title="@ViewBag.objhMoCayNamNDT.Title">@ViewBag.objhMoCayNamNDT.Title</a></td>
+                                <td>@ViewBag.objhMoCayNamNDT.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayNamNDT.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhMoCayNamNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT" class="viewLuyKeQuyNDT pointer" data-id="@ViewBag.objhThanhPhuNDT.Id" data-title="@ViewBag.objhThanhPhuNDT.Title">@ViewBag.objhThanhPhuNDT.Title</a></td>
+                                <td>@ViewBag.objhThanhPhuNDT.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhThanhPhuNDT.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhThanhPhuNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT" class="viewLuyKeQuyNDT pointer" data-id="@ViewBag.objhBaTriNDT.Id" data-title="@ViewBag.objhBaTriNDT.Title">@ViewBag.objhBaTriNDT.Title</a></td>
+                                <td>@ViewBag.objhBaTriNDT.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBaTriNDT.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhBaTriNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT" class="viewLuyKeQuyNDT pointer" data-id="@ViewBag.objhBinhDaiNDT.Id" data-title="@ViewBag.objhBinhDaiNDT.Title">@ViewBag.objhBinhDaiNDT.Title</a></td>
+                                <td>@ViewBag.objhBinhDaiNDT.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td id="viewBanDoNDT">@ViewBag.objhBinhDaiNDT.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhBinhDaiNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <input type="radio" name="rdLuyKeNhaDauTu" value="1" checked="checked">
+                        <label for="rdLuyKeNhaDauTu">Dự án đầu tư</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="2" name="rdLuyKeNhaDauTu">
+                        <label for="rdLuyKeNhaDauTu">Vốn</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        @*<input type="radio" value="3" name="rdLuyKeNhaDauTu">
+                            <label for="rdLuyKeNhaDauTu">Lao động</label>*@
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-3">
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <span style="color:blue;font-family:Tahoma;font-size:16px" class="tilteBDNDT"></span>
+                        @*<span style="color:red;font-family:Tahoma;font-size:16px"  class="titleDNCSDL"></span>*@
+                        <select id="huyenNDTBanDoLuyKe" style="width:auto;color: red;border-radius: 12px;text-transform: uppercase;font-family: 'UTM AvoBold';">
+                            <option value="235">--tỉnh Bến Tre--</option>
+                            <option value="836">thành phố Bến Tre</option>
+                            <option value="838">huyện Chợ Lách</option>
+                            <option value="837">huyện Châu Thành</option>
+                            <option value="844">huyện Mỏ Cày Bắc</option>
+                            <option value="840">huyện Giồng Trôm</option>
+                            <option value="839">huyện Mỏ Cày Nam</option>
+                            <option value="843">huyện Thạnh Phú</option>
+                            <option value="842">huyện Ba Tri</option>
+                            <option value="841">huyện Bình Đại</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="chartColunmTheoQuyNDT" style="height: 370px; width: 100%;"></div>
+            </div>
+
+            <div class="tab-pane fade" id="pill-11NDT" role="tabpanel" aria-labelledby="pill-11NDT">
+                <div class="table-responsive-sm">
+                    <table class="table border bg-white tb-list table-striped table-custom">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th>Tỉnh thành, Huyện thị</th>
+                                <th>Dự án đầu tư</th>
+                                <th>Vốn (tỷ)</th>
+                                @*<th>Lao động</th>*@
+                            </tr>
+                        </thead>
+                        <tbody class="tb-parentNDT2">
+                            <tr>
+                                <td><a href="#viewBanDoNDT2" class="viewLuyKeQuyNDT2 active2 pointer" data-id="@ViewBag.objTinhNDT.Id" data-title="@ViewBag.objTinhNDT.Title">@ViewBag.objTinhNDT.Title</a></td>
+                                <td>@ViewBag.objTinhNDT.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objTinhNDT.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objTinhNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT2" class="viewLuyKeQuyNDT2 pointer" data-id="@ViewBag.objtpBenTreNDT.Id" data-title="@ViewBag.objtpBenTreNDT.Title">@ViewBag.objtpBenTreNDT.Title</a></td>
+                                <td>@ViewBag.objtpBenTreNDT.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objtpBenTreNDT.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objtpBenTreNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT2" class="viewLuyKeQuyNDT2 pointer" data-id="@ViewBag.objhChoLachNDT.Id" data-title="@ViewBag.objhChoLachNDT.Title">@ViewBag.objhChoLachNDT.Title</a></td>
+                                <td>@ViewBag.objhChoLachNDT.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChoLachNDT.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhChoLachNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT2" class="viewLuyKeQuyNDT2 pointer" data-id="@ViewBag.objhChauThanhNDT.Id" data-title="@ViewBag.objhChauThanhNDT.Title">@ViewBag.objhChauThanhNDT.Title</a></td>
+                                <td>@ViewBag.objhChauThanhNDT.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChauThanhNDT.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhChauThanhNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT2" class="viewLuyKeQuyNDT2 pointer" data-id="@ViewBag.objhMoCayBacNDT.Id" data-title="@ViewBag.objhMoCayBacNDT.Title">@ViewBag.objhMoCayBacNDT.Title</a></td>
+                                <td>@ViewBag.objhMoCayBacNDT.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayBacNDT.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhMoCayBacNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT2" class="viewLuyKeQuyNDT2 pointer" data-id="@ViewBag.objhGiongTromNDT.Id" data-title="@ViewBag.objhGiongTromNDT.Title">@ViewBag.objhGiongTromNDT.Title</a></td>
+                                <td>@ViewBag.objhGiongTromNDT.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhGiongTromNDT.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhGiongTromNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT2" class="viewLuyKeQuyNDT2 pointer" data-id="@ViewBag.objhMoCayNamNDT.Id" data-title="@ViewBag.objhMoCayNamNDT.Title">@ViewBag.objhMoCayNamNDT.Title</a></td>
+                                <td>@ViewBag.objhMoCayNamNDT.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayNamNDT.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhMoCayNamNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT2" class="viewLuyKeQuyNDT2 pointer" data-id="@ViewBag.objhThanhPhuNDT.Id" data-title="@ViewBag.objhThanhPhuNDT.Title">@ViewBag.objhThanhPhuNDT.Title</a></td>
+                                <td>@ViewBag.objhThanhPhuNDT.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhThanhPhuNDT.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhThanhPhuNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT2" class="viewLuyKeQuyNDT2 pointer" data-id="@ViewBag.objhBaTriNDT.Id" data-title="@ViewBag.objhBaTriNDT.Title">@ViewBag.objhBaTriNDT.Title</a></td>
+                                <td>@ViewBag.objhBaTriNDT.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBaTriNDT.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhBaTriNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoNDT2" class="viewLuyKeQuyNDT2 pointer" data-id="@ViewBag.objhBinhDaiNDT.Id" data-title="@ViewBag.objhBinhDaiNDT.Title">@ViewBag.objhBinhDaiNDT.Title</a></td>
+                                <td>@ViewBag.objhBinhDaiNDT.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td id="viewBanDoNDT2">@ViewBag.objhBinhDaiNDT.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                @*<td>@ViewBag.objhBinhDaiNDT.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>*@
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <input type="radio" name="rdLuyKeNhaDauTu2" value="1" checked="checked">
+                        <label for="rdLuyKeNhaDauTu2">Dự án đầu tư</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="2" name="rdLuyKeNhaDauTu2">
+                        <label for="rdLuyKeNhaDauTu2">Vốn</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        @*<input type="radio" value="3" name="rdLuyKeNhaDauTu2">
+                            <label for="rdLuyKeNhaDauTu2">Lao động</label>*@
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-3">
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <span style="color:blue;font-family:Tahoma;font-size:16px" class="tilteBDNDT2"></span>
+                        @*<span style="color:red;font-family:Tahoma;font-size:16px"  class="titleDNCSDL"></span>*@
+                        <select id="huyenNDTBanDoLuyKe2" style="width:auto;color: red;border-radius: 12px;text-transform: uppercase;font-family: 'UTM AvoBold';">
+                            <option value="235">--tỉnh Bến Tre--</option>
+                            <option value="836">thành phố Bến Tre</option>
+                            <option value="838">huyện Chợ Lách</option>
+                            <option value="837">huyện Châu Thành</option>
+                            <option value="844">huyện Mỏ Cày Bắc</option>
+                            <option value="840">huyện Giồng Trôm</option>
+                            <option value="839">huyện Mỏ Cày Nam</option>
+                            <option value="843">huyện Thạnh Phú</option>
+                            <option value="842">huyện Ba Tri</option>
+                            <option value="841">huyện Bình Đại</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="chartLineTheoThangNDT" style="height: 370px; width: 100%;"></div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Hợp tác xã-->
+<section class="bg-gray py-5" id="viewCSDLHTX">
+    <div class="container bg-light">
+        <p style="text-align:center;font-size: 18px;line-height: 1.3em;font-family: 'UTM AvoBold';color:blue"> Hợp tác xã</p>
+        <ul class="nav nav-pills" id="pills-tabHTX" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pill-21-tabHTX" data-toggle="pill" href="#pill-21HTX" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Biểu đồ thống kê</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pill-1-tabHTX" data-toggle="pill" href="#pill-1HTX" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Lũy kế đến năm @ViewBag.yearNow</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pill-11-tabHTX" data-toggle="pill" href="#pill-11HTX" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Từ năm @ViewBag.yearNow đến nay</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pill-2-tabHTX" data-toggle="pill" href="#pill-2HTX" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Cơ sở dữ liệu@*Hợp tác xã*@</a>
+            </li>
+        </ul>
+        <div class="tab-content pt-2" id="pills-tabContentHTX">
+
+            <div class="tab-pane fade show active" id="pill-21HTX" role="tabpanel" aria-labelledby="pill-21HTX">
+                <div class="form-group row mb-3">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="huyenHTXBieuDo">
+                                <option value="0">--Toàn tỉnh--</option>
+                                <option value="836">thành phố Bến Tre</option>
+                                <option value="838">huyện Chợ Lách</option>
+                                <option value="837">huyện Châu Thành</option>
+                                <option value="844">huyện Mỏ Cày Bắc</option>
+                                <option value="840">huyện Giồng Trôm</option>
+                                <option value="839">huyện Mỏ Cày Nam</option>
+                                <option value="843">huyện Thạnh Phú</option>
+                                <option value="842">huyện Ba Tri</option>
+                                <option value="841">huyện Bình Đại</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="xaHTXBieuDo">
+                                <option value="0">Chọn</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    @*<div class="col-md-4 col-sm-12">
+                            <div class="px-3 mb-3">
+                                <select id="loaihinh">
+                                    <option value="Hợp tác xã">Hợp tác xã</option>
+                                </select>
+                            </div>
+                        </div>*@
+                </div>
+                <h2 class="text-uppercase text-center py-4 title"><span>TỈ LỆ (%) VỐN @*HỢP TÁC XÃ*@ THEO LĨNH VỰC  <titleHTX class="titleHTXCSDL"></titleHTX></span></h2>
+                <div id="htmlBanDoHTXI">
+                    <div id="containerHTX" style="width: 100%; height: 500px"></div>
+                </div>
+                <h2 class="text-uppercase text-center py-4 title"><span>TỈ LỆ (%) SỐ LƯỢNG @*HỢP TÁC XÃ*@ THEO LĨNH VỰC <titleHTX class="titleHTXCSDL"></titleHTX></span></h2>
+                <div id="htmlBanDoHTXII">
+                    <div id="containerHTX2" style="width: 100%; height: 500px"></div>
+                </div>
+                @*<h2 class="text-uppercase text-center py-4 title"><span>Tình hình hoạt động hợp tác xã</span></h2>
+                    <div class="table-responsive-sm">
+                        <table class="table border bg-white tb-status mt-3 table-striped ">
+                            <thead>
+                                <tr class="font-weight-bold">
+                                    <th class="text-center" width="10%">STT</th>
+                                    <th width="60%">Địa bàn</th>
+                                    <th class="text-center" width="30%">Đang hoạt động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.lstHuyen)
+                                {
+                                    <tr>
+                                        <td class="text-center count"></td>
+                                        <td>@item.Title</td>
+                                        <td class="text-center">@Html.Action("getSoLieu", "ThongTinHopTacXa", new { Id = item.Id }) </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>*@
+            </div>
+
+            <div class="tab-pane fade" id="pill-2HTX" role="tabpanel" aria-labelledby="pill-2HTX">
+                <div class="form-group row mb-3">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="huyenHTX">
+                                <option value="0">--Toàn tỉnh--</option>
+                                <option value="836">thành phố Bến Tre</option>
+                                <option value="838">huyện Chợ Lách</option>
+                                <option value="837">huyện Châu Thành</option>
+                                <option value="844">huyện Mỏ Cày Bắc</option>
+                                <option value="840">huyện Giồng Trôm</option>
+                                <option value="839">huyện Mỏ Cày Nam</option>
+                                <option value="843">huyện Thạnh Phú</option>
+                                <option value="842">huyện Ba Tri</option>
+                                <option value="841">huyện Bình Đại</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="px-3 mb-3">
+                            <select id="xaHTX">
+                                <option value="0">Chọn</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    @*<div class="col-md-4 col-sm-12">
+                            <div class="px-3 mb-3">
+                                <select id="loaihinh">
+                                    <option value="Hợp tác xã">Hợp tác xã</option>
+                                </select>
+                            </div>
+
+                        </div>*@
+                </div>
+
+                <h2 class="text-uppercase">Hợp tác xã <span class="titleHTXCSDL"></span>: <span class="totalHTX"></span></h2>
+
+                <div class="md-form input-group mb-4">
+                    <input type="text" id="nameHTX" class="form-control" placeholder="Mã số thuế/CMND/GCN/Ngành nghề/Tên">
+                    <div class="input-group-append" id="searchHTX">
+                        <button class="btn btn-md btn-primary m-0 px-3 rounded-0" type="button"><i class="fa fa-search px-3"></i></button>
+                    </div>
+                </div>
+                <div class="table-responsive-sm mb-3">
+                    <table class="table border bg-white tb-list mt-3 table-striped ">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th width="30%">Hợp tác xã</th>
+                                <th width="20%">Giấy chứng nhận</th>
+                                <th width="20%">Đại diện pháp luật</th>
+                                <th width="30%">Địa chỉ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblDataIndexHTX"></tbody>
+                    </table>
+                </div>
+                <script id="data-template-index-HTX" type="x-tmpl-mustache">
+                    <tr>
+                        <td><a class="ViewDetail" data-id="{{ID}}">{{TenHTX}}</a></td>
+                        <td>{{MaST}} </td>
+                        <td class="text-uppercase">{{DaiDienPL}}</td>
+                        <td>{{DiaChi}}</td>
+                    </tr>
+                </script>
+                <nav aria-label="Page navigation example">
+                    <ul id="pagination-index-HTX" class="pagination pg-blue pull-left mr-5"></ul>
+                    <p class="py-1">Tổng số: <span class="totalHTX"></span></p>
+                </nav>
+
+            </div>
+
+            <div class="tab-pane fade" id="pill-1HTX" role="tabpanel" aria-labelledby="pill-1HTX">
+                <div class="table-responsive-sm">
+                    <table class="table border bg-white tb-list table-striped table-custom">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th>Tỉnh thành, Huyện thị</th>
+                                <th>Hợp tác xã</th>
+                                <th>Vốn (tỷ)</th>
+                                <th>Lao động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tb-parentHTX">
+                            <tr>
+                                <td><a href="#viewBanDoHTX" class="viewLuyKeQuyHTX active2 pointer" data-id="@ViewBag.objTinhHTX.Id" data-title="@ViewBag.objTinhHTX.Title">@ViewBag.objTinhHTX.Title</a></td>
+                                <td>@ViewBag.objTinhHTX.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objTinhHTX.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objTinhHTX.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX" class="viewLuyKeQuyHTX pointer" data-id="@ViewBag.objtpBenTreHTX.Id" data-title="@ViewBag.objtpBenTreHTX.Title">@ViewBag.objtpBenTreHTX.Title</a></td>
+                                <td>@ViewBag.objtpBenTreHTX.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objtpBenTreHTX.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objtpBenTreHTX.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX" class="viewLuyKeQuyHTX pointer" data-id="@ViewBag.objhChoLachHTX.Id" data-title="@ViewBag.objhChoLachHTX.Title">@ViewBag.objhChoLachHTX.Title</a></td>
+                                <td>@ViewBag.objhChoLachHTX.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChoLachHTX.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChoLachHTX.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX" class="viewLuyKeQuyHTX pointer" data-id="@ViewBag.objhChauThanhHTX.Id" data-title="@ViewBag.objhChauThanhHTX.Title">@ViewBag.objhChauThanhHTX.Title</a></td>
+                                <td>@ViewBag.objhChauThanhHTX.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChauThanhHTX.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChauThanhHTX.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX" class="viewLuyKeQuyHTX pointer" data-id="@ViewBag.objhMoCayBacHTX.Id" data-title="@ViewBag.objhMoCayBacHTX.Title">@ViewBag.objhMoCayBacHTX.Title</a></td>
+                                <td>@ViewBag.objhMoCayBacHTX.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayBacHTX.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayBacHTX.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX" class="viewLuyKeQuyHTX pointer" data-id="@ViewBag.objhGiongTromHTX.Id" data-title="@ViewBag.objhGiongTromHTX.Title">@ViewBag.objhGiongTromHTX.Title</a></td>
+                                <td>@ViewBag.objhGiongTromHTX.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhGiongTromHTX.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhGiongTromHTX.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX" class="viewLuyKeQuyHTX pointer" data-id="@ViewBag.objhMoCayNamHTX.Id" data-title="@ViewBag.objhMoCayNamHTX.Title">@ViewBag.objhMoCayNamHTX.Title</a></td>
+                                <td>@ViewBag.objhMoCayNamHTX.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayNamHTX.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayNamHTX.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX" class="viewLuyKeQuyHTX pointer" data-id="@ViewBag.objhThanhPhuHTX.Id" data-title="@ViewBag.objhThanhPhuHTX.Title">@ViewBag.objhThanhPhuHTX.Title</a></td>
+                                <td>@ViewBag.objhThanhPhuHTX.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhThanhPhuHTX.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhThanhPhuHTX.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX" class="viewLuyKeQuyHTX pointer" data-id="@ViewBag.objhBaTriHTX.Id" data-title="@ViewBag.objhBaTriHTX.Title">@ViewBag.objhBaTriHTX.Title</a></td>
+                                <td>@ViewBag.objhBaTriHTX.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBaTriHTX.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBaTriHTX.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX" class="viewLuyKeQuyHTX pointer" data-id="@ViewBag.objhBinhDaiHTX.Id" data-title="@ViewBag.objhBinhDaiHTX.Title">@ViewBag.objhBinhDaiHTX.Title</a></td>
+                                <td>@ViewBag.objhBinhDaiHTX.TongSo.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBinhDaiHTX.TongVon.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td id="viewBanDoHTX">@ViewBag.objhBinhDaiHTX.TongLaoDong.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <input type="radio" name="rdLuyKeHopTacXa" value="1" checked="checked">
+                        <label for="rdLuyKeHopTacXa">Hợp tác xã</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="2" name="rdLuyKeHopTacXa">
+                        <label for="rdLuyKeHopTacXa">Vốn</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="3" name="rdLuyKeHopTacXa">
+                        <label for="rdLuyKeHopTacXa">Lao động</label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-3">
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <span style="color:blue;font-family:Tahoma;font-size:16px" class="tilteBDHTX"></span>
+                        @*<span style="color:red;font-family:Tahoma;font-size:16px"  class="titleDNCSDL"></span>*@
+                        <select id="huyenHTXBanDoLuyKe" style="width:auto;color: red;border-radius: 12px;text-transform: uppercase;font-family: 'UTM AvoBold';">
+                            <option value="235">--tỉnh Bến Tre--</option>
+                            <option value="836">thành phố Bến Tre</option>
+                            <option value="838">huyện Chợ Lách</option>
+                            <option value="837">huyện Châu Thành</option>
+                            <option value="844">huyện Mỏ Cày Bắc</option>
+                            <option value="840">huyện Giồng Trôm</option>
+                            <option value="839">huyện Mỏ Cày Nam</option>
+                            <option value="843">huyện Thạnh Phú</option>
+                            <option value="842">huyện Ba Tri</option>
+                            <option value="841">huyện Bình Đại</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="chartColunmTheoQuyHTX" style="height: 370px; width: 100%;"></div>
+            </div>
+
+            <div class="tab-pane fade" id="pill-11HTX" role="tabpanel" aria-labelledby="pill-11HTX">
+                <div class="table-responsive-sm">
+                    <table class="table border bg-white tb-list table-striped table-custom">
+                        <thead>
+                            <tr class="font-weight-bold">
+                                <th>Tỉnh thành, Huyện thị</th>
+                                <th>Hợp tác xã</th>
+                                <th>Vốn (tỷ)</th>
+                                <th>Lao động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tb-parentHTX2">
+                            <tr>
+                                <td><a href="#viewBanDoHTX2" class="viewLuyKeQuyHTX2 active2 pointer" data-id="@ViewBag.objTinhHTX.Id" data-title="@ViewBag.objTinhHTX.Title">@ViewBag.objTinhHTX.Title</a></td>
+                                <td>@ViewBag.objTinhHTX.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objTinhHTX.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objTinhHTX.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX2" class="viewLuyKeQuyHTX2 pointer" data-id="@ViewBag.objtpBenTreHTX.Id" data-title="@ViewBag.objtpBenTreHTX.Title">@ViewBag.objtpBenTreHTX.Title</a></td>
+                                <td>@ViewBag.objtpBenTreHTX.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objtpBenTreHTX.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objtpBenTreHTX.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX2" class="viewLuyKeQuyHTX2 pointer" data-id="@ViewBag.objhChoLachHTX.Id" data-title="@ViewBag.objhChoLachHTX.Title">@ViewBag.objhChoLachHTX.Title</a></td>
+                                <td>@ViewBag.objhChoLachHTX.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChoLachHTX.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChoLachHTX.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX2" class="viewLuyKeQuyHTX2 pointer" data-id="@ViewBag.objhChauThanhHTX.Id" data-title="@ViewBag.objhChauThanhHTX.Title">@ViewBag.objhChauThanhHTX.Title</a></td>
+                                <td>@ViewBag.objhChauThanhHTX.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChauThanhHTX.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhChauThanhHTX.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX2" class="viewLuyKeQuyHTX2 pointer" data-id="@ViewBag.objhMoCayBacHTX.Id" data-title="@ViewBag.objhMoCayBacHTX.Title">@ViewBag.objhMoCayBacHTX.Title</a></td>
+                                <td>@ViewBag.objhMoCayBacHTX.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayBacHTX.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayBacHTX.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX2" class="viewLuyKeQuyHTX2 pointer" data-id="@ViewBag.objhGiongTromHTX.Id" data-title="@ViewBag.objhGiongTromHTX.Title">@ViewBag.objhGiongTromHTX.Title</a></td>
+                                <td>@ViewBag.objhGiongTromHTX.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhGiongTromHTX.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhGiongTromHTX.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX2" class="viewLuyKeQuyHTX2 pointer" data-id="@ViewBag.objhMoCayNamHTX.Id" data-title="@ViewBag.objhMoCayNamHTX.Title">@ViewBag.objhMoCayNamHTX.Title</a></td>
+                                <td>@ViewBag.objhMoCayNamHTX.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayNamHTX.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhMoCayNamHTX.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX2" class="viewLuyKeQuyHTX2 pointer" data-id="@ViewBag.objhThanhPhuHTX.Id" data-title="@ViewBag.objhThanhPhuHTX.Title">@ViewBag.objhThanhPhuHTX.Title</a></td>
+                                <td>@ViewBag.objhThanhPhuHTX.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhThanhPhuHTX.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhThanhPhuHTX.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX2" class="viewLuyKeQuyHTX2 pointer" data-id="@ViewBag.objhBaTriHTX.Id" data-title="@ViewBag.objhBaTriHTX.Title">@ViewBag.objhBaTriHTX.Title</a></td>
+                                <td>@ViewBag.objhBaTriHTX.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBaTriHTX.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBaTriHTX.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="#viewBanDoHTX2" class="viewLuyKeQuyHTX2 pointer" data-id="@ViewBag.objhBinhDaiHTX.Id" data-title="@ViewBag.objhBinhDaiHTX.Title">@ViewBag.objhBinhDaiHTX.Title</a></td>
+                                <td>@ViewBag.objhBinhDaiHTX.TongSo2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td>@ViewBag.objhBinhDaiHTX.TongVon2.ToString("#,##0.###").Replace(",", ".")</td>
+                                <td id="viewBanDoHTX2">@ViewBag.objhBinhDaiHTX.TongLaoDong2.ToString("#,##0.###").Replace(",", ".")</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <input type="radio" name="rdLuyKeHopTacXa2" value="1" checked="checked">
+                        <label for="rdLuyKeHopTacXa2">Hợp tác xã</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="2" name="rdLuyKeHopTacXa2">
+                        <label for="rdLuyKeHopTacXa2">Vốn</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" value="3" name="rdLuyKeHopTacXa2">
+                        <label for="rdLuyKeHopTacXa2">Lao động</label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-sm-3">
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <span style="color:blue;font-family:Tahoma;font-size:16px" class="tilteBDHTX2"></span>
+                        @*<span style="color:red;font-family:Tahoma;font-size:16px"  class="titleDNCSDL"></span>*@
+                        <select id="huyenHTXBanDoLuyKe2" style="width:auto;color: red;border-radius: 12px;text-transform: uppercase;font-family: 'UTM AvoBold';">
+                            <option value="235">--tỉnh Bến Tre--</option>
+                            <option value="836">thành phố Bến Tre</option>
+                            <option value="838">huyện Chợ Lách</option>
+                            <option value="837">huyện Châu Thành</option>
+                            <option value="844">huyện Mỏ Cày Bắc</option>
+                            <option value="840">huyện Giồng Trôm</option>
+                            <option value="839">huyện Mỏ Cày Nam</option>
+                            <option value="843">huyện Thạnh Phú</option>
+                            <option value="842">huyện Ba Tri</option>
+                            <option value="841">huyện Bình Đại</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="chartLineTheoThangHTX" style="height: 370px; width: 100%;"></div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <h2 class="text-uppercase text-center py-5 title"><span>Bản đồ phân bổ doanh nghiệp tỉnh bến tre</span></h2>
+        <div class="map-container">
+            <div class="map jvmap-smart">
+            </div>
+
+        </div>
+    </div>
+    <input type="hidden" id="mapHCValueTPBenTre"
+           data-title="Thành phố Bến Tre"
+           data-sodn="@ViewBag.objtpBenTre.tongDN.ToString("#,##0.###").Replace(",", ".")"
+           data-sohkd="@ViewBag.objtpBenTre.tongHKD.ToString("#,##0.###").Replace(",", ".")"
+           data-sohtx="@ViewBag.objtpBenTre.tongHTX.ToString("#,##0.###").Replace(",", ".")"
+           data-sondt="@ViewBag.objtpBenTre.tongNDT.ToString("#,##0.###").Replace(",", ".")"
+           data-danso="@ViewBag.objtpBenTre.danSo"
+           data-id="836"
+           data-langnghe="@ViewBag.objtpBenTre.tongLangNghe.ToString("#,##0.###").Replace(",", ".")"
+           data-dientich="@ViewBag.objtpBenTre.dienTich" />
+    <input type="hidden" id="mapHCValueChoLach"
+           data-title="Huyện Chợ Lách"
+           data-sodn="@ViewBag.objhChoLach.tongDN.ToString("#,##0.###").Replace(",", ".")"
+           data-sohkd="@ViewBag.objhChoLach.tongHKD.ToString("#,##0.###").Replace(",", ".")"
+           data-sohtx="@ViewBag.objhChoLach.tongHTX.ToString("#,##0.###").Replace(",", ".")"
+           data-sondt="@ViewBag.objhChoLach.tongNDT.ToString("#,##0.###").Replace(",", ".")"
+           data-danso="@ViewBag.objhChoLach.danSo"
+           data-id="838"
+           data-langnghe="@ViewBag.objhChoLach.tongLangNghe.ToString("#,##0.###").Replace(",", ".")"
+           data-dientich="@ViewBag.objhChoLach.dienTich" />
+    <input type="hidden" id="mapHCValueChauThanh"
+           data-title="Huyện Châu Thành"
+           data-sodn="@ViewBag.objhChauThanh.tongDN.ToString("#,##0.###").Replace(",", ".")"
+           data-sohkd="@ViewBag.objhChauThanh.tongHKD.ToString("#,##0.###").Replace(",", ".")"
+           data-sohtx="@ViewBag.objhChauThanh.tongHTX.ToString("#,##0.###").Replace(",", ".")"
+           data-sondt="@ViewBag.objhChauThanh.tongNDT.ToString("#,##0.###").Replace(",", ".")"
+           data-danso="@ViewBag.objhChauThanh.danSo"
+           data-id="837"
+           data-langnghe="@ViewBag.objhChauThanh.tongLangNghe.ToString("#,##0.###").Replace(",", ".")"
+           data-dientich="@ViewBag.objhChauThanh.dienTich" />
+    <input type="hidden" id="mapHCValueMCBac"
+           data-title="Huyện Mỏ Cày Bắc"
+           data-sodn="@ViewBag.objhMoCayBac.tongDN.ToString("#,##0.###").Replace(",", ".")"
+           data-sohkd="@ViewBag.objhMoCayBac.tongHKD.ToString("#,##0.###").Replace(",", ".")"
+           data-sohtx="@ViewBag.objhMoCayBac.tongHTX.ToString("#,##0.###").Replace(",", ".")"
+           data-sondt="@ViewBag.objhMoCayBac.tongNDT.ToString("#,##0.###").Replace(",", ".")"
+           data-danso="@ViewBag.objhMoCayBac.danSo"
+           data-id="844"
+           data-langnghe="@ViewBag.objhMoCayBac.tongLangNghe.ToString("#,##0.###").Replace(",", ".")"
+           data-dientich="@ViewBag.objhMoCayBac.dienTich" />
+    <input type="hidden" id="mapHCValueGiongTrom"
+           data-title="Huyện Giồng Trôm"
+           data-sodn="@ViewBag.objhGiongTrom.tongDN.ToString("#,##0.###").Replace(",", ".")"
+           data-sohkd="@ViewBag.objhGiongTrom.tongHKD.ToString("#,##0.###").Replace(",", ".")"
+           data-sohtx="@ViewBag.objhGiongTrom.tongHTX.ToString("#,##0.###").Replace(",", ".")"
+           data-sondt="@ViewBag.objhGiongTrom.tongNDT.ToString("#,##0.###").Replace(",", ".")"
+           data-danso="@ViewBag.objhGiongTrom.danSo"
+           data-id="840"
+           data-langnghe="@ViewBag.objhGiongTrom.tongLangNghe.ToString("#,##0.###").Replace(",", ".")"
+           data-dientich="@ViewBag.objhGiongTrom.dienTich" />
+    <input type="hidden" id="mapHCValueMCNam"
+           data-title="Huyện Mỏ Cày Nam"
+           data-sodn="@ViewBag.objhMoCayNam.tongDN.ToString("#,##0.###").Replace(",", ".")"
+           data-sohkd="@ViewBag.objhMoCayNam.tongHKD.ToString("#,##0.###").Replace(",", ".")"
+           data-sohtx="@ViewBag.objhMoCayNam.tongHTX.ToString("#,##0.###").Replace(",", ".")"
+           data-sondt="@ViewBag.objhMoCayNam.tongNDT.ToString("#,##0.###").Replace(",", ".")"
+           data-danso="@ViewBag.objhMoCayNam.danSo"
+           data-id="839"
+           data-langnghe="@ViewBag.objhMoCayNam.tongLangNghe.ToString("#,##0.###").Replace(",", ".")"
+           data-dientich="@ViewBag.objhMoCayNam.dienTich" />
+    <input type="hidden" id="mapHCValueThanhPhu"
+           data-title="Huyện Thạnh Phú"
+           data-sodn="@ViewBag.objhThanhPhu.tongDN.ToString("#,##0.###").Replace(",", ".")"
+           data-sohkd="@ViewBag.objhThanhPhu.tongHKD.ToString("#,##0.###").Replace(",", ".")"
+           data-sohtx="@ViewBag.objhThanhPhu.tongHTX.ToString("#,##0.###").Replace(",", ".")"
+           data-sondt="@ViewBag.objhThanhPhu.tongNDT.ToString("#,##0.###").Replace(",", ".")"
+           data-danso="@ViewBag.objhThanhPhu.danSo"
+           data-id="843"
+           data-langnghe="@ViewBag.objhThanhPhu.tongLangNghe.ToString("#,##0.###").Replace(",", ".")"
+           data-dientich="@ViewBag.objhThanhPhu.dienTich" />
+    <input type="hidden" id="mapHCValueBaTri"
+           data-title="Huyện Ba Tri"
+           data-sodn="@ViewBag.objhBaTri.tongDN.ToString("#,##0.###").Replace(",", ".")"
+           data-sohkd="@ViewBag.objhBaTri.tongHKD.ToString("#,##0.###").Replace(",", ".")"
+           data-sohtx="@ViewBag.objhBaTri.tongHTX.ToString("#,##0.###").Replace(",", ".")"
+           data-sondt="@ViewBag.objhBaTri.tongNDT.ToString("#,##0.###").Replace(",", ".")"
+           data-danso="@ViewBag.objhBaTri.danSo"
+           data-id="842"
+           data-langnghe="@ViewBag.objhBaTri.tongLangNghe.ToString("#,##0.###").Replace(",", ".")"
+           data-dientich="@ViewBag.objhBaTri.dienTich" />
+    <input type="hidden" id="mapHCValueBinhDai"
+           data-title="Huyện Bình Đại"
+           data-sodn="@ViewBag.objhBinhDai.tongDN.ToString("#,##0.###").Replace(",", ".")"
+           data-sohkd="@ViewBag.objhBinhDai.tongHKD.ToString("#,##0.###").Replace(",", ".")"
+           data-sohtx="@ViewBag.objhBinhDai.tongHTX.ToString("#,##0.###").Replace(",", ".")"
+           data-sondt="@ViewBag.objhBinhDai.tongNDT.ToString("#,##0.###").Replace(",", ".")"
+           data-danso="@ViewBag.objhBinhDai.danSo"
+           data-id="841"
+           data-langnghe="@ViewBag.objhBinhDai.tongLangNghe.ToString("#,##0.###").Replace(",", ".")"
+           data-dientich="@ViewBag.objhBinhDai.dienTich" />
+</section>
+
+<!--Modal: modalSocial-->
+<div class="modal fade" id="modalBanDoPhanBo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl cascading-modal modal-notify modal-info" role="document">
+
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header justify-content-center">
+                <h2 id="headerBDPB" class="heading w-100 text-left"></h2>
+                <button type="button" class="close" style="color:white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body" id="contentBDPB">
+
+            </div>
+        </div>
+        <!--/.Content-->
+
+    </div>
+</div>
+<!--Modal: modalSocial-->
+<!--Modal: modalSocial-->
+<div class="modal fade" id="modalSocial" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog cascading-modal modal-notify modal-info" role="document">
+
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header justify-content-center">
+                <h2 class="heading w-100 text-left">THÔNG TIN</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+                <p class="mt-3 mx-2"><span class="text-uppercase text-success"><strong><label name="View_NameChinh" id="View_NameChinh"></label></strong></span></p>
+                <div class="my-3 mx-2">
+                    <p class="mb-2"><b>Tên giao dịch: </b><label name="View_Name" id="View_Name"></label></p>
+                    <p class="mb-2"><b>Loại hình hoạt động: </b><label name="View_LoaiHinh" id="View_LoaiHinh"></label></p>
+                    <p class="mb-2"><b>Mã số thuế: </b>  <label name="View_MST" id="View_MST"></label></p>
+                    <p class="mb-2"><b>Địa chỉ: </b> <label name="View_DiaChi" id="View_DiaChi"></label></p>
+                    <p class="mb-2"><b>Đại diện pháp lý: </b> <label name="View_DaiDien" id="View_DaiDien"></label></p>
+                    <p class="mb-2"><b>Ngày hoạt động: </b><label name="View_NgayHoatDong" id="View_NgayHoatDong"></label></p>
+                    <p class="mb-2 hidden"><b>Điện thoại: </b> <label name="View_SDT" id="View_SDT"></label></p>
+                    <p class="mb-2"><b>Trạng thái: </b> <label name="View_TrangThai" id="View_TrangThai"></label></p>
+                </div>
+            </div>
+        </div>
+        <!--/.Content-->
+
+    </div>
+</div>
+<!--Modal: modalSocial-->
+<div class="modal fade" id="modalViewDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog cascading-modal modal-notify modal-info" role="document">
+
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header justify-content-center">
+                <h2 class="heading w-100 text-left">THÔNG TIN</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body" id="contentDetailMoDal">
+
+            </div>
+        </div>
+        <!--/.Content-->
+
+    </div>
+</div>
+
+<!--Modal: modalSocial-->
+<div class="modal fade" id="modalNamMucTieu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog cascading-modal modal-notify modal-info" role="document">
+
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header justify-content-center">
+                <h2 class="heading w-100 text-left">MỤC TIÊU NĂM</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+                <form id="frmCapNhatMTN" name="frmCapNhatMTN">
+                    <div class="form-group">
+                        <label for="namMucTieu">Năm mục tiêu:</label>
+                        <select id="namMucTieu" class="select2"  name="namMucTieu" style="width:100%">
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                            <option value="2030">2030</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="soLuong">Số doanh nghiệp:</label>
+                        <input type="number" class="form-control" placeholder="Số lượng" id="soLuong" name="soLuong">
+                    </div>
+                    <div class="form-group">
+                        <label for="soVon">Số vốn hóa (tỷ đồng):</label>
+                        <input type="number" class="form-control" placeholder="Số vốn hóa" id="soVon" name="soVon">
+                    </div>
+                    <div class="form-group">
+                        <label for="soLD">Số lao động (người):</label>
+                        <input type="number" class="form-control" placeholder="Số lao động" id="soLD" name="soLD">
+                    </div>
+                    <button type="button" id="capNhatNMT" class="btn btn-sm btn-primary">Cập nhật</button>
+                </form>
+            </div>
+        </div>
+        <!--/.Content-->
+
+    </div>
+</div>

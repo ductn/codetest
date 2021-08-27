@@ -1,0 +1,160 @@
+﻿@using Model.EF;
+@using Model.Dao;
+@using ClsCommon
+@{
+    ViewBag.Title = "GioHang";
+    Layout = "~/Views/Shared/_LayoutGianHangNew.cshtml";
+}
+@section jsFooter{
+    <script src="@CommonConstants.DomainName/assets/client/js/controller/cartController.js"></script>
+}
+<div class="container">
+    <div class="bg-gray py-2 px-4"><h2 class="text-uppercase font-small pt-2">Giỏ hàng</h2></div>
+</div>
+<div class="container">
+    <div class="form-checkout mt-30 mb-50">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="hint-text">Thông tin đặt hàng</h3>
+                <div>Trường yêu cầu nhập dữ liệu <span class="fieldRequired">*</span></div>
+                <!-- Table list course setup start-->
+                <div class="box-orders">
+                    <!-- Step 2 - Added Course to Cart start-->
+                    <form id="frmGioHang" name="frmGioHang"  method="post">
+                        <div class="row">
+                            <div class="col-md-5 col-sm-12">
+                                <!-- Form info start-->
+                                <div class="form-step mt-20 pr-2">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" checked id="chkNam" name="inlineDefaultRadiosExample">
+                                            <label for="defaultInline1">Anh</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="chkNu" name="inlineDefaultRadiosExample">
+                                            <label for="defaultInline2">Chị</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <!-- <label for="full_name" class="mb-10 hint-text">Họ tên</label> -->
+                                        <input type="text" name="full_name" id="fullname" placeholder="Họ tên*" title="Họ tên" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <!-- <label for="address" class="mb-10 hint-text" placeholder="Địa chỉ">Địa chỉ</label> -->
+                                        <textarea type="text" name="address" id="address" placeholder="Địa chỉ*" title="Địa chỉ" rows="2" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <!-- <label for="phone" class="mb-10 hint-text">Điện thoại</label> -->
+                                        <input type="text" name="phone" id="phone" placeholder="Điện thoại*" title="Điện thoại" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <!-- <label for="phone" class="mb-10 hint-text">E-mail</label> -->
+                                        <input type="email" name="email" id="email" placeholder="E-mail" title="E-mail" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <!-- <label for="phone" class="mb-10 hint-text">Điện thoại</label> -->
+                                        <textarea type="text" name="note" id="note" placeholder="Ghi chú thêm" title="Ghi chú thêm" rows="3" class="form-control"></textarea>
+                                    </div>
+                                    <input type="hidden" id="UserKhachMua" value="@ViewBag.UserKhachMua">
+                                </div>
+                                <!-- Form info end-->
+                            </div>
+                            <div class="col-md-7 col-sm-12">
+                                <!-- Total start-->
+                                <div class="pl-4">
+                                    <div class="shipping-fields">
+                                        <div class="checkout-order-table">
+                                            <div class="table-responsive">
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:50%;" class="text-blue">Sản phẩm</th>
+                                                            <th style="width:10%;" class="text-center">SL</th>
+                                                            <th style="width:15%;" class="text-right">Giá</th>
+                                                            <th style="width:15%;" class="text-right">Thành tiền</th>
+                                                            <th style="width:10%;" class="text-right"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @{
+                                                            decimal totalPrice = 0;
+                                                        }
+                                                        @if (ViewBag.lstGh != null)
+                                                        {
+                                                            foreach (var item in ViewBag.lstGh)
+                                                            {
+                                                                Product itemProduct = new ProductDao().GetByID(item.IdProduct);
+                                                                dynamic Price = itemProduct.Price;
+                                                                if (itemProduct.IsPromotion == true)
+                                                                {
+                                                                    Price = itemProduct.PromotionPrice;
+                                                                }
+                                                                decimal total = item.SoLuong * Price;
+                                                                string price = Price.ToString();
+                                                                totalPrice = totalPrice + total;
+                                                                <tr class="cart_item" id="cartItem_@item.Id">
+                                                                    <td class="product-name">
+                                                                        <div class="row d-flex align-items-center">
+                                                                            <div class="col-5">
+                                                                                <div class="thumbnail">
+                                                                                    <a href="@itemProduct.MetaTitle-@itemProduct.ID@Html.Raw(".html")" title="" alt="">
+                                                                                        <img width="80" height="80" src="@CommonConstants.DomainName/@itemProduct.Image" title="" width="100" height="100" class="portrait">
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-7 pl-0">
+                                                                                <div class="content-block pt-0 pb-0">
+                                                                                    <h4 class="hint-text">
+                                                                                        <a href="@itemProduct.MetaTitle-@itemProduct.ID@Html.Raw(".html")" title="" alt="" style="font-size: 14px;">@itemProduct.Name</a>
+                                                                                    </h4>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="quality">
+                                                                        <!-- <span class="aria-label">Số lượng: </span> -->
+                                                                        <input type="number" value="@item.SoLuong" data-id="@item.Id" aria-label="Search" class="form-control" style="width: 70px" placeholder="Số lượng">
+                                                                    </td>
+                                                                    <td class="text-right  price">@decimal.Parse(price).ToString("#,##0.###").Replace(",", ".")</td>
+                                                                    <td class="text-right  price">@total.ToString("#,##0.###").Replace(",", ".")</td>
+                                                                    <td class="text-right"><a title="Xóa" class="btn-delete" data-id="@item.Id"><i class="fa fa-trash fa-2x"></i></a></td>
+                                                                </tr>
+                                                            }
+                                                        }
+
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td style="width:10%;"></td>
+                                                            <td style="width:10%;"></td>
+                                                            <td style="width:20%;">Tổng cộng:</td>
+                                                            <td style="width:50%;" class="text-right text-red"><span class="total">@totalPrice.ToString("#,##0.###").Replace(",", ".")</td>
+                                                            <td style="width:10%;"></td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-submit text-center mt-30 mb-30">
+                                        <button type="button" class="w-30 btn btn-warning btnContinue"><i class="fa fa-long-arrow-left"></i> Tiếp tục mua hàng</button>
+                                        @if (ViewBag.CountGioHang != 0)
+                                        {
+                                            <button type="button" class="w-30 btn btn-info btn-order">Đặt hàng <i class="fa fa-long-arrow-right"></i></button>
+                                        }
+                                        else
+                                        {
+                                            <a href="@CommonConstants.DomainName/quan-ly-don-hang-khach.html" class="w-30 btn btn-info">Tra cứu đơn hàng <i class="fa fa-long-arrow-right"></i></a>
+                                        }
+                                    </div>
+                                </div>
+                                <!-- Total end-->
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Step 2 - Added Course to Cart end-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

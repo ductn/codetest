@@ -1,0 +1,347 @@
+﻿@using ClsCommon;
+@{
+    ViewBag.Title = "Đăng ký";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section jsFooter{
+    <script src="@CommonConstants.DomainName/assets/client/js/user/DangKyController.js"></script>
+    <script>
+        $('#loaiTK').val("1");
+        $('#chkTKGianHang').change(function () {
+            var chkTKGianHang = $('#chkTKGianHang').is(':checked');
+            if (chkTKGianHang == true) {
+                $('#loaiTK').val("1");
+                $('#HuyenID').attr("disabled", true);
+                $('#XaID').attr("disabled", true);
+            }
+            else {
+                $('#loaiTK').val("2");
+                $('#HuyenID').removeAttr('disabled');
+                $('#XaID').removeAttr('disabled');
+            }
+        });
+        $('#chkTKNhaDauTu').change(function () {
+            var chkTKNhaDauTu = $('#chkTKNhaDauTu').is(':checked');
+            if (chkTKNhaDauTu == true) {
+                $('#loaiTK').val("2");
+                $('#HuyenID').removeAttr('disabled');
+                $('#XaID').removeAttr('disabled');
+            }
+            else {
+                $('#loaiTK').val("1");
+                $('#HuyenID').attr("disabled", true);
+                $('#XaID').attr("disabled", true);
+            }
+        });
+    </script>
+    <script>
+        var my_path = $("#Image").val();
+        $("#myUploadedImg").attr("src", my_path);
+    </script>
+    <script>
+        $('#btnSelectFile').on('click', function (e) {
+            e.preventDefault();
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (url) {
+                $('#File').val(url);
+                $("#myUploadedFile").attr("src", url);
+            };
+            finder.popup();
+        })
+    </script>
+}
+<style>
+    .error {
+        color: red;
+    }
+</style>
+@model Model.EF.User
+<div class="container mb-5">
+    <div class="row">
+        <div class="group2 col-lg-12 col-sm-12">
+            <nav aria-label="breadcrumb" class="mt-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@CommonConstants.DomainName">Hiệp Lợi</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Đăng ký</li>
+                </ol>
+            </nav>
+
+            <div class="bg-light pt-2 tab-pane">
+                <div class="form-group row">
+                    @if (ViewBag.ckError == 0)
+                    {
+                        <div class="alert alert-success" role="alert">
+                            @ViewBag.CustomError
+                        </div>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    }
+                </div>
+                <div class="form-group row">
+                    <div class=" col-xs-12 col-sm-12 col-md-12">
+                        <h3>Thông tin người dùng</h3>
+                    </div>
+                </div>
+                @using (Html.BeginForm("Register", "User", FormMethod.Post, new { id = "formRegister" }))
+                {
+            <div class="form-group">
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" checked id="chkTKGianHang" name="inlineDefaultRadiosExample">
+                    <label for="defaultInline1">Tài khoản gian hàng</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="chkTKNhaDauTu" name="inlineDefaultRadiosExample">
+                    <label for="defaultInline2">Tài khoản nhà đầu tư</label>
+                </div>
+                @Html.HiddenFor(m => m.loaiTK)
+                @Html.HiddenFor(m => m.urlFileDinhKem)
+                @Html.HiddenFor(m => m.tenFileDinhKem)
+            </div>
+                    <div class="form-group row">
+                        <div class=" col-xs-12 col-sm-6 col-md-6">
+                            <label class=" col-xs-12 col-sm-12 col-md-12">
+                                Tên đăng nhập ( Nhập MSDN / GCN)<span style="color: Red;">*</span>
+                            </label>
+                            <div class=" col-xs-12 col-sm-12 col-md-12">
+                                @Html.TextBoxFor(model => model.UserName, htmlAttributes: new { @class = "form-control mb-3" })
+                            </div>
+                        </div>
+                        <div class=" col-xs-12 col-sm-6 col-md-6">
+                            <label class=" col-xs-12 col-sm-12 col-md-12">
+                                Tên đơn vị kinh doanh<span style="color: Red;">*</span>
+                            </label>
+                            <div class=" col-xs-12 col-sm-12 col-md-12">
+                                @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control mb-3", disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class=" col-xs-12 col-sm-6 col-md-6">
+                            <label class=" col-xs-12 col-sm-12 col-md-12">
+                                Email<span style="color: Red;">*</span>
+                            </label>
+                            <div class=" col-xs-12 col-sm-12 col-md-12">
+                                @Html.TextBoxFor(model => model.Email, htmlAttributes: new { @class = "form-control mb-3" })
+                            </div>
+                        </div>
+                        <div class=" col-xs-12 col-sm-6 col-md-6">
+                            <label class=" col-xs-12 col-sm-12 col-md-12">Số điện thoại</label>
+                            <div class=" col-xs-12 col-sm-12 col-md-12">
+                                @Html.TextBoxFor(model => model.Phone, htmlAttributes: new { @class = "form-control mb-3", disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class=" col-xs-12 col-sm-3 col-md-3">
+                            <label class=" col-xs-12 col-sm-12 col-md-12">
+                                Số nhà
+                            </label>
+                            <div class=" col-xs-12 col-sm-12 col-md-12">
+                                @Html.TextBoxFor(model => model.Address, htmlAttributes: new { @class = "form-control mb-3", disabled = "disabled" })
+                            </div>
+                        </div>
+                        <div class=" col-xs-12 col-sm-3 col-md-3">
+                            <label class=" col-xs-12 col-sm-12 col-md-12">
+                                Tỉnh
+                            </label>
+                            <div class=" col-xs-12 col-sm-12 col-md-12">
+                                @Html.DropDownListFor(model => model.ProvinceID, null, htmlAttributes: new { @class = "form-control mb-3 select2", disabled = "disabled" })
+                            </div>
+                        </div>
+
+                        <div class=" col-xs-12 col-sm-3 col-md-3">
+                            <label class=" col-xs-12 col-sm-12 col-md-12">
+                                Huyện / Thành Phố
+                            </label>
+                            <div class=" col-xs-12 col-sm-12 col-md-12">
+                                @Html.DropDownListFor(model => model.HuyenID, null, htmlAttributes: new { @class = "form-control mb-3 select2", disabled = "disabled" })
+                            </div>
+                        </div>
+                        <div class=" col-xs-12 col-sm-3 col-md-3">
+                            <label class=" col-xs-12 col-sm-12 col-md-12">
+                                Xã / Thị trấn
+                            </label>
+                            <div class=" col-xs-12 col-sm-12 col-md-12">
+                                @Html.DropDownListFor(model => model.XaID, null, htmlAttributes: new { @class = "form-control mb-3 select2", disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-xs-12 col-sm-6 col-md-12">
+                            <label class="col-xs-12 col-sm-12 col-md-12">
+                                Mật khẩu<span style="color: Red;">*</span>
+                            </label>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                @Html.PasswordFor(model => model.Password, htmlAttributes: new { @class = "form-control mb-3" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-12">
+                            <label class="col-xs-12 col-sm-12 col-md-12">
+                                Xác nhận mật khẩu<span style="color: Red;">*</span>
+                            </label>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <input type="password" id="RetypePassword" name="RetypePassword" class="form-control mb-3" />
+                            </div>
+                        </div>
+
+                    </div>
+                    //Upload file
+                    <div class="form-group row">
+                        <label class="control-label col-lg-2 col-sm-3">Giấy phép kinh doanh</label>
+                        <div class="col-lg-10 col-sm-9">
+                            <input type="file" class="upload form-control" id="fileUpload"><br />
+                            <a id="myUploadedFile" href="#">
+                                <img style="width: 30px;height: 30px;" alt="" src="@CommonConstants.DomainName/MediaUploader/pdf.png">
+                                <span id="nameFile"></span>
+                            </a>
+                        </div>
+                        <input type="hidden" id="FileDinhKem" name="FileDinhKem"/>
+                    </div>
+                    //Captcha
+                    <div class="captcha d-table">
+                        <span id="captcha" class="d-table-cell align-middle pr-3"></span>
+                        <input type="text" placeholder="Captcha" id="cpatchaTextBox" class="form-control d-table-cell align-middle" />
+                        <i id="refresh" class="fa fa-refresh fa-15x d-table-cell align-middle px-3"></i>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <label class="col-xs-12 col-sm-12 col-md-12">
+                            </label>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <input type="checkbox" id="chkAgree" name="chkAgree" />
+                                Đồng ý với
+                                <b>
+                                    <a style="color: blue" href="#" data-toggle="modal" data-target="#modalSocialGT">
+                                        thỏa
+                                        thuận sử dụng
+                                    </a>
+                                </b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class=" col-xs-12 col-sm-12 col-md-12">
+                            <span class="waves-input-wrapper">
+                                <a style="color:white" class="btn btn-warning btnRegister" title="Đăng ký">Đăng ký</a>
+                            </span>
+                            <span class="waves-input-wrapper">
+                                <button style="color:white" type="reset" class="btn btn-info" value="Đặt lại" title="Đặt lại">Đặt lại</button>
+                            </span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <style>
+            .realperson-text {
+                font-family: "Courier New",monospace;
+                font-size: 6px;
+                font-weight: bold;
+                letter-spacing: -1px;
+                line-height: 3px;
+            }
+        </style>
+    </div>
+
+</div>
+
+<div class="modal fade" id="modalSocialGT" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog cascading-modal modal-notify modal-info" style="margin-left: 22%; margin-top: 2%" role="document">
+        <div class="modal-content" style="width: 850px">
+            <div class="modal-header justify-content-center">
+                <p class="heading w-100 text-left">
+                    @* Tiêu đề *@
+                </p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <h1>
+                    <div style="text-align: center;"><em style="font-size: 18pt;">Điều khoản v&#224; điều kiện sử dụng Trang CSDL Doanh nghiệp tỉnh Bến Tre </em></div>
+                </h1>
+                <div>
+                    <span style="font-size: 26pt; color: #3366ff;">
+                        <div style="text-align: left;"><span style="color: #ff0000; font-size: 10pt; font-style: italic;">Bằng việc sử dụng c&#225;c Dịch vụ tr&#234;n Trang CSDL Doanh nghiệp tỉnh Bến Tre , t&#244;̉ chức, cá nh&#226;n sử dụng mặc nhi&#234;n chấp thuận và cam k&#234;́t thực hi&#234;̣n c&#225;c điều khoản v&#224; điều ki&#234;̣n sử dụng sau đ&#226;y:</span></div>
+                        <span style="color: #0000ff;">
+                            <div><span style="color: #000000; font-size: 12pt;"><span style="font-size: 12pt;">1</span><em style="font-size: 12pt;">. T&#244;̉ chức, cá nh&#226;n sử dụng Dịch vụ tr&#234;n Trang CSDL Doanh nghiệp tỉnh Bến Tre  có trách nhi&#234;̣m:</em></span></div>
+                        </span>
+                    </span>
+                    <span style="font-size: 26pt; color: #3366ff;">
+                        <span style="color: #0000ff;">
+                            <span style="font-weight: normal; font-size: 12pt; color: #000000;">
+                                <div style="text-align: justify;"><span style="font-size: 12pt;">- Chịu tr&#225;ch nhiệm trước ph&#225;p luật về những th&#244;ng tin k&#234; khai, đăng k&#253; tài khoản tr&#234;n Trang CSDL Doanh nghiệp tỉnh Bến Tre , chỉ sử dụng Trang CSDL Doanh nghiệp tỉnh Bến Tre  cho c&#225;c mục đ&#237;ch hợp ph&#225;p và phải chịu tr&#225;ch nhiệm về mọi hoạt động được thực hiện bằng t&#224;i khoản của m&#236;nh.</span></div>
+                            </span>
+                            <span style="font-weight: normal; font-size: 12pt; color: #000000;">
+                                <div style="text-align: justify;"><span style="font-size: 12pt;">- Chịu tr&#225;ch nhiệm giữ b&#237; mật th&#244;ng tin t&#224;i khoản, mật khẩu của m&#236;nh, trường hợp mật khẩu bị mất hoặc bị đ&#225;nh cắp hoặc ph&#225;t hiện c&#243; người sử dụng tr&#225;i ph&#233;p t&#224;i khoản của m&#236;nh, phải th&#244;ng b&#225;o kịp thời cho Cơ quan quản l&#253; v&#224; vận h&#224;nh hệ thống.</span></div>
+                            </span>
+                            <span style="font-weight: normal; font-size: 12pt; color: #000000;">
+                                <div style="text-align: justify;"><span style="font-size: 12pt;">- Người sử dụng chịu tr&#225;ch nhiệm đối với tất cả c&#225;c nội dung do m&#236;nh gửi, đăng, cập nhật, cung cấp khi sử dụng Gian h&#224;ng v&#224; c&#225;c tiện &#237;ch kh&#225;c tr&#234;n Trang CSDL Doanh nghiệp tỉnh Bến Tre  v&#224; phải c&#243; tr&#225;ch nhiệm đối với c&#225;c b&#234;n c&#243; li&#234;n quan kh&#225;c.</span></div>
+                            </span>
+                            <span style="font-weight: normal; font-size: 12pt; color: #000000;">
+                                <div style="text-align: justify;"><span style="font-size: 12pt;">- Mọi trường hợp sử dụng lại c&#225;c th&#244;ng tin, nội dung tr&#234;n Trang CSDL Doanh nghiệp tỉnh Bến Tre  để đăng tải tr&#234;n c&#225;c phương tiện truyền th&#244;ng phải thực hiện theo quy định của ph&#225;p luật.</span></div>
+                            </span>
+                            <span style="font-weight: normal; font-size: 12pt; color: #000000;">
+                                <div style="text-align: justify;"><span style="font-size: 12pt;">- Đồng &#253; chia sẻ th&#244;ng tin đăng k&#253; tr&#234;n Cổng th&#244;ng tin Doanh nghiệp theo quy định của Trang CSDL Doanh nghiệp tỉnh Bến Tre .</span></div>
+                                <div>&nbsp;<span style="font-size: 10pt; color: #ffffff;">A</span></div>
+                            </span>
+                            <span style="font-size: 12pt; color: #000000;">
+                                <div><span style="font-size: 12pt;"><em style="font-size: 12pt;">2. T&#244;̉ chức, cá nh&#226;n sử dụng Dịch vụ tr&#234;n Trang CSDL Doanh nghiệp tỉnh Bến Tre  kh&#244;ng được thực hiện m&#244;̣t trong c&#225;c h&#224;nh vi sau:</em></span></div>
+                            </span>
+                            <span style="font-weight: normal; font-size: 12pt; color: #000000;">
+                                <div style="text-align: justify;"><span style="font-size: 12pt;">- Qu&#226;́y r&#244;́i, g&#226;y phi&#234;̀n toái, g&#226;y b&#226;́t ti&#234;̣n, hạn ch&#234;́, ngăn chặn hoặc các hành vi vi phạm pháp lu&#226;̣t khác vi phạm c&#225;c quyền, lợi ích hợp pháp của t&#244;̉ chức, cá nh&#226;n khác trong vi&#234;̣c sử dụng Trang CSDL Doanh nghiệp tỉnh Bến Tre ;</span></div>
+                            </span>
+                            <span style="font-weight: normal; font-size: 12pt; color: #000000;">
+                                <div style="text-align: justify;"><span style="font-size: 12pt;">- Đăng hoặc truyền qua Trang CSDL Doanh nghiệp tỉnh Bến Tre  bất kỳ t&#224;i liệu có n&#244;̣i dung xuy&#234;n tạc, phỉ b&#225;ng, khi&#234;u d&#226;m, x&#250;c phạm hoặc g&#226;y dư lu&#226;̣n x&#226;́u, làm giảm uy tín của t&#244;̉ chức cá nh&#226;n khác hoặc t&#224;i liệu, th&#244;ng tin khác trái với các quy định của pháp lu&#226;̣t;</span></div>
+                            </span>
+                            <span style="font-weight: normal; font-size: 12pt; color: #000000;">
+                                <div style="text-align: justify;"><span style="font-size: 12pt;">- Cản trở hoặc ngăn chặn tr&#225;i ph&#233;p qu&#225; tr&#236;nh truyền, gửi, nhận th&#244;ng điệp dữ liệu.</span></div>
+                            </span>
+                            <span style="font-weight: normal; font-size: 12pt; color: #000000;">
+                                <div style="text-align: justify;"><span style="font-size: 12pt;">- Thay đổi, x&#243;a, hủy, giả mạo, sao ch&#233;p, tiết lộ, hiển thị, di chuyển tr&#225;i ph&#233;p một phần hoặc to&#224;n bộ th&#244;ng điệp dữ liệu.</span></div>
+                            </span>
+                            <span style="font-weight: normal; font-size: 12pt; color: #000000;">
+                                <div style="text-align: justify;"><span style="font-size: 12pt;">- Tạo ra th&#244;ng điệp dữ liệu nhằm thực hiện h&#224;nh vi tr&#225;i ph&#225;p luật.</span></div>
+                            </span>
+                            <span style="font-weight: normal; font-size: 12pt; color: #000000;">
+                                <div style="text-align: justify;"><span style="font-size: 12pt;">- Tạo ra hoặc ph&#225;t t&#225;n chương tr&#236;nh tin học g&#226;y hại, tự &#253; x&#243;a, l&#224;m tổn hại hoặc thay đổi phần mềm, dữ liệu điện tử, x&#226;m nhập tr&#225;i ph&#233;p, can thiệp v&#224;o chức năng hoạt động của C&#244;̉ng hoặc c&#243; h&#224;nh vi kh&#225;c nhằm ph&#225; hoại hạ tầng c&#244;ng nghệ phục vụ cung cấp Gian h&#224;ng trực tuyến.</span></div>
+                            </span>
+                            <span style="font-weight: normal; font-size: 12pt; color: #000000;">
+                                <div style="text-align: justify;"><span style="font-size: 12pt;">- Gian lận, chiếm đoạt hoặc sử dụng tr&#225;i ph&#233;p chữ k&#253; điện tử của người kh&#225;c; sửa chữa, thay đổi hoặc c&#244;ng khai h&#243;a th&#244;ng tin ri&#234;ng hợp ph&#225;p của cơ quan, tổ chức, c&#225; nh&#226;n tr&#234;n C&#244;̉ng m&#224; kh&#244;ng được ph&#233;p của chủ sở hữu th&#244;ng tin đ&#243;;</span></div>
+                            </span>
+                            <span style="font-weight: normal; font-size: 12pt; color: #000000;">
+                                <div style="text-align: left;"><span style="font-size: 12pt;">- Các hành vi khác theo quy định của pháp lu&#226;̣t.</span></div>
+                                <div>&nbsp;</div>
+                            </span>
+                            <em>
+                                <span style="font-size: 12pt; color: #000000;">
+                                    <div style="text-align: justify; "><span style="font-size: 12pt;">3. Trang CSDL Doanh nghiệp tỉnh Bến Tre  c&#243; quyền Tạm dừng, Kho&#225;, Huỷ c&#225;c t&#224;i khoản tr&#234;n cổng c&#243; c&#225;c h&#224;nh vi vi phạm ph&#225;p luật, gian lận hoặc kh&#244;ng tu&#226;n thủ c&#225;c điều khoản sử dụng đ&#227; n&#234;u ở tr&#234;n m&#224; kh&#244;ng cần th&#244;ng b&#225;o cũng như bồi thường.</span></div>
+                                    <div>&nbsp;</div>
+                                    <div></div>
+                                </span>
+                                <span style="font-size: 12pt; color: #000000;">
+                                    <div style="text-align: justify; "><span style="font-size: 12pt;">4. Trang CSDL Doanh nghiệp tỉnh Bến Tre  kh&#244;ng chia sẻ th&#244;ng tin về người sử dụng với c&#225;c cơ quan kh&#225;c m&#224; kh&#244;ng c&#243; sự cho ph&#233;p của người sử dụng, trừ c&#225;c trường hợp:</span><span style="font-size: 12pt;">&nbsp;</span></div>
+                                </span>
+                            </em>
+                            <span style="font-weight: normal; font-size: 12pt;">
+                                <div style="text-align: left;"><span style="color: #000000; font-size: 12pt;">- Việc cung cấp được sự cho ph&#233;p của người sử dụng;</span></div>
+                            </span>
+                            <span style="font-weight: normal; font-size: 12pt;">
+                                <span style="font-size: 18pt; color: #000000;">
+                                    <div style="text-align: left;"><span style="font-size: 12pt;">- Việc cung cấp th&#244;ng tin trong trường hợp cần thiết v&#236; lợi &#237;ch c&#244;ng cộng, sức khỏe của cộng đồng theo quy định của luật c&#243; li&#234;n quan.</span></div>
+                                    <div>&nbsp;<span style="font-size: 10pt; color: #ffffff;">A</span></div>
+                                </span>
+                            </span>
+                            <span style="font-size: 18pt; color: #000000;">
+                                <div style="text-align: justify; "><span style="font-size: 12pt;"><em style="font-size: 12pt;">5. Trong trường hợp sửa đổi nội dung c&#225;c điều khoản và đi&#234;̀u ki&#234;̣n sử dụng Trang CSDL Doanh nghiệp tỉnh Bến Tre , c&#225;c nội dung sửa đổi sẽ được th&#244;ng b&#225;o tr&#234;n Cổng. Người sử dụng tiếp tục sử dụng v&#224; tiếp tục thực hiện c&#225;c y&#234;u cầu dịch vụ tr&#234;n Cổng c&#243; nghĩa l&#224; đ&#227; chấp nhận c&#225;c sửa đổi đ&#243;.</em></span></div>
+                            </span>
+                            <span style="font-size: 12pt; color: #ffffff;">D</span><br />
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- InstanceEndEditable -->

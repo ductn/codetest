@@ -1,0 +1,269 @@
+﻿@using ClsCommon
+<div class="page-header-inner ">
+    <!-- logo start -->
+    <div class="page-logo">
+        <a href="@CommonConstants.DomainName/Admin/Home">
+            @*<img class="hidden-480" width="40px" height="40px" alt="" src="@CommonConstants.DomainName/Data/Logo/logo.png">*@
+            <img width="100%" height="40px" alt="" src="@CommonConstants.DomainName/Data/Logo/logo.png">
+            @*<span class="logo-default hidden-phone">Bến Tre</span>*@
+        </a>
+    </div>
+    <!-- logo end -->
+    <ul class="nav navbar-nav navbar-left in">
+        <li><a href="#" class="menu-toggler sidebar-toggler font-size-23"><i class="fa fa-bars"></i></a></li>
+    </ul>
+    @{
+        var session = (UserLogin)Session[OnlineShop.Common.CommonConstants.USER_SESSION];
+        var Avartar = "/Data/Logo/logo.png";
+        if (session.Avatar != null)
+        {
+            Avartar = session.Avatar;
+        }
+    }
+    @*@if (session != null)
+    {
+        if (session.GroupID == ClsCommon.CommonConstants.BIENTAP_GROUP)
+        {
+            <ul class="nav navbar-nav navbar-left in">
+                <li>
+                    <a href="~/Admin/ChinhSachUuDai/Create" class="p-t-10 p-b-10" title="Soạn thảo chính sách">
+                        <button type="button" class="btn btn-sm red btn-outline btn-circle text-white font-size-23" style="text-transform:none">
+                            <i class="fa fa-pencil-square-o"></i> <span class="hidden-phone">Soạn thảo chính sách</span>
+                        </button>
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-left in">
+                <li>
+                    <a href="~/Admin/Content/Create" class="p-t-10 p-b-10" title="Soạn thảo tin tức">
+                        <button type="button" class="btn btn-sm blue-bgcolor btn-outline btn-circle text-white font-size-23" style="text-transform:none">
+                            <i class="fa fa-pencil-square-o"></i> <span class="hidden-phone">Soạn thảo tin tức</span>
+                        </button>
+                    </a>
+                </li>
+            </ul>
+        }
+    }*@
+
+    @*<ul class="nav navbar-nav navbar-left in">
+            <li><a href="javascript:;" class="fullscreen-click font-size-20"><i class="fa fa-arrows-alt"></i></a></li>
+        </ul>
+        <form class="search-form-opened" action="#" method="GET">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search..." name="query">
+                <span class="input-group-btn search-btn">
+                    <a href="javascript:;" class="btn submit">
+                        <i class="fa fa-search"></i>
+                    </a>
+                </span>
+            </div>
+        </form>*@
+    <!-- start mobile menu -->
+    <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+        <span></span>
+    </a>
+    <!-- end mobile menu -->
+    <!-- start header menu -->
+    <div class="top-menu">
+        <ul class="nav navbar-nav pull-right">
+            @*<li class="dropdown dropdown-extended dropdown-inbox">
+                    @using (Html.BeginForm("ChangeCulture", "Base"))
+                    {
+                        @Html.Hidden("returnUrl", Request.RawUrl)
+                        @Html.DropDownList("ddlCulture", new SelectList(new[] {
+                            new {value="vi",text=StaticResources.Resources.Vietnamese},
+                            new {value="en",text=StaticResources.Resources.English},
+
+                            }, "value", "text", Session[OnlineShop.Common.CommonConstants.CurrentCulture]), new { onchange = "this.form.submit();" })
+                    }
+                </li>*@
+            <!-- start notification dropdown -->
+            @*<li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                        <i class="fa fa-bell-o"></i>
+                        <span class="notify"></span>
+                        <span class="heartbeat"></span>
+                    </a>
+                    <ul class="dropdown-menu pullDown">
+                        <li class="external">
+                            <h3><span class="bold">Notifications</span></h3>
+                            <span class="notification-label purple-bgcolor">New 6</span>
+                        </li>
+                        <li>
+                            <ul class="dropdown-menu-list small-slimscroll-style" data-handle-color="#637283">
+                                <li>
+                                    <a href="javascript:;">
+                                        <span class="time">just now</span>
+                                        <span class="details">
+                                            <span class="notification-icon circle deepPink-bgcolor box-shadow-1"><i class="fa fa-check"></i></span> Congratulations!.
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <span class="time">3 mins</span>
+                                        <span class="details">
+                                            <span class="notification-icon circle purple-bgcolor box-shadow-1"><i class="fa fa-user o"></i></span>
+                                            <b>John Micle </b>is now following you.
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <span class="time">7 mins</span>
+                                        <span class="details">
+                                            <span class="notification-icon circle blue-bgcolor box-shadow-1"><i class="fa fa-comments-o"></i></span>
+                                            <b>Sneha Jogi </b>sent you a message.
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <span class="time">12 mins</span>
+                                        <span class="details">
+                                            <span class="notification-icon circle pink box-shadow-1"><i class="fa fa-heart"></i></span>
+                                            <b>Ravi Patel </b>like your photo.
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <span class="time">15 mins</span>
+                                        <span class="details">
+                                            <span class="notification-icon circle yellow box-shadow-1"><i class="fa fa-warning"></i></span> Warning!
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <span class="time">10 hrs</span>
+                                        <span class="details">
+                                            <span class="notification-icon circle red box-shadow-1"><i class="fa fa-times"></i></span> Application error.
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="dropdown-menu-footer">
+                                <a href="javascript:void(0)"> All notifications </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>*@
+            <!-- end notification dropdown -->
+            <!-- start message dropdown -->
+            @*<li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                        <i class="fa fa-envelope-o"></i>
+                        <span class="notify"></span>
+                        <span class="heartbeat"></span>
+                    </a>
+                    <ul class="dropdown-menu animated pullDown">
+                        <li class="external">
+                            <h3><span class="bold">Messages</span></h3>
+                            <span class="notification-label cyan-bgcolor">New 2</span>
+                        </li>
+                        <li>
+                            <ul class="dropdown-menu-list small-slimscroll-style" data-handle-color="#637283">
+                                <li>
+                                    <a href="#">
+                                        <span class="photo">
+                                            <img src="/assets/ecab/img/user/user2.jpg" class="img-circle" alt="">
+                                        </span>
+                                        <span class="subject">
+                                            <span class="from"> Sarah Smith </span>
+                                            <span class="time">Just Now </span>
+                                        </span>
+                                        <span class="message"> Jatin I found you on LinkedIn... </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="photo">
+                                            <img src="/assets/ecab/img/user/user3.jpg" class="img-circle" alt="">
+                                        </span>
+                                        <span class="subject">
+                                            <span class="from"> John Deo </span>
+                                            <span class="time">16 mins </span>
+                                        </span>
+                                        <span class="message"> Fwd: Important Notice Regarding Your Domain Name... </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="photo">
+                                            <img src="/assets/ecab/img/user/user1.jpg" class="img-circle" alt="">
+                                        </span>
+                                        <span class="subject">
+                                            <span class="from"> Rajesh </span>
+                                            <span class="time">2 hrs </span>
+                                        </span>
+                                        <span class="message"> pls take a print of attachments. </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="photo">
+                                            <img src="/assets/ecab/img/user/user8.jpg" class="img-circle" alt="">
+                                        </span>
+                                        <span class="subject">
+                                            <span class="from"> Lina Smith </span>
+                                            <span class="time">40 mins </span>
+                                        </span>
+                                        <span class="message"> Apply for Ortho Surgeon </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="photo">
+                                            <img src="/assets/ecab/img/user/user5.jpg" class="img-circle" alt="">
+                                        </span>
+                                        <span class="subject">
+                                            <span class="from"> Jacob Ryan </span>
+                                            <span class="time">46 mins </span>
+                                        </span>
+                                        <span class="message"> Request for leave application. </span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="dropdown-menu-footer">
+                                <a href="#"> All Messages </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>*@
+            <!-- end message dropdown -->
+            <li class="dropdown dropdown-extended dropdown-inbox">
+                <a href="~/Admin/Home" title="Home" id="blockHome" class="nav-link pull-left dropdown-toggle"><i class="material-icons">language</i></a>
+            </li>
+            <!-- start manage user dropdown -->
+            <li class="dropdown dropdown-user">
+                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <img alt="" class="img-circle modal-u-img" src="@CommonConstants.DomainName@Avartar" width="30px" height="30px" />
+                </a>
+                <ul class="dropdown-menu dropdown-menu-default animated jello">
+                    <li>
+                        <a data-id="@session.UserID" href="javascript:void(0);" class="modal-view-profile">
+                            <i class="fa fa-user-o"></i> Thông tin
+                        </a>
+                    </li>
+                    <li>
+                        <a data-id="@session.UserID" href="javascript:void(0);" class="modal-change-password">
+                            <i class="fa fa-cogs"></i> Đổi mật khẩu
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Login/Logout">
+                            <i class="fa fa-sign-out"></i> Thoát
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- end manage user dropdown -->
+            <li class="dropdown dropdown-quick-sidebar-toggler">
+                <a id="headerSettingButton" class="mdl-button mdl-js-button mdl-button--icon pull-right" data-upgraded=",MaterialButton">
+                    <i class="material-icons">more_vert</i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

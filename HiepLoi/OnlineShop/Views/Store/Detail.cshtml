@@ -1,0 +1,156 @@
+﻿@model Model.EF.Store
+@using ClsCommon;
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_LayoutGianHangNew.cshtml";
+}
+
+    <div class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-sm-12">
+                    <section class="mt-4">
+                        <div class="bg-gray py-2 px-4"><h2 class="text-uppercase font-small pt-2">@Model.Title</h2></div>
+                        <div class="media text-md-left bg-light">
+                            <div>
+                                <p><b>Điện thoại: </b> @Model.Phone</p>
+                                <p><b>Địa chỉ: </b> @Model.DiaChi</p>
+                                <p><b>E-mail: </b>  @Model.Email</p>
+                                <p><b>Đang mở cửa 15:00 - 23:00</b></p>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="my-4">
+                        <div class="bg-gray py-2 px-4"><h2 class="text-uppercase font-small pt-2">Hình ảnh</h2></div>
+                        <div class="media text-md-left bg-light">
+                            <div class="p-4">
+                                <div class="popup-gallery row">
+                                    <div class="col-md-6 col-sm-12 single pl-0">
+                                        <a href="@CommonConstants.DomainName/@Model.ImgLogo" class="col-md-3 col-sm-6"><img src="@CommonConstants.DomainName/@Model.ImgLogo" alt="" class="w-100 img-thumbnail"></a>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 row pr-0">
+
+                                        @if (ViewBag.checkShowStoreImge == true)
+                                        {
+                                            foreach (var itjon in ViewBag.jsonStoreImg)
+                                            {
+                                                string Comment = itjon.filename;
+                                                string Url = itjon.urldownload;
+                                                <a href="@CommonConstants.DomainName/@Url" class="col-md-4 col-sm-6"><img src="@CommonConstants.DomainName/@Url" alt="" class="w-100 img-thumbnail"></a>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </section>
+                    <section class="my-4">
+                        <div class="bg-gray py-2 px-4"><h2 class="text-uppercase font-small pt-2">Giới thiệu</h2></div>
+                        <div class="media text-md-left bg-light">
+                            <div>
+                                <div class="share w-100 mb-4">
+                                    <!-- Facebook -->
+                                    <a class="fb-ic">
+                                        <i class="fa fa-facebook font-samll text-white"> </i>
+                                    </a>
+                                    <!-- Twitter -->
+                                    <a class="tw-ic">
+                                        <i class="fa fa-twitter font-samll text-white"> </i>
+                                    </a>
+                                    <!--Instagram-->
+                                    <a class="ins-ic">
+                                        <i class="fa fa-instagram font-samll text-white"> </i>
+                                    </a>
+
+                                    <!--Youtube -->
+                                    <a class="li-ic">
+                                        <i class="fa text-white fa-envelope"> </i>
+                                    </a>
+                                </div>
+
+                                <p class="content">
+                                    @Html.Raw(Model.Description)
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="group2 col-lg-4 col-md-12 p-0 pl-4 pr-3">
+                    <h2 class="mt-4 mb-0 py-3">Địa điểm</h2>
+                    @Html.Raw(Model.Map)
+
+                    <h2 class="mt-4 mb-0">Hỗ trợ trực tuyến</h2>
+                    <div class="bg-light p-4 contact">
+                        <div class="support">
+                            <div class="title text-uppercase text-bold font-small">Đường dây hỗ trợ</div>
+
+                            <div class="phone">
+                                <h6 class="my-3">
+                                    <a href="tel:@Model.Phone" class="mr-3 orange">
+                                        <img alt="" src="@CommonConstants.DomainName/assets/thongtindoanhnghiepnew/img/phone.png" class="pr-2">@Model.Phone
+                                    </a>
+                                </h6>
+                                <h6 class="my-3">
+                                    <a href="tel:@Model.Phone" class="mr-3 orange">
+                                        <img alt="" src="@CommonConstants.DomainName/assets/thongtindoanhnghiepnew/img/phone.png" class="pr-2">@Model.DiaChi
+                                    </a>
+                                </h6>
+                                <p class="email mt-3"><i class="fa fa-envelope text-white mr-2"></i>Đang mở cửa  08:00 - 17:00 </p>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="mt-4 mb-0">Gian hàng cùng nghành</h2>
+                    <div class="bg-light">
+                        <div class="top-products blogs new-product">
+                            <div class="p-4 row">
+                                @foreach (var item in ViewBag.MoreStore)
+                                {
+                                    <div class="mb-2 col-12">
+                                        <div class="btn-fb btn-sm p-0">
+                                            <a href="@CommonConstants.DomainName/gian-hang/@item.QueryString-@item.StoreId@Html.Raw(".html")">
+                                                <img alt="" src="@CommonConstants.DomainName/@item.ImgLogo" class="w-25 pull-left">
+                                                <div class="pull-right w-75 px-4">
+                                                    <p class="size-text">@item.Title</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="mt-4 mb-0">Sản phẩm mới</h2>
+                    <div class="bg-light">
+                        <div class="top-products blogs new-product">
+                            <div class="p-4 row">
+                                @if (ViewBag.MoreProduct != null)
+                                {
+                                    foreach (var item in ViewBag.MoreProduct)
+                                    {
+                                        <div class="mb-2 col-12">
+                                            <div class="btn-fb btn-sm p-0">
+                                                <a href="@CommonConstants.DomainName/gian-hang/@Model.QueryString-@Model.StoreId/@item.MetaTitle-@item.ID@Html.Raw(".html")">
+                                                    <img alt="" src="@CommonConstants.DomainName/@item.Image" class="w-25 pull-left">
+                                                    <div class="pull-right w-75 px-4">
+                                                        <p class="size-text">@item.Name</p>
+                                                        <div class="maskbg-white">
+                                                            <p class="text-orange"><b class="fa-18px">@item.Price.ToString("#,##0.###").Replace(",", ".") đ</b></p>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <h1 style="background:white"></h1>
+
+                </div>
+            </div>
+        </div>
+    </div>

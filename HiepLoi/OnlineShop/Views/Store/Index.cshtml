@@ -1,0 +1,195 @@
+﻿@model Model.EF.Store
+@using PagedList.Mvc;
+@using Model.EF;
+@using ClsCommon;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutBenTreNew.cshtml";
+}
+<div class="container mb-5">
+    <div class="row height2">
+        <div class="col-lg-9 col-sm-12 group1">
+            <!-- InstanceBeginEditable name="EditRegion1" -->
+            <div class="container">
+                <nav aria-label="breadcrumb" class="mt-4 row bg-lightgray">
+                    <ol class="breadcrumb col-md-7 mb-0">
+                        <li class="breadcrumb-item"><a href="@CommonConstants.DomainName">Bến Tre</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Gian hàng</li>
+                    </ol>
+                    <div class="login col-md-5 align-self-center text-right">
+                        @if (ViewBag.checkLogin == false)
+                        {
+                            <a class="btn btn-darkgreen rounded-0 text-white font-small px-2" href="@CommonConstants.DomainName/dang-nhap.html">Đăng nhập</a>
+                            <a class="btn btn-blue rounded-0 text-white font-small px-2 ml-2" href="@CommonConstants.DomainName/dang-ky.html">Đăng ký</a>
+                        }
+                        else
+                        {
+                            <span style="line-height: 45px;">
+                                Chào:<a style="color: #027ac5;font-size: 18px;font-weight: bold;padding-left: 5px;" href="@CommonConstants.DomainName/thong-tin-ca-nhan.html">@ViewBag.UserName |</a>
+                            </span>
+                            <span><a href="@CommonConstants.DomainName/thong-tin-ca-nhan.html">Quản Lý thông tin |</a></span>
+                            <span>
+                                <a href="@CommonConstants.DomainName/User/Logout">Thoát</a>
+                            </span>
+                        }
+                    </div>
+                </nav>
+            </div>
+            <div class="bg-light pt-2 tab-pane">
+                <h2 class="text-uppercase text-center py-4 title"><span>Các gian hàng tỉnh Bến Tre</span></h2>
+                @using (Html.BeginForm("Index", "Store", FormMethod.Get, new { id = "searchFrom" }))
+                {
+                <div class="md-form input-group mb-4">
+                        @*<input type="text" class="form-control" placeholder="Gian hàng/Ngành nghề">*@
+                        <input type="text" value="@ViewBag.SearchString" class="form-control" name="searchString" />
+                        <div class="input-group-append" id="search">
+                            <button class="btn btn-md btn-primary m-0 px-3 rounded-0" type="submit"><i class="fa fa-search px-3"></i></button>
+                        </div>
+                </div>
+                }
+                <div class="row blogs_page height">
+                    @foreach (var item in ViewBag.ListStore)
+                    {
+                        <div class="card col-md-4 col-sm-12 mb-4">
+                            <!-- Card image -->
+                            <div class="frame">
+                                <div class="view overlay">
+                                    <img class="card-img-top" src="@CommonConstants.DomainName@item.ImgLogo" alt="Card image cap">
+                                    <a href="@CommonConstants.DomainName/gian-hang/@item.QueryString-@item.StoreId@Html.Raw(".html")" target="_blank">
+                                        <div class="mask rgba-white-slight"></div>
+                                    </a>
+                                </div>
+
+                                <!-- Card content -->
+                                <div class="card-body bg-white text-center">
+                                    <p class="card-title tworows text-bold">@item.Title</p>
+
+                                    <a href="@CommonConstants.DomainName/gian-hang/@item.QueryString-@item.StoreId@Html.Raw(".html")" class="btn btn-primary mt-3 font-small">Xem gian hàng »</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- pagination -->
+                <nav aria-label="Page navigation example my-4">
+                    @{
+                        PagedList.IPagedList<Store> listStore = ViewBag.ListStore;
+                    }
+                    @Html.PagedListPager(listStore, page => Url.Action("Index", new { page, @searchString = @ViewBag.SearchString }), new PagedListRenderOptions
+                    {
+                    ContainerDivClasses = new string[] { "" },
+                    FunctionToTransformEachPageLink = (li, a) =>
+                    {
+                        a.Attributes.Add("class", "page-link");
+                        li.InnerHtml = a.ToString();
+                        return li;
+                    },
+                    LiElementClasses = new[] { "page-item" },
+                    LinkToFirstPageFormat = "«",
+                    LinkToPreviousPageFormat = "Trước",
+                    LinkToNextPageFormat = "Tiếp",
+                    LinkToLastPageFormat = "»",
+                    MaximumPageNumbersToDisplay = 2,
+                    DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                })
+                </nav>
+                <!-- /pagination -->
+                @*@if (ViewBag.TotalPage > 1)
+                    {
+                        var pageDisplay = (int)ViewBag.MaxPage;
+                        int totalPage = (int)ViewBag.TotalPage;
+                        int currentPage = ((int)ViewBag.Page);
+
+                        // Create numeric links
+                        var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+                        var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+
+                        var link = @CommonConstants.DomainName + "/gian-hang.html";
+                        <nav aria-label="Page navigation example my-4">
+                            <ul class="pagination pg-blue">
+                                @if (currentPage > ViewBag.First)
+                                {
+                                    <li class="page-item"><a href="@link?page=@ViewBag.First" title="Trang đầu" class="first">Trang đầu</a></li>
+                                    <li class="page-item">
+                                        <a href="@link?page=@ViewBag.Prev" title="Trang trước" class="prev page-link"><i class="fa fa-angle-left"></i></a>
+                                    </li>
+
+                                }
+                                @for (int i = startPageIndex; i <= endPageIndex; i++)
+                                {
+                                    if (currentPage == i)
+                                    {
+
+                                        <li class="page-item active"> <a href="@link?page=@i" class="active page-link" title="Trang @i">@i</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item"><a href="@link?page=@i" title="Trang @i" class="pos page-link">@i</a></li>
+                                    }
+                                }
+                                @if (currentPage < totalPage)
+                                {
+                                    <li class="page-item"><a href="@link?page=@ViewBag.Next" class="next page-link" title="Trang sau"><i class="fa fa-angle-right"></i></a></li>
+                                    <li class="page-item"> <a href="@link?page=@ViewBag.Last" class="last page-link" title="Trang cuối">Trang cuối</a></li>
+                                }
+
+                            </ul>
+                        </nav>
+                    }*@
+            </div>
+            <!-- InstanceEndEditable -->
+        </div>
+
+        <div class="col-lg-3 col-md-12 p-0 pl-4 pr-3 group2">
+            @{ Html.RenderAction("HoTroTrucTuyen", "Home");}
+            @{ Html.RenderAction("ThongTinTienIch", "Home");}
+            @{ Html.RenderAction("LienKetWeb", "Home");}
+            @{ Html.RenderAction("VideoGioiThieu", "Home");}
+        </div>
+    </div>
+</div>
+
+<!--Modal: modalSocial-->
+<div class="modal fade" id="modalSocial" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog cascading-modal modal-notify modal-info" role="document">
+
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header justify-content-center">
+                <h2 class="heading w-100 text-left">THÔNG TIN HỘ KINH DOANH</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+                <p class="mt-3 mx-2"><span class="text-uppercase text-success"><strong>CÔNG TY TNHH MTV THƯƠNG MẠI DẦU KHÍ HOÀNG ĐÔNG</strong></span></p>
+                <div class="my-3 mx-2">
+                    <p class="mb-2"><b>Tên giao dịch: </b> PHAN THỊ THU HỒNG</p>
+                    <p class="mb-2"><b>Loại hình hoạt động: </b> Cá nhân</p>
+                    <p class="mb-2"><b>Mã số thuế: </b>  353455</p>
+                    <p class="mb-2"><b>Địa chỉ: </b>Ấp Cây Hẹ, xã Phú Cần, huyện Tiểu Cần, tỉnh Trà Vinh</p>
+                    <p class="mb-2"><b>Đại diện pháp lý: </b> PHAN THỊ THU HỒNG</p>
+                    <p class="mb-2"><b>Ngày cấp phép: </b>  23/3/2015</p>
+                    <p class="mb-2"><b>Ngày hoạt động: </b> 23/3/2015</p>
+                    <p class="mb-2"><b>Điện thoại: </b> 0972486784</p>
+                    <p class="mb-2"><b>Trạng thái: </b>  Đang hoạt động</p>
+                </div>
+            </div>
+
+
+        </div>
+        <!--/.Content-->
+
+    </div>
+</div>
+<!--Modal: modalSocial-->
+<!-- Go top -->
+<div class="icon-gotop">
+    <img src="img/scroll-top.png" alt="" title="">
+</div> 

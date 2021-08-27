@@ -1,0 +1,189 @@
+﻿@using ClsCommon;
+<!DOCTYPE html>
+<html lang="en">
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta name="description" content="Responsive Admin Template" />
+    <meta name="author" content="SmartUniversity" />
+    <title>HIỆP LỢI CERAMIC</title>
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" type="text/css" />
+    <!-- icons -->
+    <link href="@CommonConstants.DomainName/assets/ecab/fonts/material-design-icons/material-icon.css" rel="stylesheet" type="text/css" />
+    <link href="@CommonConstants.DomainName/assets/ecab/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!--bootstrap -->
+    <link href="@CommonConstants.DomainName/assets/ecab/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="@CommonConstants.DomainName/assets/ecab/plugins/summernote/summernote.css" rel="stylesheet">
+    <link href="@CommonConstants.DomainName/assets/ecab/plugins/select2/css/select2.css" rel="stylesheet">
+    <link href="@CommonConstants.DomainName/assets/ecab/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet">
+    <!-- morris chart -->
+    <link href="@CommonConstants.DomainName/assets/ecab/plugins/morris/morris.css" rel="stylesheet" type="text/css" />
+    <!-- Material Design Lite CSS -->
+    <link rel="stylesheet" href="@CommonConstants.DomainName/assets/ecab/plugins/material/material.min.css">
+    <link rel="stylesheet" href="@CommonConstants.DomainName/assets/ecab/css/material_style.css">
+    <!-- animation -->
+    <link href="@CommonConstants.DomainName/assets/ecab/css/pages/animate_page.css" rel="stylesheet">
+    <!-- Theme Styles -->
+    <link href="@CommonConstants.DomainName/assets/ecab/css/plugins.min.css" rel="stylesheet" type="text/css" />
+    <link href="@CommonConstants.DomainName/assets/ecab/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="@CommonConstants.DomainName/assets/ecab/css/responsive.css" rel="stylesheet" type="text/css" />
+    <link href="@CommonConstants.DomainName/assets/ecab/css/theme-color.css" rel="stylesheet" type="text/css" />
+
+    <link href="@CommonConstants.DomainName/assets/ecab/css/custom_style.css" rel="stylesheet" type="text/css" />
+    <!-- favicon -->
+    <link rel="shortcut icon" href="@CommonConstants.DomainName/favicon.ico" />
+</head>
+<!-- END HEAD -->
+<body class="sidemenu-closed-hidelogo page-content-white page-md logo-blue header-blue white-sidebar-color">
+    <div class="page-wrapper">
+        @{var session = (UserLogin)Session[OnlineShop.Common.CommonConstants.USER_SESSION]; }
+        @if (session != null)
+        {
+            <!-- start header -->
+            <div class="page-header navbar navbar-static-top">
+                @RenderPage("../_Header.cshtml")
+            </div>
+            <!-- end header -->
+            <!-- start page container -->
+            <div style="background-color: #eaeef3 !important;" class="page-container">
+                <!-- start page content -->
+                <div class="page-content-wrapper">
+                    <div class="page__content">
+                        @RenderBody()
+                    </div>
+                </div>
+                <!-- end page content -->
+                <!-- start chat sidebar -->
+                @RenderPage("../_ChatSidebar.cshtml")
+                <!-- end chat sidebar -->
+            </div>
+            <!-- end page container -->
+            <!-- start footer -->
+            @RenderPage("../_Footer.cshtml")
+            <!-- end footer -->
+            @RenderPage("../../../User/_ChangePassword.cshtml")
+            @RenderPage("../../../User/_Profile.cshtml")
+        }
+        else
+        {
+            Response.Redirect("~/Login");
+        }
+    </div>
+    <input type="hidden" id="URL_APPLICATION" name="URL_APPLICATION" value="@CommonConstants.DomainName" />
+    <!-- start js include path -->
+    <script src="@CommonConstants.DomainName/assets/ecab/plugins/jquery/jquery.min.js"></script>
+    <script src="@CommonConstants.DomainName/assets/ecab/plugins/popper/popper.min.js"></script>
+    <script src="@CommonConstants.DomainName/assets/ecab/plugins/jquery-blockui/jquery.blockui.min.js"></script>
+    <script src="@CommonConstants.DomainName/assets/ecab/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- bootstrap -->
+    <script src="@CommonConstants.DomainName/assets/ecab/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="@CommonConstants.DomainName/assets/ecab/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script src="@CommonConstants.DomainName/assets/ecab/js/pages/sparkline/sparkline-data.js"></script>
+    <script src="@CommonConstants.DomainName/assets/ecab/plugins/select2/js/select2.js"></script>
+    <script src="@CommonConstants.DomainName/assets/ecab/js/pages/select2/select2-init.js"></script>
+    <!-- Validate -->
+    <script src="@CommonConstants.DomainName/Scripts/jquery.validate.min.js"></script>
+    <!-- Common js-->
+    <script src="@CommonConstants.DomainName/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="@CommonConstants.DomainName/Scripts/bootbox.js"></script>
+    <script src="@CommonConstants.DomainName/Scripts/jquery.cookie.js"></script>
+    <script src="@CommonConstants.DomainName/Scripts/plugins/ckfinder/ckfinder.js"></script>
+    <script src="@CommonConstants.DomainName/Scripts/plugins/ckeditor/ckeditor.js"></script>
+    <script src="@CommonConstants.DomainName/assets/ecab/js/app.js"></script>
+    <script src="@CommonConstants.DomainName/assets/ecab/js/layout.js"></script>
+    <script src="@CommonConstants.DomainName/assets/ecab/js/theme-color.js"></script>
+    <!-- material -->
+    <script src="@CommonConstants.DomainName/assets/ecab/plugins/material/material.min.js"></script>
+    <!-- animation -->
+    <script src="@CommonConstants.DomainName/assets/ecab/js/pages/ui/animations.js"></script>
+    <!-- morris chart -->
+    <script src="@CommonConstants.DomainName/assets/ecab/plugins/morris/morris.min.js"></script>
+    <script src="@CommonConstants.DomainName/assets/ecab/plugins/morris/raphael-min.js"></script>
+    <script src="@CommonConstants.DomainName/assets/ecab/js/pages/chart/morris/morris_home_data.js"></script>
+
+    <!-- PNotify -->
+    <script src="@CommonConstants.DomainName/assets/mvc/vendors/pnotify/dist/pnotify.js"></script>
+    <script src="@CommonConstants.DomainName/assets/mvc/vendors/pnotify/dist/pnotify.buttons.js"></script>
+    <script src="@CommonConstants.DomainName/assets/mvc/vendors/pnotify/dist/pnotify.nonblock.js"></script>
+
+    <!-- google map -->
+    <script src="@CommonConstants.DomainName/assets/ecab/plugins/modernizr/modernizr.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtPIcsjNx-GEuJDPmiXOVyB3G9k1eulX0&callback=initMap" async defer></script>
+    <script src="@CommonConstants.DomainName/assets/ecab/js/pages/map/gmap-home.js"></script>
+    <script src="@CommonConstants.DomainName/assets/jscontroller/TopNav.js"></script>
+    <script>
+        function heartBeat() {
+            $.get("@CommonConstants.DomainName/api/KeepAlive", function (data) { });
+        }
+        $(function () {
+            setInterval("heartBeat()", 1000 * 30);
+        });
+        var h = $(window).height() * 0.80;
+        var w = $(window).width() * 0.80;
+        $.cookie('SizeHeight', h, { path: '/', expires: 365 });
+        $.cookie('SizeWeight', w, { path: '/', expires: 365 });
+
+        var logo_color = "logo-" + $.cookie('CookieSiteThemeLightDarkButton');
+        var sidebar_color = $.cookie('CookieSiteThemeLightDarkButton') + "-sidebar-color";
+        jQuery("body").removeClass("white-sidebar-color dark-sidebar-color blue-sidebar-color indigo-sidebar-color green-sidebar-color red-sidebar-color cyan-sidebar-color logo-white logo-dark logo-blue logo-indigo logo-red logo-cyan logo-green");
+        jQuery("body").addClass(sidebar_color);
+        jQuery("body").addClass(logo_color);
+
+        var SidebarColor = $.cookie('SidebarColor') + "-sidebar-color";
+        jQuery("body").removeClass("white-sidebar-color dark-sidebar-color blue-sidebar-color indigo-sidebar-color green-sidebar-color red-sidebar-color cyan-sidebar-color");
+        jQuery("body").addClass(SidebarColor);
+
+
+        var LogoColor = $.cookie('LogoColor');
+        jQuery("body").removeClass("logo-white logo-dark logo-blue logo-indigo logo-red logo-cyan logo-green");
+        jQuery("body").addClass(LogoColor);
+
+        var HeaderColor = $.cookie('HeaderColor');
+        jQuery("body").removeClass("header-white header-dark header-blue header-indigo header-red header-cyan header-green");
+        jQuery("body").addClass(HeaderColor);
+
+        var SidebarPostion = $.cookie('SidebarPostion');
+        if (SidebarPostion === "right") {
+            $("body").addClass("sidemenu-container-reversed");
+            jQuery(".sidebar-pos-option").val("right");
+        } else {
+            $("body").removeClass("sidemenu-container-reversed");
+            jQuery(".sidebar-pos-option").val("left");
+        }
+        var Header = $.cookie('Header');
+        if (Header === 'fixed') {
+            $("body").addClass("page-header-fixed");
+            $(".page-header").removeClass("navbar-static-top").addClass("navbar-fixed-top");
+        } else {
+            $("body").removeClass("page-header-fixed");
+            $(".page-header").removeClass("navbar-fixed-top").addClass("navbar-static-top");
+        }
+
+        var Footer = $.cookie('Footer');
+        if (Footer === 'fixed') {
+            $("body").addClass("page-footer-fixed");
+        } else {
+            $("body").removeClass("page-footer-fixed");
+        }
+
+        var SidebarMenu = $.cookie('SidebarMenu');
+        if (SidebarMenu === 'hover') {
+            if (sidebarOption == 'fixed') {
+                $('.sidebar-menu-option', panel).val("accordion");
+                alert("Hover Sidebar Menu is not compatible with Fixed Sidebar Mode. Select Default Sidebar Mode Instead.");
+            } else {
+                $(".sidemenu").addClass("sidemenu-hover-submenu");
+            }
+        } else {
+            $(".sidemenu").removeClass("sidemenu-hover-submenu");
+        }
+
+        jQuery(".chat-sidebar-open").removeClass("chat-sidebar-open");
+    </script>
+    <!-- end js include path -->
+    @RenderSection("jsFooter", required: false)
+</body>
+</html>

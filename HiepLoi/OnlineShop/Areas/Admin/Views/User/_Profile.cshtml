@@ -1,0 +1,61 @@
+﻿<!-- Modal -->
+<div class="modal fade style-16" id="ModalProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="titleViewProfile">THÔNG TIN CÁ NHÂN</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="frmViewProfile" modelAttribute="modelForm" class="form-horizontal form-label-left">
+                    <input type="hidden" id="ViewProfile_hidID" value="0" />
+                    <input type="hidden" id="ViewProfile_imgUrl" value="0" />
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ViewProfile_txtuserName">
+                            Tài khoản:
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <label name="ViewProfile_txtuserName" id="ViewProfile_txtuserName"></label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ViewProfile_multipartFile" class="control-label col-md-3 col-sm-3 col-xs-12">Ảnh:</label>
+                        <div id="ViewProfile_imageContent" class="col-md-8 col-sm-8 col-xs-12 ">
+                            <img alt="Photo" style="width:150px;height:150px" id="UploadedProfileAvatar"/>
+                        </div>
+                    </div>
+                    <div class="form-group row ">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">&nbsp;&nbsp;</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input class="hidden" id="ViewProfile_txtAvatar">
+                            <input onchange='ChangeFile(this.id);' id="ProfileAvatar" class='hidden' type='file' />
+                            <span onclick='clickBrowse(this.id);' id="ProfileAvatar" class="btn btn-xs red btn-outline btn-circle m-b-10" style="text-transform: none;width: 150px;"><i class="fa fa-cloud-upload"></i>Chọn Ảnh</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="description" class="control-label col-md-3 col-sm-3 col-xs-12">Họ tên:</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="text" class="form-control" name="ViewProfile_txtname" id="ViewProfile_txtname">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="description" class="control-label col-md-3 col-sm-3 col-xs-12">Email:</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="text" class="form-control" name="ViewProfile_txtemail" id="ViewProfile_txtemail">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="description" class="control-label col-md-3 col-sm-3 col-xs-12">Điện thoại:</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="text" class="form-control" name="ViewProfile_txtphone" id="ViewProfile_txtphone">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-xs btn-default" data-dismiss="modal">Đóng</button>
+                <button style="margin-bottom: 0px;margin-left: 5px;" type="button" class="btn btn-xs btn-primary" id="btnViewProfile">Lưu</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

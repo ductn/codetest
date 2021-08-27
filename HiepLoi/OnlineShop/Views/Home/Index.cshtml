@@ -1,0 +1,58 @@
+﻿@using ClsCommon;
+@using Newtonsoft.Json;
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section jsFooter{
+    <script src="@CommonConstants.DomainName/assets/AngularjsController/SliderBannerAngularjs.js"></script>
+}
+<!-- Sub slider banner home  start -->
+@{Html.RenderAction("ViewCountPartialView", "Product");}
+<!-- Sub slider banner home end  -->
+<!-- Danh mục icon start -->
+@{Html.RenderAction("DanhMucPartialView", "Product");}
+<!-- Danh muc icon end -->
+<!-- Sản phẩm chính slider start -->
+@{Html.RenderAction("SanPhamChinhPartialView", "Product");}
+<!-- Sản phẩm chính slider end  -->
+<!-- Top Banner -->
+<section class="home-middle-bner-section">
+    <div class="container" ng-controller="TopBanner">
+        <div class="row bner-item-row">
+            <div ng-repeat="TopSlider in TopSliders" class="col-md-6 bner-item-col gtm_promotion" data-gtm-promotion-id="banner1{{$index}}">
+                <a href="#" class="bner-item">
+                    <img class="bner-item-img" src="@CommonConstants.DomainName{{TopSlider.Image}}" alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Top Banner -->
+<!-- Sản phẩm giảm giá start -->
+@{Html.RenderAction("DangGiamGiaPartialView", "Product");}
+<!-- Sản phẩm giảm giá end -->
+<!-- Top bán chạy start -->
+@{Html.RenderAction("TopNganhHangPartialView", "Product");}
+<!-- Top bán chạy end -->
+<!-- Body Banner -->
+<section class="home-middle-bner-section">
+    <div class="container" ng-controller="BodyBanner">
+        <div class="row bner-item-row">
+            <div ng-repeat="BodySlider in BodySliders" class="col-md-6 bner-item-col gtm_promotion" data-gtm-promotion-id="banner2{{$index}}">
+                <a href="#" class="bner-item">
+                    <img class="bner-item-img" src="@CommonConstants.DomainName{{BodySlider.Image}}" alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Body Banner -->
+<section class="home-suggest-section">
+    @{Html.RenderAction("GoiYNganhHangPartialView", "Product");}
+    <!---->
+    @{Html.RenderAction("XuHuongPartialView", "Product");}
+</section>
+@{Html.RenderAction("SanPhamKhuyenMaiPartialView", "Product");}
+@{Html.RenderAction("FeedbackPartialView", "Home");}
+<!-- .home-feedback-section -->

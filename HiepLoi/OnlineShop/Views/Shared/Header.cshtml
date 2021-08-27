@@ -1,0 +1,228 @@
+﻿@*@model List<OnlineShop.Models.CartItem>
+*@
+@using ClsCommon
+<div class="secondarybar-wrap">
+    <div class="container secondarybar-container">
+        <div class="secondarybar mt-2 mb-3">
+            <div class="row secondarybar-row align-items-center">
+                <div class="col text-right">
+                    <div class="header-module">
+                        <ul class="topheader pt-1">
+                            @*<li class="phone"><a href="#" target="_blank"><i class="fa fa-phone-volume mr-2"></i> 0909 358 779</a></li>*@
+                            <li>
+                                <div class="ld-dropdown-menu pos-rel">
+                                    <span class="ld-module-trigger collapsed " role="button" data-ld-toggle="true" data-toggle="collapse" data-target="#header-dropdown-support" aria-controls="header-dropdown-support" aria-expanded="false">
+                                        <span class="ld-module-trigger-txt">
+                                            <span class="font-size-13"><i class="fal fa-mailbox mr-2"></i> Hỗ trợ -Góp ý</span>
+                                            <i class="fa fa-angle-down"></i>
+                                        </span>
+                                    </span>
+                                    <div class="ld-module-dropdown right collapse" id="header-dropdown-support" aria-expanded="false" role="tablist">
+                                        <div class="mz-dropdown-menu mz-dropdown-menu-right is-show" data-mz-dropdown-target="">
+                                            <div class="mz-dropdown-menu__inner-space">
+                                                <ul class="mz-dropdown-menu__list">
+                                                    <li class="mz-dropdown-menu__list-item-outer">
+                                                        <div class="mz-dropdown-menu__content-item">
+                                                            <a class="text-default" href="mailto:hieploiceramic@gmail.com">
+                                                                <b>hieploiceramic@gmail.com</b>
+                                                            </a>
+                                                            <div class="text-sm text-mirnor mt-2">(8h - 17h, Từ Thứ 2 -&gt; Chủ Nhật)</div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+
+                                                <div class="mz-dropdown-menu__seperate-line"></div>
+
+                                                <ul class="mz-dropdown-menu__list">
+                                                    <li class="mz-dropdown-menu__list-item-outer">
+                                                        <a class="mz-dropdown-menu__list-item" href="#/ho-tro">Trung tâm hỗ trợ</a>
+                                                    </li>
+
+                                                    <li class="mz-dropdown-menu__list-item-outer">
+                                                        <a class="mz-dropdown-menu__list-item" href="#/thanh-toan-phuong-thuc-thanh-toan">Đơn hàng &amp; Thanh toán</a>
+                                                    </li>
+
+                                                    <li class="mz-dropdown-menu__list-item-outer">
+                                                        <a class="mz-dropdown-menu__list-item" href="#/cach-thuc-giao-hang.n14">
+                                                            Giao hàng &amp; Nhận hàng
+                                                        </a>
+                                                    </li>
+
+                                                    <li class="mz-dropdown-menu__list-item-outer">
+                                                        <a class="mz-dropdown-menu__list-item" href="#/bao-hanh-san-pham.n23">
+                                                            Đổi trả hàng &amp; Hoàn tiền
+                                                        </a>
+                                                    </li>
+
+                                                    <li class="mz-dropdown-menu__list-item-outer">
+                                                        <a class="mz-dropdown-menu__list-item" href="#/kinh-nghiem-mua-hang-amazon.c18">
+                                                            Cẩm nang mua sắm
+                                                        </a>
+                                                    </li>
+                                                </ul><!-- .mz-dropdown-menu__lis -->
+
+                                                <div class="mz-dropdown-menu__seperate-line"></div>
+
+                                                <ul class="mz-dropdown-menu__list">
+                                                    <li class="mz-dropdown-menu__list-item-outer">
+                                                        <a class="mz-dropdown-menu__list-item" href="#/gop-y-hoi-dap">Cảm nhận khách hàng</a>
+                                                    </li>
+
+                                                    <li class="mz-dropdown-menu__list-item-outer">
+                                                        <a class="mz-dropdown-menu__list-item" href="#/gop-y-hoi-dap.2">Hỏi đáp</a>
+                                                    </li>
+                                                </ul>
+                                            </div><!-- .mz-dropdown-menu__inner-space -->
+                                        </div>
+                                    </div><!-- /.ld-module-dropdown -->
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="ld-dropdown-menu pos-rel">
+                                    <span class="ld-module-trigger collapsed " role="button" data-ld-toggle="true" data-toggle="collapse" data-target="#header-dropdown-1" aria-controls="header-dropdown-1" aria-expanded="false">
+                                        <span class="ld-module-trigger-txt">
+                                            <span class="font-size-13">Tài khoản</span>
+                                            <i class="fa fa-angle-down"></i>
+                                        </span>
+                                    </span>
+                                    <div class="ld-module-dropdown right collapse" id="header-dropdown-1" aria-expanded="false" role="tablist">
+                                        <div class="mz-dropdown-menu mz-dropdown-menu-right is-show" data-mz-dropdown-target="">
+                                            <div class="mz-dropdown-menu__inner-space">
+                                                @{
+                                                    var session = (UserLogin)Session[OnlineShop.Common.CommonConstants.USER_SESSION];
+                                                }
+                                                @if (session == null)
+                                                {
+                                                <ul class="mz-dropdown-menu__list">
+                                                    <li class="mz-dropdown-menu__list-item-outer">
+                                                        <a class="mz-dropdown-menu__list-item" href="@Url.Action("Login", "User")">Đăng nhập</a>
+                                                    </li>
+                                                </ul>
+                                                }
+                                                else
+                                                {
+                                                    <ul class="mz-dropdown-menu__list">
+                                                        <li class="mz-dropdown-menu__list-item-outer">
+                                                            <a class="mz-dropdown-menu__list-item" href="#">Xin chào:@session.UserName</a>
+                                                        </li>
+                                                        <li class="mz-dropdown-menu__list-item-outer">
+                                                            <a class="mz-dropdown-menu__list-item" href="#" target="_blank">Thông tin tài khoản</a>
+                                                        </li>
+                                                        <li class="mz-dropdown-menu__list-item-outer">
+                                                            <a class="mz-dropdown-menu__list-item" href="@Url.Action("Logout", "User")" target="_blank">Đăng xuất</a>
+                                                        </li>
+
+                                                    </ul>
+                                                }
+                                            </div><!-- .mz-dropdown-menu__inner-space -->
+                                        </div>
+                                    </div><!-- /.ld-module-dropdown -->
+
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- /.ld-dropdown-menu -->
+                    </div><!-- /.header-module -->
+                </div><!-- /.col text-right -->
+            </div><!-- /.secondarybar-row -->
+        </div><!-- /.secondarybar -->
+    </div><!-- /.secondarybar-container -->
+</div>
+<div class="secondarybar-wrap pb-3">
+    <div class="container secondarybar-container">
+        <div class="secondarybar">
+            <div class="row secondarybar-row align-items-center">
+                <div class="col-auto">
+                    <div class="header-module">
+                        <figure>
+                            <div class="logo">
+                                <a href="@CommonConstants.DomainName">
+                                    <!-- <h2>Hiệp Lợi ceramic </h2> -->
+                                    <img src="@CommonConstants.DomainName/Data/Logo/logo.png" alt="">
+                                </a>
+                            </div>
+                        </figure>
+                    </div><!-- /.header-module -->
+                </div><!-- /.col -->
+                <div class="col text-right">
+                    <div class="header-module">
+                        <div class="header-main-block">
+                            <form class="search-form">
+                                <div class="mz-header-vsearch">
+                                    <div class="mz-header-vsearch__input-group">
+                                        <div data-mz-dropdown="toggle" class="search-from-dropdown mz-dropdown" data-mz-dropdown-init="true">
+                                            <div data-mz-dropdown-trigger="" class="dropdown-head"><span class="dropdown-title">Tất cả</span> <span class="arrow-icon"></span></div>
+                                            <div data-mz-dropdown-target="" class="mz-dropdown-menu">
+                                                <div class="mz-dropdown-menu__inner-space">
+                                                    <span class="dropdown-title">Tất cả</span>
+                                                    @*<ul class="mz-dropdown-menu__list">
+            <li class="mz-dropdown-menu__list-item-outer">
+                <a href="#" class="mz-dropdown-menu__list-item is-active">
+                    Tất cả
+                </a>
+            </li>
+            <li class="mz-dropdown-menu__list-item-outer">
+                <a href="#" class="mz-dropdown-menu__list-item">
+                    Quận 1
+                </a>
+            </li>
+            <li class="mz-dropdown-menu__list-item-outer">
+                <a href="#" class="mz-dropdown-menu__list-item">
+                    Quận 2
+                </a>
+            </li>
+            <li class="mz-dropdown-menu__list-item-outer">
+                <a href="#" class="mz-dropdown-menu__list-item">
+                    Quận 3
+                </a>
+            </li>
+            <li class="mz-dropdown-menu__list-item-outer">
+                <a href="#" class="mz-dropdown-menu__list-item">
+                    Quận 4
+                </a>
+            </li>
+            <li class="mz-dropdown-menu__list-item-outer">
+                <a href="#" class="mz-dropdown-menu__list-item">
+                    Quận 5
+                </a>
+            </li>
+            <li class="mz-dropdown-menu__list-item-outer">
+                <a href="#" class="mz-dropdown-menu__list-item">
+                    Quận 6
+                </a>
+            </li>
+            <li class="mz-dropdown-menu__list-item-outer">
+                <a href="#" class="mz-dropdown-menu__list-item">
+                    Từ Gian hàng
+                </a>
+            </li>
+        </ul>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input placeholder="Nhập tên sản phẩm ..." type="text" autocomplete="off" class="mz-header-vsearch__keyword-input">
+                                        <div class="mz-header-vsearch__loading-field" style="display: none;"><i class="mz-header-vsearch__loading-icon far fa-spinner fa-spin"></i></div>
+                                    </div>
+                                    <div class="mz-header-vsearch__suggest-item-wrap" style="display: none;"></div>
+                                    <!---->
+                                </div> <button type="submit" class="submit-btn"><span class="submit-btn-bg"></span> <span class="submit-btn-label"><i class="fal fa-search"></i></span></button>
+                            </form>
+                        </div>
+                    </div><!-- /.header-module -->
+                    <div class="header-module">
+                        <ul class="social-icon social-icon-md">
+                            <li class="phone"><a href="tel:0901805859" target="_blank"><i class="fa fa-phone-volume mr-2"></i> 0909 358 779</a></li>
+                            <li><a href="https://www.facebook.com/Trang-tr%C3%AD-n%E1%BB%99i-th%E1%BA%A5t-Hi%E1%BB%87p-L%E1%BB%A3i-331281660966250" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="mailto:hieploiceramic@gmail.com" target="_blank"><i class="fa fa-google"></i></a></li>
+                            <li class="shopping-cart"><a href="@CommonConstants.DomainName/Cart" target="_blank"><i class="fa fa-shopping-cart"></i></a></li>
+                        </ul>
+
+                    </div>
+                    <!-- /.header-module -->
+                </div><!-- /.col text-right -->
+            </div><!-- /.secondarybar-row -->
+        </div><!-- /.secondarybar -->
+    </div><!-- /.secondarybar-container -->
+</div>
+

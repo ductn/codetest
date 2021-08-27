@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "CloseModel";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_LayoutsPopup.cshtml";
+}
+@section jsFooter{
+    <script type="text/javascript">
+        alert("Chuyển thành công");
+        window.parent.closeModal();
+    </script>
+}

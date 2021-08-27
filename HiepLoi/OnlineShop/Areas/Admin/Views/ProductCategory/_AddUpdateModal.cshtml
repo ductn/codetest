@@ -1,0 +1,70 @@
+﻿<!-- Modal -->
+@using ClsCommon;
+<div class="modal fade" id="modalAddUpdate">
+    <div class="modal__dialog modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="titleAddUpdate">CẬP NHẬT</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="frmSaveData">
+                    <input type="hidden" id="hidID" value="0" />
+                    <div class="form-group row">
+                        <label for="ViewProfile_multipartFile" class="control-label col-md-3 col-sm-3 col-xs-12">Ảnh:</label>
+                        <div id="ViewProfile_imageContent" class="col-md-8 col-sm-8 col-xs-12 ">
+                            <img alt="Photo" style="width:150px;height:150px" id="UploadedProfileIcons" src="@CommonConstants.DomainName\MediaUploader\no_image.jpg" />
+                        </div>
+                    </div>
+                    <div class="form-group row ">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">&nbsp;&nbsp;</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input class="hidden" id="ViewProfile_txtIcons">
+                            <input onchange='ChangeFile(this.id);' id="ProfileIcons" class='hidden' type='file' />
+                            <span onclick='clickBrowse(this.id);' id="ProfileIcons" class="btn btn-xs red btn-outline btn-circle m-b-10" style="text-transform: none;width: 150px;"><i class="fa fa-cloud-upload"></i>Chọn Ảnh</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-3 col-sm-3"></div>
+                        <div class="col-lg-9 col-sm-9">
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="chkShowOnHome" /> Hiện ngoài trang chủ</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="txtName" class="col-form-label col-lg-3 col-sm-3">Tên nhóm sản phẩm:<span class="text-danger">*</span></label>
+                        <div class="col-lg-9 col-sm-9">
+                            <input type="text" class="form-control" name="txtName" id="txtName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ddlisModule" class="col-form-label col-lg-3 col-sm-3">Cấp cha:</label>
+                        <div class="col-lg-9 col-sm-9">
+                            <select style="width:100%" class="form-control select2" name="ddlParentId" id="ddlParentId">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="txtDisplayOrder" class="col-form-label col-lg-3 col-sm-3">Thứ tự:</label>
+                        <div class="col-lg-9 col-sm-9">
+                            <input type="text" class="form-control" name="txtDisplayOrder" id="txtDisplayOrder">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-3 col-sm-3"></div>
+                        <div class="col-lg-9 col-sm-9">
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="chkStatus" /> Kích hoạt</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btnSave">Lưu</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

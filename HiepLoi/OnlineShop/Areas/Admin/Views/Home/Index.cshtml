@@ -1,0 +1,498 @@
+﻿@using ClsCommon;
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/home/_Layouts.cshtml";
+}
+@section jsFooter{
+
+}
+<style>
+    .duc-box {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        /*   transform: translate(-50%, -50%); */
+        width: 150px;
+        height: 150px;
+        /*   background: #111845a6; */
+        box-sizing: border-box;
+        overflow: hidden;
+        /*   box-shadow: 0 20px 50px rgb(23, 32, 90); */
+        border: 1px solid #ffffff;
+        color: white;
+        padding: 20px;
+        border-radius: 100px;
+    }
+
+        .duc-box:before {
+            content: '';
+            position: absolute;
+            /*   top:0; */
+            /*   left:-100%; */
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            transition: 0.5s;
+            pointer-events: none;
+            border-radius: 100px;
+        }
+
+        .duc-box span.duc-box-span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            box-sizing: border-box;
+            border-radius: 100px;
+        }
+
+            .duc-box span.duc-box-span:nth-child(1) {
+                transform: rotate(0deg);
+            }
+            /* .duc-box span.duc-box-span:nth-child(2) */
+            /* { */
+            /*   transform:rotate(8deg); */
+            /* } */
+            /* .duc-box span.duc-box-span:nth-child(3) */
+            /* { */
+            /*   transform:rotate(16deg); */
+            /* } */
+            .duc-box span.duc-box-span:nth-child(2) {
+                transform: rotate(90deg);
+            }
+
+            .duc-box span.duc-box-span:nth-child(3) {
+                transform: rotate(180deg);
+            }
+
+            .duc-box span.duc-box-span:nth-child(4) {
+                transform: rotate(270deg);
+            }
+
+            .duc-box span.duc-box-span:before {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                background: #50dfdb;
+                animation: animate 4s linear infinite;
+            }
+
+    .btn-sq-lg {
+        width: 150px !important;
+        height: 150px !important;
+    }
+
+    .btn-sq {
+        width: 100px !important;
+        height: 100px !important;
+        font-size: 10px;
+    }
+
+    .btn-sq-sm {
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 10px;
+    }
+
+    .btn-sq-xs {
+        width: 25px !important;
+        height: 25px !important;
+        padding: 2px;
+    }
+
+    .btn-sq-lg,
+    .btn-sq-lg:link,
+    .btn-sq-lg:visited {
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: 15px 40px;
+        display: inline-block;
+        border-radius: 100px;
+        font-size: 18px;
+        position: relative;
+        transition: all .2s;
+    }
+
+        .btn-sq-lg::after {
+            content: "";
+            display: inline-block;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            border-radius: 100px;
+            transition: all .4s;
+        }
+
+        .btn-sq-lg:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .2);
+        }
+
+        .btn-sq-lg:active {
+            outline: none;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+        }
+
+    .btn-white {
+        color: #777777;
+        /*     background-color: #fff; */
+    }
+
+        .btn-white::after {
+            background-color: #fff;
+        }
+
+    .btn-sq-lg:hover::after {
+        transform: scaleX(1.4) scaleY(1.6);
+        opacity: 0;
+    }
+
+    .btn-buttom-cus,
+    .btn-buttom-cus:link,
+    .btn-buttom-cus:visited {
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: 2px 5px;
+        display: inline-block;
+        /*     border-radius: 100px; */
+        /*     font-size: 18px; */
+        position: relative;
+        transition: all .2s;
+    }
+
+        .btn-buttom-cus::after {
+            content: "";
+            display: inline-block;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            /*     border-radius: 100px; */
+            transition: all .4s;
+        }
+
+        .btn-buttom-cus:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 3px rgba(0, 0, 0, .2);
+        }
+
+        .btn-buttom-cus:active {
+            outline: none;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 3px rgba(0, 0, 0, .2);
+        }
+
+        .btn-buttom-cus:hover::after {
+            transform: scaleX(1.4);
+            opacity: 0;
+        }
+</style>
+<h1 class="heading" style="font-size: 26px;font-weight: bold;text-align: center;color:#4caf50;">HỆ THỐNG QUẢN TRỊ WEBSITE TRANG TRÍ NỘI THẤT HIỆP LỢI</h1>
+<section id="text-2col-2" class="partner mt-5">
+    <div class="container text-center" style="padding-left: 0px;padding-right: 0px;">
+        <div id="getBlockHome" class="slider" style="margin: 0 auto;">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+                    @{
+                        var SysFunctions = (List<Model.EF.SysFunction>)Session[OnlineShop.Common.CommonConstants.SESSION_SYSFUNCTION];
+                    }
+                    @foreach (var item in SysFunctions.Where(x => x.ParentId == 0).OrderBy(x => x.DisplayOrder))
+                    {
+                        if (item.Link.Equals("/Admin/Home/Dashboard1"))
+                        {
+                            string url = @CommonConstants.DomainName;
+                            if (url.Substring((url.Length - 1)) == "/")
+                                url = url.Substring(0, (url.Length - 1)) + @item.Link;
+                            else
+                                url = url + @item.Link;
+
+                            <a data-module="@item.isModule" data-url="@url" class='Menu_Module slide btn-sq-lg btn-white duc-box' style='display: inline-block;position:relative;' href='javascript:;'>
+                                <div class="duc-box">
+                                    <div class="notify-home">
+                                        <span class="bell_point">
+                                            <span id="badge-beat-home-congviec" class="badge badge-success badge-beat badge-beat-heart-home" style="color:#ffffff;"></span>
+                                        </span>
+                                    </div>
+                                    <i style="font-size: 50px;" class="material-icons partner-img @item.ColorModule">@item.IconsModule</i>
+                                    <p style="font-weight: bold;" class="@item.ColorModule">
+                                        @item.NameModule
+                                    </p>
+                                </div>
+                            </a>
+                        }
+
+                    }
+                    @foreach (var item in SysFunctions.Where(x => x.ParentId == 0).OrderBy(x => x.DisplayOrder))
+                    {
+                        if (item.Link.Equals("/Admin/Home/Dashboard2"))
+                        {
+                            string url = @CommonConstants.DomainName;
+                            if (url.Substring((url.Length - 1)) == "/")
+                                url = url.Substring(0, (url.Length - 1)) + @item.Link;
+                            else
+                                url = url + @item.Link;
+
+                            <a data-module="@item.isModule" data-url="@url" class='Menu_Module slide btn-sq-lg btn-white duc-box' style='display: inline-block;position:relative;' href='javascript:;'>
+                                <div class="duc-box">
+                                    <div class="notify-home">
+                                        <span class="bell_point">
+                                            <span id="badge-beat-home-congviec" class="badge badge-success badge-beat badge-beat-heart-home" style="color:#ffffff;"></span>
+                                        </span>
+                                    </div>
+                                    <i style="font-size: 50px;" class="material-icons partner-img @item.ColorModule">@item.IconsModule</i>
+                                    <p style="font-weight: bold;" class="@item.ColorModule">
+                                        @item.NameModule
+                                    </p>
+                                </div>
+                            </a>
+                        }
+
+                    }
+                    @foreach (var item in SysFunctions.Where(x => x.ParentId == 0).OrderBy(x => x.DisplayOrder))
+                    {
+                        if (item.Link.Equals("/Admin/Home/Dashboard3"))
+                        {
+                            string url = @CommonConstants.DomainName;
+                            if (url.Substring((url.Length - 1)) == "/")
+                                url = url.Substring(0, (url.Length - 1)) + @item.Link;
+                            else
+                                url = url + @item.Link;
+
+                            <a data-module="@item.isModule" data-url="@url" class='Menu_Module slide btn-sq-lg btn-white duc-box' style='display: inline-block;position:relative;' href='javascript:;'>
+                                <div class="duc-box">
+                                    <div class="notify-home">
+                                        <span class="bell_point">
+                                            <span id="badge-beat-home-congviec" class="badge badge-success badge-beat badge-beat-heart-home" style="color:#ffffff;"></span>
+                                        </span>
+                                    </div>
+                                    <i style="font-size: 50px;" class="material-icons partner-img @item.ColorModule">@item.IconsModule</i>
+                                    <p style="font-weight: bold;" class="@item.ColorModule">
+                                        @item.NameModule
+                                    </p>
+                                </div>
+                            </a>
+                        }
+
+                    }
+                    @foreach (var item in SysFunctions.Where(x => x.ParentId == 0).OrderBy(x => x.DisplayOrder))
+                    {
+                        if (item.Link.Equals("/Admin/Home/Dashboard4"))
+                        {
+                            string url = @CommonConstants.DomainName;
+                            if (url.Substring((url.Length - 1)) == "/")
+                                url = url.Substring(0, (url.Length - 1)) + @item.Link;
+                            else
+                                url = url + @item.Link;
+
+                            <a data-module="@item.isModule" data-url="@url" class='Menu_Module slide btn-sq-lg btn-white duc-box' style='display: inline-block;position:relative;' href='javascript:;'>
+                                <div class="duc-box">
+                                    <div class="notify-home">
+                                        <span class="bell_point">
+                                            <span id="badge-beat-home-congviec" class="badge badge-success badge-beat badge-beat-heart-home" style="color:#ffffff;"></span>
+                                        </span>
+                                    </div>
+                                    <i style="font-size: 50px;" class="material-icons partner-img @item.ColorModule">@item.IconsModule</i>
+                                    <p style="font-weight: bold;" class="@item.ColorModule">
+                                        @item.NameModule
+                                    </p>
+                                </div>
+                            </a>
+                        }
+
+                    }
+                    @foreach (var item in SysFunctions.Where(x => x.ParentId == 0).OrderBy(x => x.DisplayOrder))
+                    {
+                        if (item.Link.Equals("/Admin/Home/Dashboard5"))
+                        {
+                            string url = @CommonConstants.DomainName;
+                            if (url.Substring((url.Length - 1)) == "/")
+                                url = url.Substring(0,(url.Length - 1)) + @item.Link;
+                            else
+                                url = url + @item.Link;
+
+                            <a data-module="@item.isModule" data-url="@url" class='Menu_Module slide btn-sq-lg btn-white duc-box' style='display: inline-block;position:relative;' href='javascript:;'>
+                                <div class="duc-box">
+                                    <div class="notify-home">
+                                        <span class="bell_point">
+                                            <span id="badge-beat-home-congviec" class="badge badge-success badge-beat badge-beat-heart-home" style="color:#ffffff;"></span>
+                                        </span>
+                                    </div>
+                                    <i style="font-size: 50px;" class="material-icons partner-img @item.ColorModule">@item.IconsModule</i>
+                                    <p style="font-weight: bold;" class="@item.ColorModule">
+                                        @item.NameModule
+                                    </p>
+                                </div>
+                            </a>
+                        }
+
+                    }
+                    @foreach (var item in SysFunctions.Where(x => x.ParentId == 0).OrderBy(x => x.DisplayOrder))
+                    {
+                        if (item.Link.Equals("/Admin/Home/Dashboard6"))
+                        {
+                            string url = @CommonConstants.DomainName;
+                            if (url.Substring((url.Length - 1)) == "/")
+                                url = url.Substring(0, (url.Length - 1)) + @item.Link;
+                            else
+                                url = url + @item.Link;
+
+                            <a data-module="@item.isModule" data-url="@url" class='Menu_Module slide btn-sq-lg btn-white duc-box' style='display: inline-block;position:relative;' href='javascript:;'>
+                                <div class="duc-box">
+                                    <div class="notify-home">
+                                        <span class="bell_point">
+                                            <span id="badge-beat-home-congviec" class="badge badge-success badge-beat badge-beat-heart-home" style="color:#ffffff;"></span>
+                                        </span>
+                                    </div>
+                                    <i style="font-size: 50px;" class="material-icons partner-img @item.ColorModule">@item.IconsModule</i>
+                                    <p style="font-weight: bold;" class="@item.ColorModule">
+                                        @item.NameModule
+                                    </p>
+                                </div>
+                            </a>
+                        }
+
+                    }
+                    @foreach (var item in SysFunctions.Where(x => x.ParentId == 0).OrderBy(x => x.DisplayOrder))
+                    {
+                        if (item.Link.Equals("/Admin/Home/Dashboard7"))
+                        {
+                            string url = @CommonConstants.DomainName;
+                            if (url.Substring((url.Length - 1)) == "/")
+                                url = url.Substring(0, (url.Length - 1)) + @item.Link;
+                            else
+                                url = url + @item.Link;
+
+                            <a data-module="@item.isModule" data-url="@url" class='Menu_Module slide btn-sq-lg btn-white duc-box' style='display: inline-block;position:relative;' href='javascript:;'>
+                                <div class="duc-box">
+                                    <div class="notify-home">
+                                        <span class="bell_point">
+                                            <span id="badge-beat-home-congviec" class="badge badge-success badge-beat badge-beat-heart-home" style="color:#ffffff;"></span>
+                                        </span>
+                                    </div>
+                                    <i style="font-size: 50px;" class="material-icons partner-img @item.ColorModule">@item.IconsModule</i>
+                                    <p style="font-weight: bold;" class="@item.ColorModule">
+                                        @item.NameModule
+                                    </p>
+                                </div>
+                            </a>
+                        }
+
+                    }
+                    @foreach (var item in SysFunctions.Where(x => x.ParentId == 0).OrderBy(x => x.DisplayOrder))
+                    {
+                        if (item.Link.Equals("/Admin/Home/Dashboard8"))
+                        {
+                            string url = @CommonConstants.DomainName;
+                            if (url.Substring((url.Length - 1)) == "/")
+                                url = url.Substring(0, (url.Length - 1)) + @item.Link;
+                            else
+                                url = url + @item.Link;
+
+                            <a data-module="@item.isModule" data-url="@url" class='Menu_Module slide btn-sq-lg btn-white duc-box' style='display: inline-block;position:relative;' href='javascript:;'>
+                                <div class="duc-box">
+                                    <div class="notify-home">
+                                        <span class="bell_point">
+                                            <span id="badge-beat-home-congviec" class="badge badge-success badge-beat badge-beat-heart-home" style="color:#ffffff;"></span>
+                                        </span>
+                                    </div>
+                                    <i style="font-size: 50px;" class="material-icons partner-img @item.ColorModule">@item.IconsModule</i>
+                                    <p style="font-weight: bold;" class="@item.ColorModule">
+                                        @item.NameModule
+                                    </p>
+                                </div>
+                            </a>
+                        }
+
+                    }
+                    @foreach (var item in SysFunctions.Where(x => x.ParentId == 0).OrderBy(x => x.DisplayOrder))
+                    {
+                        if (item.Link.Equals("/Admin/Home/Dashboard9"))
+                        {
+                            string url = @CommonConstants.DomainName;
+                            if (url.Substring((url.Length - 1)) == "/")
+                                url = url.Substring(0, (url.Length - 1)) + @item.Link;
+                            else
+                                url = url + @item.Link;
+
+                            <a data-module="@item.isModule" data-url="@url" class='Menu_Module slide btn-sq-lg btn-white duc-box' style='display: inline-block;position:relative;' href='javascript:;'>
+                                <div class="duc-box">
+                                    <div class="notify-home">
+                                        <span class="bell_point">
+                                            <span id="badge-beat-home-congviec" class="badge badge-success badge-beat badge-beat-heart-home" style="color:#ffffff;"></span>
+                                        </span>
+                                    </div>
+                                    <i style="font-size: 50px;" class="material-icons partner-img @item.ColorModule">@item.IconsModule</i>
+                                    <p style="font-weight: bold;" class="@item.ColorModule">
+                                        @item.NameModule
+                                    </p>
+                                </div>
+                            </a>
+                        }
+
+                    }
+                    @foreach (var item in SysFunctions.Where(x => x.ParentId == 0).OrderBy(x => x.DisplayOrder))
+                    {
+                        if (item.Link.Equals("/Admin/Home/Dashboard10"))
+                        {
+                            string url = @CommonConstants.DomainName;
+                            if (url.Substring((url.Length - 1)) == "/")
+                                url = url.Substring(0, (url.Length - 1)) + @item.Link;
+                            else
+                                url = url + @item.Link;
+
+                            <a data-module="@item.isModule" data-url="@url" class='Menu_Module slide btn-sq-lg btn-white duc-box' style='display: inline-block;position:relative;' href='javascript:;'>
+                                <div class="duc-box">
+                                    <div class="notify-home">
+                                        <span class="bell_point">
+                                            <span id="badge-beat-home-congviec" class="badge badge-success badge-beat badge-beat-heart-home" style="color:#ffffff;"></span>
+                                        </span>
+                                    </div>
+                                    <i style="font-size: 50px;" class="material-icons partner-img @item.ColorModule">@item.IconsModule</i>
+                                    <p style="font-weight: bold;" class="@item.ColorModule">
+                                        @item.NameModule
+                                    </p>
+                                </div>
+                            </a>
+                        }
+
+                    }
+                    @foreach (var item in SysFunctions.Where(x => x.ParentId == 0).OrderBy(x => x.DisplayOrder))
+                    {
+                        if (item.Link.Equals("/Admin/Home/LanhDaoSo"))
+                        {
+                            string url = @CommonConstants.DomainName;
+                            if (url.Substring((url.Length - 1)) == "/")
+                                url = url.Substring(0, (url.Length - 1)) + @item.Link;
+                            else
+                                url = url + @item.Link;
+
+                            <a data-module="@item.isModule" data-url="@url" class='Menu_Module slide btn-sq-lg btn-white duc-box' style='display: inline-block;position:relative;' href='javascript:;'>
+                                <div class="duc-box">
+                                    <div class="notify-home">
+                                        <span class="bell_point">
+                                            <span id="badge-beat-home-congviec" class="badge badge-success badge-beat badge-beat-heart-home" style="color:#ffffff;"></span>
+                                        </span>
+                                    </div>
+                                    <i style="font-size: 50px;" class="material-icons partner-img @item.ColorModule">@item.IconsModule</i>
+                                    <p style="font-weight: bold;" class="@item.ColorModule">
+                                        @item.NameModule
+                                    </p>
+                                </div>
+                            </a>
+                        }
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

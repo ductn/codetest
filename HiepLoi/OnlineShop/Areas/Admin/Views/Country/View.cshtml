@@ -1,0 +1,45 @@
+﻿@model Model.EF.Country
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+@section jsFooter{
+
+    <script src="~/assets/jscontroller/countryController.js"></script>
+}
+<script>
+    function cancel() {
+        window.location.href = '/Admin/Citizen/Index';
+    }
+</script>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading bg-green">
+                <p class="m-b-0 text-white text-uppercase">Thông tin chung</p>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group row">
+                            <label class="control-label col-lg-2 col-sm-2">Mã chức vụ</label>
+                            <div class="col-lg-9 col-sm-9">
+                                @ViewBag.Citizen.Code
+                            </div>
+                            <label class="control-label col-lg-2 col-sm-2">Tên chức vụ</label>
+                            <div class="col-lg-9 col-sm-9">
+                                @ViewBag.Citizen.Name
+                            </div>
+                            <label class="control-label col-lg-2 col-sm-2">Mô tả</label>
+                            <div class="col-lg-9 col-sm-9">
+                                @ViewBag.Citizen.Desription
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

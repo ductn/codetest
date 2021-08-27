@@ -1,0 +1,130 @@
+﻿@model IEnumerable<Model.EF.Content>
+@using ClsCommon;
+@{
+    ViewBag.Title = "Tin tức";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section jsFooter{
+    <script type="text/javascript" src="@CommonConstants.DomainName/Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="@CommonConstants.DomainName/Scripts/bootstrap.min.js"></script>
+    <!-- Validate -->
+    <script type="text/javascript" src="@CommonConstants.DomainName/Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="@CommonConstants.DomainName/assets/thongtindoanhnghiep/js/bootbox.js"></script>
+    <script type="text/javascript" src="@CommonConstants.DomainName/Scripts/moment.min.js"></script>
+    <script type="text/javascript" src="@CommonConstants.DomainName/Scripts/mustache.min.js"></script>
+    <script type="text/javascript" src="@CommonConstants.DomainName/Scripts/jquery.twbsPagination.min.js"></script>
+
+    <script type="text/javascript" src="@CommonConstants.DomainName/assets/client/js/controller/ContentController.js"></script>
+}
+<!-- InstanceBeginEditable name="Editable Region" -->
+<section class="mz-breadcrumb-section">
+    <div class="container">
+        <div class="mz-breadcrumb-block">
+            <ul class="mz-breadcrumb-block__list">
+                <li class="mz-breadcrumb-block__item is-home">
+                    <a class="mz-breadcrumb-block__item-inner" href="@CommonConstants.DomainName">
+                        <i class="fas fa-home"></i>
+                    </a>
+                </li>
+                <li class="mz-breadcrumb-block__item">
+                    <a class="mz-breadcrumb-block__item-inner " href="/tin-tuc.html">
+                        Tin tức
+                    </a>
+                </li>
+                @*<li class="mz-breadcrumb-block__item">
+                    <div class="mz-breadcrumb-block__item-inner">
+                        Đèn trang trí phòng khách
+                    </div>
+                </li>*@
+            </ul>
+        </div><!-- .mz-breadcrumb-block__inner -->
+    </div><!-- .container -->
+</section>
+<div class="container mb-5">
+    <div class="row">
+        <div class="group2 col-lg-12 col-sm-12">
+            <div class="bg-light pt-2 tab-pane">
+                <div class="w-100 text-right select hidden">
+                    <div class="form-group row mb-3">
+                        <div class="col-md-6 col-sm-12">
+                            <label class="col-sm-12 text-left font-weight-normal">Cấp cơ quan</label>
+                            <div class="col-sm-12 text-left">
+                                <select name="capCoQuan" id="capCoQuan" class="form-control select2">
+                                    <option value="0">--- Chọn ---</option>
+                                    <option value="1">Sở - Ủy ban</option>
+                                    <option value="2">Huyện, Thị Thành phố</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label class="col-sm-12 text-left font-weight-normal">Cơ quan thực hiện</label>
+                            <div class="col-sm-12 text-left">
+                                <select name="coQuanThucHien" id="coQuanThucHien" class="form-control select2">
+                                    <option value="0">--- Chọn ---</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row blogs_page height" id="tblDataIndex">
+                    @*@foreach (var item in Model)
+                        {
+                            <div class="card col-md-4 col-sm-12 mb-4">
+                                <!-- Card image -->
+                                <div class="view overlay">
+                                    <img class="card-img-top" src="@CommonConstants.DomainName/@item.Image" alt="Card image cap">
+                                    <a href="@CommonConstants.DomainName/tin-tuc/@item.MetaTitle-@item.ID@Html.Raw(".html")">
+                                        <div class="mask rgba-white-slight"></div>
+                                    </a>
+                                </div>
+
+                                <!-- Card content -->
+                                <div class="card-body border bg-white">
+                                    <i class="font-small mb-5 text-black-50">@item.CreatedDate</i>
+                                    <p class="card-title blog_size-text">@item.Name</p>
+
+                                    <a href="@CommonConstants.DomainName/tin-tuc/@item.MetaTitle-@item.ID@Html.Raw(".html")" class="btn btn-primary mt-3">Đọc thêm »</a>
+
+                                </div>
+
+                            </div>
+                        }*@
+
+                </div>
+                <nav aria-label="Page navigation example my-4">
+                    <div id="pagination-index"></div>
+                </nav>
+            </div>
+        </div>
+
+        @*<div class="group2 col-lg-3 col-md-12 p-0 pl-4 pr-3">
+                @{ Html.RenderAction("HoTroTrucTuyen", "Home");}
+
+                @{ Html.RenderAction("ThongTinTienIch", "Home");}
+
+                @{ Html.RenderAction("LienKetWeb", "Home");}
+
+                @{ Html.RenderAction("VideoGioiThieu", "Home");}
+            </div>*@
+    </div>
+</div>
+<!-- InstanceEndEditable -->
+<script id="data-template-index" type="x-tmpl-mustache">
+    <div class="card col-md-4 col-sm-12 mb-4">
+        <!-- Card image -->
+        <div class="view overlay" style="height: 300px;">
+            <img class="card-img-top" src="{{Image}}" alt="Card image cap">
+            <a href="{{Link}}">
+                <div class="mask rgba-white-slight"></div>
+            </a>
+        </div>
+
+        <!-- Card content -->
+        <div class="card-body border bg-white">
+            <i class="font-small mb-5 text-black-50">{{NgayTao}}</i>
+            <p class="card-title blog_size-text" style="height: 40px;">{{Name}}</p>
+            <a href="{{Link}}" class="btn btn-primary mt-3 font-small">Đọc thêm »</a>
+        </div>
+
+    </div>
+</script>

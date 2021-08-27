@@ -1,0 +1,74 @@
+﻿@using ClsCommon
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>HIỆP LỢI CERAMIC</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" type="text/css" />
+    <!-- icons -->
+    <link href="@CommonConstants.DomainName/assets/ecab/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="@CommonConstants.DomainName/assets/ecab/plugins/iconic/css/material-design-iconic-font.min.css">
+    <!-- bootstrap -->
+    <link href="@CommonConstants.DomainName/assets/ecab/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- style -->
+    <link rel="stylesheet" href="@CommonConstants.DomainName/assets/ecab/css/pages/extra_pages.css">
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <!-- start js include path -->
+    <script src="@CommonConstants.DomainName/assets/ecab/plugins/jquery/jquery.min.js"></script>
+</head>
+<style>
+    .input-checkbox100:checked ~ .label-checkbox100::before {
+        color: #555555;
+    }
+</style>
+<body>
+    @RenderBody()
+    <!-- bootstrap -->
+    <script src="@CommonConstants.DomainName/assets/ecab/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="@CommonConstants.DomainName/Scripts/jquery.cookie.js"></script>
+    <script src="@CommonConstants.DomainName/assets/ecab/js/pages/extra_pages/login.js"></script>
+    <!-- end js include path -->
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var rememberme = '0';
+        try {
+            rememberme = $.cookie('rememberme');
+        } catch (err) {
+        }
+        if (rememberme == "1") {
+            $('#RememberMe').prop('checked', true);
+        } else {
+            $('#RememberMe').prop('checked', false);
+        }
+        $('#RememberMe').off('click').on('click', function () {
+            var isckb1 = $('#RememberMe').prop('checked');
+            if (isckb1) {
+                $.cookie('rememberme', "1", { path: '/', expires: 365 });
+            } else {
+                $.cookie('rememberme', "0", { path: '/', expires: 365 });
+            }
+        });
+
+        var urs = '';
+        try {
+            urs = $.cookie('urs');
+        } catch (err) {
+        }
+        if (urs != '') {
+            $('#userName').val(urs);
+        }
+        $('#userName').keyup(function (event) {
+            event.preventDefault();
+            try {
+                $(this).val($(this).val().toLowerCase());
+            } catch (e) {
+
+            }
+        });
+    });
+</script>
+</html>

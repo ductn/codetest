@@ -1,0 +1,164 @@
+﻿@model IEnumerable<Model.EF.OrderDetail>
+@using Model.EF;
+@using Model.Dao;
+@using ClsCommon
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+
+@section header{
+    Chi tiết đơn hàng
+}
+@section jsFooter{
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <!-- Total start-->
+                <div class="pl-4">
+                    <div class="shipping-fields">
+                        <div class="checkout-order-table">
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style="width:50%;" class="text-blue">Sản phẩm</th>
+                                            <th style="width:10%;" class="text-center">SL</th>
+                                            <th style="width:15%;" class="text-right">Giá</th>
+                                            <th style="width:15%;" class="text-right">Thành tiền</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            decimal? totalPrice = 0;
+                                        }
+                                        @foreach (var item in @Model)
+                                        {
+                                            Product itemProduct = new ProductDao().GetByID(item.ProductID);
+
+                                            decimal? total = item.Quantity * item.Price;
+                                            decimal? price = item.Price;
+                                            totalPrice = totalPrice + total;
+                                            string imageProduct = "";
+                                            string nameProduct = "";
+                                            string linkProduct = "";
+                                            if (itemProduct != null)
+                                            {
+                                                nameProduct = itemProduct.Name;
+                                                imageProduct = CommonConstants.DomainName + itemProduct.Image;
+                                                if (item.StoreId != null)
+                                                {
+                                                    Store store = new StoreDao().GetByID(item.StoreId);
+                                                    linkProduct=@CommonConstants.DomainName + "/gian-hang/" + store.QueryString + "-" + store.StoreId + "/" + itemProduct.MetaTitle +"-"+ itemProduct.ID + ".html";
+                                                }
+                                            }
+                                            <tr class="cart_item">
+                                                <td class="product-name">
+                                                    <div class="row d-flex align-items-center">
+                                                        <div class="col-5">
+                                                            <div class="thumbnail" >
+                                                                <img style="width: 120px;" src="@imageProduct" title="" class="portrait">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-7 pl-0">
+                                                            <div class="content-block pt-0 pb-0">
+                                                                <h4 class="hint-text">
+                                                                    <a href="@linkProduct" target="_blank" title="" alt="">@nameProduct</a>
+                                                                </h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="quality">
+                                                    <!-- <span class="aria-label">Số lượng: </span> -->
+                                                    <input type="number" disabled="disabled" value="@item.Quantity" aria-label="Search" class="form-control" style="width: 70px" placeholder="Số lượng">
+                                                </td>
+                                                <td class="text-right  price">@price.GetValueOrDefault().ToString("#,##0.###").Replace(",", ".")</td>
+                                                <td class="text-right  price">@total.GetValueOrDefault().ToString("#,##0.###").Replace(",", ".")</td>
+                                            </tr>
+
+                                        }
+
+                                    </tbody>
+                                    <tfoot style="border:none">
+                                        <tr style="border:none">
+                                            <td style="width:10%;"></td>
+                                            <td style="width:10%;"></td>
+                                            <td style="width:20%;">Tổng cộng:</td>
+                                            <td style="width:50%;" class="text-right text-red"><span class="total">@totalPrice.GetValueOrDefault().ToString("#,##0.###").Replace(",", ".")</span></td>
+                                            <td style="width:10%;"></td>
+                                        </tr>
+                                        <tr style="border:none">
+                                            <td style="width:10%;"></td>
+                                            <td style="width:10%;"></td>
+                                            <td style="width:20%;">Ngày đặt:</td>
+                                            <td style="width:50%;" class="text-right">@ViewBag.order.CreatedDate</td>
+                                            <td style="width:10%;"></td>
+                                        </tr>
+                                        <tr style="border:none">
+                                            <td style="width:10%;"></td>
+                                            <td style="width:10%;"></td>
+                                            <td style="width:20%;">Tình trạng đơn hàng:</td>
+                                            <td style="width:50%;" class="text-right">
+                                                @if (ViewBag.order.Status == 0)
+                                                {
+                                                    @Html.Raw("Đang xử lý")
+                                                }
+                                                else if (ViewBag.order.Status == 1)
+                                                {
+                                                    @Html.Raw("Đã xử lý")
+                                                }
+                                                else
+                                                {
+                                                    @Html.Raw("Đã hủy")
+                                                }
+                                            </td>
+                                            <td style="width:10%;"></td>
+                                        </tr>
+                                        <tr style="border:none">
+                                            <td style="width:10%;"></td>
+                                            <td style="width:10%;"></td>
+                                            <td style="width:20%;">Tên khách hàng:</td>
+                                            <td style="width:50%;" class="text-right">@ViewBag.order.ShipName</td>
+                                            <td style="width:10%;"></td>
+                                        </tr>
+                                        <tr style="border:none">
+                                            <td style="width:10%;"></td>
+                                            <td style="width:10%;"></td>
+                                            <td style="width:20%;">Số điện thoại:</td>
+                                            <td style="width:50%;" class="text-right">@ViewBag.order.ShipMobile</td>
+                                            <td style="width:10%;"></td>
+                                        </tr>
+                                        <tr style="border:none">
+                                            <td style="width:10%;"></td>
+                                            <td style="width:10%;"></td>
+                                            <td style="width:20%;">Email:</td>
+                                            <td style="width:50%;" class="text-right">@ViewBag.order.ShipEmail</td>
+                                            <td style="width:10%;"></td>
+                                        </tr>
+                                        <tr style="border:none">
+                                            <td style="width:10%;"></td>
+                                            <td style="width:10%;"></td>
+                                            <td style="width:20%;">Địa chỉ:</td>
+                                            <td style="width:50%;" class="text-right">@ViewBag.order.ShipAddress</td>
+                                            <td style="width:10%;"></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-30 mb-30">
+                        @if (ViewBag.order.Status == 0)
+                        {
+                            @*<a title="Xác nhận đơn hàng" class="btn btn-primary btn-sm btn-xacnhan" data-id="@ViewBag.order.ID" data-nextstatus="1"><i class="fa fa-mail-forward"></i>Xác nhận đơn hàng</a>
+                            <a title="Hủy đơn hàng" class="btn btn-warning btn-sm btn-huy" data-id="@ViewBag.order.ID" data-nextstatus="2"><i class="fa fa-close"></i>Hủy đơn hàng</a>*@
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

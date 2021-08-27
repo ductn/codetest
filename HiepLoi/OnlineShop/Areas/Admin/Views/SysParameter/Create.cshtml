@@ -1,0 +1,84 @@
+﻿@model Model.EF.SysParameter
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+
+@section header{
+    Thêm mới SysParameter
+}
+@section jsFooter{
+    <script src="~/assets/jscontroller/SysParameterController.js"></script>
+    <script>
+        function cancel() {
+            window.history.back();
+        }
+        $(document).ready(function () {
+            console.log("ready!");
+        });
+    </script>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @using (@Html.BeginForm("Create", "SysParameter", FormMethod.Post, new { id = "formSysParameter", @class = "frmStyle" }))
+                {
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.TenThamSo, "Tham số", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.EditorFor(model => model.TenThamSo, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.TenThamSo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.KieuDuLieu, "Kiểu dữ liệu", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.DropDownList("KieuDuLieu", new List<SelectListItem>
+                                   {
+                                         new SelectListItem { Text = "--Chọn--", Value = "0", Selected=true},
+                                         new SelectListItem { Text = "Chuỗi", Value = "1"},
+                                         new SelectListItem { Text = "Số", Value = "2"},
+                                         new SelectListItem { Text = "Ngày tháng", Value = "3"},
+                                         new SelectListItem { Text = "Logic", Value = "4"},
+                                   }, htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.ValidationMessageFor(model => model.KieuDuLieu, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.GiaTri, "Giá trị", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.EditorFor(model => model.GiaTri, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.GiaTri, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.MoTa, "Mô tả", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextAreaFor(model => model.MoTa, new { @class = "form-control", @cols = 10, @rows = 10 })
+                                    @Html.ValidationMessageFor(model => model.MoTa, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="control-label col-md-2 col-sm-2 col-xs-2"></div>
+                                <div class="col-md-offset-2 col-lg-9 col-sm-9">
+                                    <button type="button" class="btn btn-sm btn-success btnSave" title="Lưu"><i class="fa fa-save"></i> Lưu</button>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="cancel();" title="Hủy"><i class="fa fa-reply"></i> Hủy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

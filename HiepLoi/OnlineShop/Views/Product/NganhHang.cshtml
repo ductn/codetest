@@ -1,0 +1,203 @@
+﻿@using Model.Dao
+@using ClsCommon
+@model List<Model.ViewModel.ProductViewModel>
+@{
+    var num = 1;
+    var category = (Model.EF.Category)ViewBag.Category;
+    var unit = (Model.EF.Unit)ViewBag.Unit;
+    long categoryId = 0;
+    var Title = "";
+    var linkUnit = "";
+    ViewBag.Title = "";
+    if (category != null)
+    {
+        ViewBag.Title = category.Name;
+        linkUnit = CommonConstants.DomainName + "/san-pham-nganh-hang/" + category.MetaTitle + "-" + category.ID;
+        Title = category.Name;
+        categoryId = category.ID;
+    }
+
+    var TitleCategory = ViewBag.TitleCategory;
+    var TitleUnit = ViewBag.TitleUnit;
+    var TitleProductCategoryParent = ViewBag.TitleProductCategoryParent;
+
+    if (ViewBag.TitleProductCategory != "")
+    {
+        TitleProductCategoryParent = ViewBag.TitleProductCategory;
+    }
+
+
+    var productCategoryDao = new ProductCategoryDao();
+    var productCategoryUnitDao = new ProductCategoryUnitDao();
+    Layout = "~/Views/Shared/_LayoutSanPham.cshtml";
+
+}
+@section jsFooter{
+    <input type="hidden" id="CATEGORY_ID" name="CATEGORY_ID" value="@ViewBag._cateId" />
+    <input type="hidden" id="UNIT_ID" name="UNIT_ID" value="@ViewBag._UnitId" />
+    <input type="hidden" id="PRODUCTCATEGORY_PARENTID" name="PRODUCTCATEGORY_PARENTID" value="@ViewBag._ProductCategoryParentId" />
+    <input type="hidden" id="PRODUCTCATEGORY_ID" name="PRODUCTCATEGORY_ID" value="@ViewBag._ProductCategoryId" />
+
+    <script type="text/javascript" src="@CommonConstants.DomainName/Scripts/moment.min.js"></script>
+    <script type="text/javascript" src="@CommonConstants.DomainName/Scripts/mustache.min.js"></script>
+    <script type="text/javascript" src="@CommonConstants.DomainName/Scripts/jquery.twbsPagination.min.js"></script>
+    <script type="text/javascript" src="@CommonConstants.DomainName/assets/jscontroller/Home/NganhHangController.js"></script>
+    <script type="text/javascript" src="@CommonConstants.DomainName/assets/jscontroller/Home/SearchModalController.js"></script>
+    <script>
+        $(document).ready(function () {
+            var _linkActive = $("a[href$='" + window.location.href + "']");
+            if (_linkActive.length != null) {
+                _linkActive.parent("li").addClass("active");
+                //_linkActive.parent("li").attr("style", "background: goldenrod;");
+                _linkActive.parent("li").parent("ul").parent("div").parent("div").addClass('in');
+                _linkActive.parent("li").parent("ul").parent("div").parent("div").parent("div").parent("div").parent("div").parent("div").addClass('in');
+            }
+        });
+    </script>
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="mnLeft">
+                <div class="nav-side-menu">
+                    <a href="@linkUnit"><h2 class="main-title">@Title</h2></a>
+                    <div class="accordion accordion-tall accordion-body-underlined accordion-expander-lg accordion-active-color-primary" id="accordion-2" role="tablist">
+                        @foreach (var categoryUnit in new CategoryUnitDao().ListByCategoryId(@categoryId))
+                        {
+                            var num2 = 0;
+                            var unit1 = new UnitDao().ViewDetail(categoryUnit.UnitId);
+                            var link1 = CommonConstants.DomainName + "/san-pham-nganh-hang/" + category.MetaTitle + "-" + category.ID;
+                            <!-- /.accordion-item --><!-- /.accordion-item -->
+                            <div class="accordion-item panel ">
+                                <div class="accordion-heading" role="tab" id="accordion-collapse-heading-@num">
+                                    <h4 class="accordion-title"> <a class="collapsed" data-toggle="collapse" data-parent="#accordion-2" href="#accordion-collapse-panel-@num" aria-expanded="true" aria-controls="accordion-collapse-panel-@num"> @unit1.Title <span class="accordion-expander"> <i class="icon-arrows_plus"></i> <i class="icon-arrows_minus"></i> </span> </a> </h4>
+                                </div>
+                                <!-- /.accordion-heading -->
+                                <div id="accordion-collapse-panel-@num" class="accordion-collapse collapse" role="tabpanel" aria-labelledby="accordion-collapse-heading-@num" aria-expanded="true">
+                                    <div class="accordion-content">
+                                        <div class="subMnLeft accordion accordion-tall accordion-body-underlined accordion-expander-sm accordion-expander-right accordion-light" id="accordion-41" role="tablist">
+                                            @foreach (var productCategoryUnit in productCategoryUnitDao.ListByUnitIdCategoryId(@unit1.Id, @categoryId))
+                                            {
+                                                var nhomSanPhap = productCategoryDao.ViewDetail(long.Parse(productCategoryUnit.ProductCategoryId.ToString()));
+                                                var link2 = CommonConstants.DomainName + "/san-pham-nganh-hang/" + category.MetaTitle + "-" + category.ID + "/" + unit1.MetaTitleUnit + "-" + @unit1.Id + "/" + nhomSanPhap.MetaTitle + "-" + nhomSanPhap.Id;
+                                                <!-- /.accordion-item -->
+                                                <div class="accordion-item panel">
+                                                    <div class="accordion-heading" role="tab" id="accordion-4-heading-@num2">
+                                                        <h4 class="accordion-title">
+                                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion-4" href="#accordion-4-collapse-@num2" aria-expanded="true" aria-controls="accordion-4-collapse-@num2"> @nhomSanPhap.Name <span class="accordion-expander text-primary"> <i class="fa fa-caret-down"></i> <i class="fa fa-caret-up"></i> </span> </a>
+
+                                                        </h4>
+                                                    </div>
+                                                    <!-- /.accordion-heading -->
+                                                    <div id="accordion-4-collapse-@num2" class="accordion-collapse collapse" role="tabpanel" aria-labelledby="accordion-4-heading-@num2">
+                                                        <div class="accordion-content">
+                                                            <ul class="subMenu">
+                                                                @foreach (var productCategory in productCategoryDao.ListByParentID(@productCategoryUnit.ProductCategoryId))
+                                                                {
+                                                                    var link3 = @CommonConstants.DomainName + "/san-pham-nganh-hang/" + @category.MetaTitle + "-" + @category.ID + "/" + @unit1.MetaTitleUnit + "-" + @unit1.Id + "/" + @nhomSanPhap.MetaTitle + "-" + @nhomSanPhap.Id + "/" + @productCategory.MetaTitle + "-" + @productCategory.Id;
+                                                                    <li><a href="@link3"><i class="fa fa-angle-right"></i> @productCategory.Name</a></li>
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                        <!-- /.accordion-content -->
+                                                    </div>
+                                                    <!-- /.collapse -->
+                                                </div>
+                                                <!-- /.accordion-item -->
+                                                num2++;
+                                            }
+                                        </div>
+                                    </div>
+                                    <!-- /.accordion-content -->
+                                </div>
+                                <!-- /.collapse -->
+                            </div>
+                            <!-- /.accordion-item --><!-- /.accordion-item -->
+                            num++;
+                        }
+                    </div>
+                </div>
+            </div>
+            <div style="padding-bottom:40px"></div>
+        </div>
+
+        <div class="col-md-9">
+            @RenderPage("_SearchModal.cshtml")
+            <section class="home-suggest-section">
+                <div class="section-head">
+                    <div class="section-title">
+                        <div class="section-title-decoration"></div>
+                        <div class="section-title-text">@Title</div>
+                        <div class="section-title-decoration"></div>
+                    </div>
+                </div>
+                <div id="tblDataNganhHang">
+
+                </div>
+            </section>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+</div>
+<script id="data-template-nganhhang" type="x-tmpl-mustache">
+    <div class="home-suggest-block">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="block-head">
+                    <div class="block-head-title">{{TenNganhHang}}</div>
+                </div>
+            </div>
+            <div class="col-md-6 pull-right">
+                <div class="liquid-filter-items justify-content-between align-items-center">
+                    <div class="liquid-filter-items-inner" style="float:right;">
+                        &nbsp;
+                        <!--
+                        <ul class="filter-list filter-list-inline mb-0" id="pf-grid-3">
+                            <li class="active" data-filter="*"><span>Trần thạch cao</span></li>
+                            <li data-filter=".brand"><span>Gạch ốp tường</span></li>
+                            <li data-filter=".digital"><span>Ván lót sàn</span></li>
+                        </ul> -->
+                        <a href="{{UrlXemTatCa}}" class="mz-btn mz-btn-primary mz-btn-sm mz-btn-bdr-round tab-view-more-btn"> Xem tất cả </a>
+                    </div>
+                    <!-- /.liquid-filter-items-inner -->
+                </div>
+                <!-- /.liquid-filter-items -->
+            </div>
+        </div>
+        <!---->
+        <div class="block-body">
+            <div id="SanPhamNganhHang{{NganhHangID}}" class="product-suggest-card-wrap row liquid-portfolio-list-row">
+
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</script>
+<script id="data-template-sanpham" type="x-tmpl-mustache">
+    <div class="col-md-3 masonry-item digital">
+        <div class="product-card product-item" data-merchant-id="ATVPDKIKX0DER">
+            <a href="{{link}}" class="product-card__img-field">
+                <span class="product-card__img-field-inner">
+                    <img src="{{images}}" alt="{{Name}}" data-src="{{images}}" class="product-card__img">
+                </span>
+            </a>
+            <a href="{{link}}" class="product-card__title">{{Name}}</a>
+            <span>{{CateName}}</span>
+            <div class="product-card__loading-wrap">
+                <div class="product-card__info-row">
+                    <div class="product-card__price-col">
+                        <div class="product-card__current-price">{{Price}}vnđ </div>
+                        <!---->
+                    </div>
+                    <div class="product-card__interactive-btn-col">
+                        <a href="{{GioHang}}" title="Thêm vào giỏ hàng" class="mz-btn mz-btn-gray mz-btn-bdr-circle mz-btn-md product-card__add-cart-btn">
+                            <div class="mz-btn__icon-col"><i class="fal fa-cart-plus"></i></div>
+                        </a>
+                    </div>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+</script>

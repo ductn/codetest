@@ -1,0 +1,105 @@
+﻿@using ClsCommon
+<div class="sidebar-container">
+    <div class="sidemenu-container navbar-collapse collapse fixed-menu">
+        <div id="remove-scroll">
+            <ul id="sidebarnav" class="sidemenu page-header-fixed p-t-20" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+                <li class="sidebar-toggler-wrapper hide">
+                    <div class="sidebar-toggler">
+                        <span></span>
+                    </div>
+                </li>
+                <li class="sidebar-user-panel">
+                    <div class="user-panel">
+                        @{
+                            var session = (UserLogin)Session[OnlineShop.Common.CommonConstants.USER_SESSION];
+                            var Avartar = "/Data/Logo/logo.png";
+                            if (session.Avatar != null)
+                            {
+                                Avartar = session.Avatar;
+                            }
+                        }
+                        <div class="pull-left image">
+                            <img src="@CommonConstants.DomainName@Avartar" class="modal-u-img img-circle user-img-circle" alt="User Image" width="70" height="70" />
+                        </div>
+                        <div class="pull-left info">
+                            @if (session == null)
+                            {
+                                <p style="font-size: 12px;" class="user-Info-name"></p>
+                            }
+                            else
+                            {
+                                <p style="font-size: 12px;" class="user-Info-name">@session.Name</p>
+                            }
+                            <a data-id="@session.UserID" title="Thông tin" href="javascript:void(0);" class="modal-view-profile"><i class="material-icons">person</i></a>
+                            <a data-id="@session.UserID" title="Đổi mật khẩu" href="javascript:void(0);" class="modal-change-password"><i class="material-icons">settings</i></a>
+                            <a title="Thoát" href="~/Login/Logout"><i class="material-icons">power_settings_new</i></a>
+                        </div>
+                    </div>
+                </li>
+                @{
+                    var SysFunctions = (List<Model.EF.SysFunction>)Session[OnlineShop.Common.CommonConstants.SESSION_SYSFUNCTION];
+                }
+                @foreach (var item in SysFunctions.Where(x => x.ParentId == 0).OrderBy(x => x.DisplayOrder))
+                {
+                    var obj2 = SysFunctions.Where(x => x.ParentId == item.FunctionID).OrderBy(x => x.DisplayOrder);
+                    if (obj2.Count() > 0)
+                    {
+                        <li class="block-@item.isModule nav-item">
+                            <a href="javascript:;" class="nav-link nav-toggle" style="padding-left:5px">
+                                <i class="material-icons" style="margin-right:0px">@item.Icons</i>
+                                <span class="title">@item.FunctionName @Html.Action("getCountMenu", "SysFunction", new { Link = item.Link, isController = item.isController, ParentId = item.ParentId })</span>
+                                <span class="arrow "></span>
+                            </a>
+                            <ul class="sub-menu">
+                                @foreach (var item2 in obj2)
+                                {
+                                    var obj3 = SysFunctions.Where(x => x.ParentId == item2.FunctionID).OrderBy(x => x.DisplayOrder);
+                                    if (obj3.Count() > 0)
+                                    {
+                                        <li class="block-@item2.isModule nav-item">
+                                            <a href="javascript:;" class="nav-link nav-toggle">
+                                                <i class="material-icons">@item2.Icons</i>
+                                                <span class="title">@item2.FunctionName @item2.FunctionName @Html.Action("getCountMenu", "SysFunction", new { Link = item2.Link, isController = item2.isController, ParentId = item2.ParentId })</span>
+                                                <span class="arrow "></span>
+                                            </a>
+                                            <ul class="sub-menu">
+                                                @foreach (var item3 in obj3)
+                                                {
+                                                    <li class="block-@item3.isModule nav-item">
+                                                        <a href="@CommonConstants.DomainName@item3.Link" class="nav-link">
+                                                            <i class="material-icons">@item3.Icons</i>
+                                                            <span class="title">@item3.FunctionName @Html.Action("getCountMenu", "SysFunction", new { Link = item3.Link, isController = item3.isController, ParentId = item3.ParentId })</span>
+                                                        </a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="block-@item2.isModule nav-item">
+                                            <a href="@CommonConstants.DomainName@item2.Link" class="nav-link" style="padding-left:25px">
+                                                <i class="material-icons" style="margin-right:0px">@item2.Icons</i>
+                                                <span class="title">@item2.FunctionName @Html.Action("getCountMenu", "SysFunction", new { Link = item2.Link, isController = item2.isController, ParentId = item2.ParentId })</span>
+                                            </a>
+                                        </li>
+                                    }
+
+                                }
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="block-@item.isModule nav-item">
+                            <a href="@CommonConstants.DomainName@item.Link" class="nav-link" style="padding-left:5px">
+                                <i class="material-icons" style="margin-right:0px">@item.Icons</i>
+                                <span class="title">@item.FunctionName  @Html.Action("getCountMenu", "SysFunction", new { Link = item.Link, isController = item.isController, ParentId = item.ParentId })</span>
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>

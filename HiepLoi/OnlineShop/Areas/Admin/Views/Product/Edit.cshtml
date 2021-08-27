@@ -1,0 +1,282 @@
+﻿@model Model.EF.Product
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+
+@section header{
+    Cập nhật sản phẩm
+}
+@section jsFooter{
+    <script src="~/assets/jscontroller/ProductController.js"></script>
+    <script>
+        var URL_APPLICATION = $('#URL_APPLICATION').val();
+        var ImgLogo = $("#Image").val();
+        $("#myUploadedLogo").attr("src", URL_APPLICATION + ImgLogo);
+        $("#fileAttach tbody").append($('#hidListFile').val());
+
+        function cancel() {
+            window.history.back();
+        }
+        function RemoveRow(i) {
+            $("#fileAttach tbody #" + i).remove();
+        }
+        function getAllImages() {
+            var strLink = "";
+            var strComment = "";
+            $("#fileAttach tbody tr td p").parent().find('input').each(function (e) {
+                strLink += $(this).val() + "|";
+            });
+            $("#fileAttach tbody tr td textarea").each(function (e) {
+                strComment += $(this).val() + "|";
+            });
+            $("#hidFileLinkDown").val(strLink + '0');
+            $("#hidFileNote").val(strComment + '0');
+            return true;
+        }
+        $('#btnSelectImage').on('click', function (e) {
+            e.preventDefault();
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (url) {
+                var index = $('#hidIndexFile').val();
+                $("#fileAttach tbody").append("<tr id='" + index + "'><td><p style='margin: 0px !important;'><input type='hidden' id='link" + index + "' value='" + url + "'><img src='" + url + "' width='70' height='70'></p></td><td><textarea id='TextArea1' cols='40' rows='3'></textarea></td><td><a onclick='RemoveRow(" + index + ");' class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i></a></td></tr>");
+                $('#hidIndexFile').val(parseInt(index) + 1);
+            };
+            finder.popup();
+        })
+
+        $('#btnSelectLogo').on('click', function (e) {
+            e.preventDefault();
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (url) {
+                $('#Image').val(url);
+                $("#myUploadedLogo").attr("src", url);
+            };
+            finder.popup();
+        })
+
+        var editor = CKEDITOR.replace('Detail', {
+            toolbarGroups: [
+                            { name: 'document', groups: ['mode', 'document'] },
+                            { name: 'insert' },
+	                    ]
+            //customConfig: '~/Scripts/plugins/ckeditor/config.js',
+        });
+        //
+            $("#Price").val(Formatcurrency($("#Price").val()).replace(/,/g, "."));
+            $("#PromotionPrice").val(Formatcurrency($("#PromotionPrice").val()).replace(/,/g, "."));
+            $("#Quantity").val(Formatcurrency($("#Quantity").val()).replace(/,/g, "."));
+        //
+    </script>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @using (@Html.BeginForm("Edit", "Product", FormMethod.Post, new { id = "formProduct", @class = "frmStyle" }))
+                {
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group row hidden">
+                                @Html.LabelFor(model => model.StoreId, "Gian hàng", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.DropDownListFor(model => model.StoreId, null, htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.ValidationMessageFor(model => model.StoreId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Name, "Tên sản phẩm", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Price, "Giá bán (VNĐ)", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-3 col-sm-3">
+                                    @Html.TextBoxFor(model => model.Price, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.PromotionPrice, "Giá khuyến mãi (VNĐ)", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-4 col-sm-4">
+                                    @Html.TextBoxFor(model => model.PromotionPrice, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.PromotionPrice, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Quantity, "Tổng số (sản phẩm)", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextBoxFor(model => model.Quantity, htmlAttributes: new { @class = "form-control", type = "number" })
+                                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.ViewCount, "Lượng tìm kiếm", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextBoxFor(model => model.ViewCount, htmlAttributes: new { @class = "form-control", type = "number" })
+                                    @Html.ValidationMessageFor(model => model.ViewCount, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.IsHot, "Đang bán chạy", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-3 col-sm-3">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(model => model.IsHot)
+                                        @Html.ValidationMessageFor(model => model.IsHot, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                @Html.LabelFor(model => model.IsPromotion, "Khuyến mãi", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-3 col-sm-3">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(model => model.IsPromotion)
+                                        @Html.ValidationMessageFor(model => model.IsPromotion, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.IsDiscount, "Giảm giá", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-3 col-sm-3">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(model => model.IsDiscount)
+                                        @Html.ValidationMessageFor(model => model.IsDiscount, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                @Html.LabelFor(model => model.IsTrending, "Xu hướng", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-3 col-sm-3">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(model => model.IsTrending)
+                                        @Html.ValidationMessageFor(model => model.IsTrending, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.IsMain, "Sản phẩm chính", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-3 col-sm-3">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(model => model.IsMain)
+                                        @Html.ValidationMessageFor(model => model.IsMain, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                @Html.LabelFor(model => model.GoiYMuaSam, "Gợi ý mua sắm", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-3 col-sm-3">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(model => model.GoiYMuaSam)
+                                        @Html.ValidationMessageFor(model => model.GoiYMuaSam, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Status, "Kích hoạt", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-3 col-sm-3">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(model => model.Status)
+                                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.TinhTrangHang, "Tình trạng hàng", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.DropDownList("TinhTrangHang", new List<SelectListItem>
+                                        {
+                                            new SelectListItem { Text = "Còn hàng", Value = "1", Selected=true},
+                                            new SelectListItem { Text = "Hết hàng", Value = "2"},
+                                            new SelectListItem { Text = "Ngừng bán", Value = "3"}
+                                        }, htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.ValidationMessageFor(model => model.TinhTrangHang, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.CategoryID, "Ngành hàng", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-3 col-sm-3">
+                                    @Html.DropDownListFor(model => model.CategoryID, null, htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.UnitId, "Nhà sản xuất", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-4 col-sm-4">
+                                    @Html.DropDownListFor(model => model.UnitId, null, htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row ">
+                                @Html.LabelFor(model => model.ProductCategoryParentId, "Nhóm sản phẩm", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-3 col-sm-3">
+                                    @Html.DropDownListFor(model => model.ProductCategoryParentId, null, htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.ValidationMessageFor(model => model.ProductCategoryParentId, "", new { @class = "text-danger" })
+                                </div>
+                                @Html.LabelFor(model => model.ProductCategoryId, "Nhánh sản phẩm", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-4 col-sm-4">
+                                    @Html.DropDownListFor(model => model.ProductCategoryId, null, htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.ValidationMessageFor(model => model.ProductCategoryId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Image, "Ảnh đại diện", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextBoxFor(model => model.Image, htmlAttributes: new { @class = "form-control hidden" })
+                                    <img id="myUploadedLogo" alt="Photo" style="width:180px;"/><br>
+                                    <button type="button" id="btnSelectLogo" class="btn btn-sm btn-success" title="Chọn ảnh" style="width:180px;margin-top:5px;"><i class="fa fa-cloud-upload"></i> Chọn ảnh</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Description, "Mô tả", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextAreaFor(model => model.Description, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Detail, "Mô tả chi tiết", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextAreaFor(model => model.Detail, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.MoreImages, "Hình ảnh khác", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextBoxFor(model => model.MoreImages, htmlAttributes: new { @class = "form-control hidden" })
+                                    <div class="table-responsive">
+                                        <table id="fileAttach" class="table table-striped table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Hình ảnh</th>
+                                                    <th>Mô tả</th>
+                                                    <th>#</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <button type="button" id="btnSelectImage" class="btn btn-sm btn-success" title="Chọn ảnh" style="width:180px;"><i class="fa fa-cloud-upload"></i> Chọn ảnh</button>
+                                </div>
+                            </div>
+
+                            @Html.HiddenFor(m => m.ID)
+                            @Html.HiddenFor(m => m.StatusId)
+                            @Html.HiddenFor(m => m.hidIndexFile)
+                            @Html.HiddenFor(m => m.hidFileNote)
+                            @Html.HiddenFor(m => m.hidFileLinkDown)
+                            @Html.HiddenFor(m => m.hidListFile)
+                            <div class="form-group row">
+                                <div class="control-label col-md-2 col-sm-2 col-xs-2"></div>
+                                <div class="col-md-offset-2 col-lg-9 col-sm-9">
+                                    <button type="button" class="btn btn-sm btn-success btnSave" title="Lưu"><i class="fa fa-save"></i> Lưu</button>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="cancel();" title="Hủy"><i class="fa fa-reply"></i> Hủy</button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

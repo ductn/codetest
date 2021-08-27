@@ -1,0 +1,90 @@
+﻿@model Model.EF.BusinessPartner
+@using ClsCommon;
+@{
+    ViewBag.Title = "Thêm mới thông tin đối tác";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+
+@section header{
+    Thêm mới thông tin đối tác
+}
+@section jsFooter{
+    <script src="~/assets/jscontroller/BusinessPartnerController.js"></script>
+    <script>
+        function cancel() {
+            window.history.back();
+        }
+        $(document).ready(function () {
+            console.log("ready!");
+        });
+    </script>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @using (Html.BeginForm("Create", "BusinessPartner", FormMethod.Post, new { id = "formBusinessPartner", @class = "frmStyle" }))
+                {
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.TieuDe, "Tên đối tác", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextBoxFor(model => model.TieuDe, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Url, "Url", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextBoxFor(model => model.Url, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Slogan, "Slogan", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextBoxFor(model => model.Slogan, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.SDT, "Số điện thoại", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextBoxFor(model => model.SDT, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.DiaChi, "Đia chỉ", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextBoxFor(model => model.DiaChi, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-9 col-sm-9">
+                                    @Html.TextBoxFor(model => model.Email, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Image, "Ảnh đại diện", htmlAttributes: new { @class = "control-label col-lg-2 col-sm-2" })
+                                <div class="col-lg-3 col-sm-3">
+                                    @Html.TextBoxFor(model => model.Image, htmlAttributes: new { @class = "form-control hidden" })
+                                    <img id="myUploadedImg" alt="Photo" style="max-width: 100%; max-height: 150px" src="~/assets/ecab/img/image-gallery/16.jpg" /><br />
+                                    <input type="file" class="inputfile" id="fileUpload">
+                                    <label for="fileUpload" class="btn margin-top-10 btn-sm btn-success"><i class="fa fa-cloud-upload"></i> Chọn ảnh </label>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="control-label col-md-2 col-sm-2 col-xs-2"></div>
+                                <div class="col-md-offset-2 col-lg-9 col-sm-9">
+                                    <button type="button" class="btn btn-sm btn-success btnSave" title="Lưu"><i class="fa fa-save"></i> Lưu</button>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="cancel();" title="Hủy"><i class="fa fa-reply"></i> Hủy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

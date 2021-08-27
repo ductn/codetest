@@ -1,0 +1,114 @@
+﻿@using ClsCommon
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+@section header{
+    Danh sách chức năng
+}
+@section jsFooter{
+
+}
+@* Quản lý gian hàng*@
+@if (ViewBag.ShowDashboardQLGianHang == "true")
+{
+    <div class="row">
+        <div class="col-xl-6 col-md-6 col-12">
+            <a href="@CommonConstants.DomainName/Admin/Store/ListChoDuyet">
+                <div class="info-box blue-bgcolor">
+                    <span class="info-box-icon push-bottom"><i class="material-icons">store</i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">GIAN HÀNG CHỜ DUYỆT</span><span class="info-box-number">@ViewBag.totalRecordGianHangChoDuyet</span>
+                        <div class="progress">
+                            <div class="progress-bar width-60"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12">
+            <a href="@CommonConstants.DomainName/Admin/Product/ListChoDuyet">
+                <div class="info-box blue-bgcolor">
+                    <span class="info-box-icon push-bottom"><i class="material-icons">work</i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">SẢN PHẨM CHỜ DUYỆT</span><span class="info-box-number">@ViewBag.totalRecordSanPhamChoDuyet</span>
+                        <div class="progress">
+                            <div class="progress-bar width-60"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12">
+            <a href="#">
+                <div class="info-box blue-bgcolor">
+                    <span class="info-box-icon push-bottom"><i class="material-icons">web</i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">TỔNG SỐ GIAN HÀNG</span><span class="info-box-number">@ViewBag.totalRecordGianHang</span>
+                        <div class="progress">
+                            <div class="progress-bar width-60"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xl-6 col-md-6 col-12">
+            <a href="#">
+                <div class="info-box blue-bgcolor">
+                    <span class="info-box-icon push-bottom"><i class="material-icons">web</i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">TỔNG SỐ SẢN PHẨM</span><span class="info-box-number">@ViewBag.totalRecordSanPham</span>
+                        <div class="progress">
+                            <div class="progress-bar width-60"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+}
+
+@* Quản lý liên hệ *@
+@if (ViewBag.ShowDashboardQLLienHe == "true")
+{
+    <div class="row">
+        <div class="col-xl-6 col-md-6 col-12">
+            <a href="@CommonConstants.DomainName/Admin/Contact/ListChoTiepNhan">
+                <div class="info-box bg-primary">
+                    <span class="info-box-icon push-bottom"><i class="material-icons">folder</i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">CHỜ TIẾP NHẬN</span>
+                        <span class="info-box-number">
+                            @ViewBag.totalRecordChoTiepNhan
+                        </span>
+                        <div class="progress">
+                            <div class="progress-bar width-60"></div>
+                        </div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </a>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-xl-6 col-md-6 col-12">
+            <a href="@CommonConstants.DomainName/Admin/Contact/ListDuocDuyet">
+                <div class="info-box bg-primary">
+                    <span class="info-box-icon push-bottom"><i class="material-icons">assignment</i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">ĐƯỢC DUYỆT</span>
+                        <span class="info-box-number">
+                            @ViewBag.totalRecordDuocDuyet
+                        </span>
+                        <div class="progress">
+                            <div class="progress-bar width-60"></div>
+                        </div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </a>
+            <!-- /.info-box -->
+        </div>
+    </div>
+}
+@* END quản lý liên hê *@

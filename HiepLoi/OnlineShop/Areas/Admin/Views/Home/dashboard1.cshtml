@@ -1,0 +1,240 @@
+﻿@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_Layouts.cshtml";
+}
+@section header{
+}
+@section jsFooter{
+    <script src="~/assets/jscontroller/HomeController.js"></script>
+}
+@using ClsCommon;
+@if (ViewBag.ShowDashboardBienTap == "true" || ViewBag.ShowDashboardPheDuyet == "true")
+{
+    <div class="row hidden">
+        <div class="col-md-12">
+            <div class="card card-topline-red">
+                <div class="card-body ">
+                    <div id="example4_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                        @if (ViewBag.ShowDashboardBienTap == "true")
+                        {
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="textLogo"><i class="fa fa-pencil-square-o"></i>SOẠN THẢO - TIN TỨC <span style="color:red">[@ViewBag.totalRecordTinDangSoan]</span></div>
+                                    @foreach (var itemTinDangSoan in ViewBag.dsTinDangSoan)
+                                    {
+                                        <div class="form-group row" style="color: #168ec2">
+                                            <div class="col-sm-12">
+                                                <b>Tiêu đề : </b><i>@itemTinDangSoan.Name</i>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <b>Mô tả : </b><i>@itemTinDangSoan.Description</i>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <b>Ngày tạo : </b><i>@itemTinDangSoan.CreatedDate</i>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <a style="margin-right:5px" id="" class="btn btn-primary btn-xs m-b-10" title="Sửa" href="~/Admin/Content/Edit/@itemTinDangSoan.ID"><i class="fa fa-pencil"></i></a>
+                                                <a style="margin-right:5px" class="btn btn-primary btn-xs m-b-10 btn-chuyenTinTuc" data-id="@itemTinDangSoan.ID" data-controller="Content"><i class="fa fa-mail-forward"></i> Luân chuyển</a>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <hr style="border-top: 1px dashed #8c8b8b">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="textLogo"><i class="fa fa-pencil-square-o"></i>BỔ SUNG - TIN TỨC <span style="color:red">[@ViewBag.totalRecordTinBoSung]</span></div>
+                                    @foreach (var itemTinBoSung in ViewBag.dsTinBoSung)
+                                    {
+                                        <div class="form-group row" style="color: #168ec2">
+                                            <div class="col-sm-12">
+                                                <b>Tiêu đề : </b><i>@itemTinBoSung.Name</i>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <b>Mô tả : </b><i>@itemTinBoSung.Description</i>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <b>Ngày tạo : </b><i>@itemTinBoSung.CreatedDate</i>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <a style="margin-right:5px" id="" class="btn btn-primary btn-xs m-b-10" title="Sửa" href="~/Admin/Content/Edit/@itemTinBoSung.ID"><i class="fa fa-pencil"></i></a>
+                                                <a style="margin-right:5px" class="btn btn-primary btn-xs m-b-10 btn-chuyenTinTuc" data-id="@itemTinBoSung.ID" data-controller="Content"><i class="fa fa-mail-forward"></i> Luân chuyển</a>
+                                            </div>
+                                        </div>
+                                    }
+                                    <hr style="border-top: 1px dashed #8c8b8b">
+                                </div>
+                            </div>
+                        }
+                        @if (ViewBag.ShowDashboardPheDuyet == "true")
+                        {
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="textLogo"><i class="fa fa-pencil-square-o"></i>PHÊ DUYỆT - TIN TỨC <span style="color:red">[@ViewBag.totalRecordTinChoDuyet]</span></div>
+                                    @foreach (var itemTinChoDuyet in ViewBag.dsTinChoDuyet)
+                                    {
+                                        <div class="form-group row" style="color: #168ec2">
+                                            <div class="col-sm-12">
+                                                <b>Tiêu đề : </b><i>@itemTinChoDuyet.Name</i>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <b>Mô tả : </b><i>@itemTinChoDuyet.Description</i>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <b>Ngày tạo : </b><i>@itemTinChoDuyet.CreatedDate</i>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <a style="margin-right:5px" id="" class="btn btn-primary btn-xs m-b-10" title="Sửa" href="~/Admin/Content/Edit/@itemTinChoDuyet.ID"><i class="fa fa-pencil"></i></a>
+                                                <a style="margin-right:5px" class="btn btn-primary btn-xs m-b-10 btn-chuyenTinTuc" data-id="@itemTinChoDuyet.ID" data-controller="Content"><i class="fa fa-mail-forward"></i> Luân chuyển</a>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <hr style="border-top: 1px dashed #8c8b8b">
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-topline-red">
+                <div class="card-body ">
+                    <div id="example4_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                        @if (ViewBag.ShowDashboardBienTap == "true")
+                        {
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="textLogo"><i class="fa fa-pencil-square-o"></i>SOẠN THẢO - CHÍNH SÁCH ƯU ĐÃI <span style="color:red">[@ViewBag.totalRecordChinhSachDangSoan]</span></div>
+                                    @foreach (var itemChinhSachDangSoan in ViewBag.dsChinhSachDangSoan)
+                                    {
+                                        <div class="form-group row" style="color: #168ec2">
+                                            <div class="col-sm-12">
+                                                <b>Số hiệu : </b><i>@itemChinhSachDangSoan.SoHieuVanBan</i>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <b>Trích yếu : </b><i>@itemChinhSachDangSoan.TrichYeu</i>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <b>Ngày ban hành : </b><i>@if (itemChinhSachDangSoan.NgayBanHanh != null)
+                                                {@Html.Raw(itemChinhSachDangSoan.NgayBanHanh.ToString("dd/MM/yyyy"))}</i>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <a style="margin-right:5px" id="" class="btn btn-primary btn-xs m-b-10" title="Sửa" href="~/Admin/ChinhSachUuDai/Edit/@itemChinhSachDangSoan.Id"><i class="fa fa-pencil"></i></a>
+                                                <a style="margin-right:5px" class="btn btn-primary btn-xs m-b-10 btn-chuyenChinhSach" data-id="@itemChinhSachDangSoan.Id" data-controller="ChinhSachUuDai"><i class="fa fa-mail-forward"></i> Luân chuyển</a>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <hr style="border-top: 1px dashed #8c8b8b">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="textLogo"><i class="fa fa-pencil-square-o"></i>BỔ SUNG - CHÍNH SÁCH ƯU ĐÃI <span style="color:red">[@ViewBag.totalRecordChinhSachBoSung]</span></div>
+                                    @foreach (var itemChinhSachBoSung in ViewBag.dsChinhSachBoSung)
+                                    {
+                                        <div class="form-group row" style="color: #168ec2">
+                                            <div class="col-sm-12">
+                                                <b>Số hiệu : </b><i>@itemChinhSachBoSung.SoHieuVanBan</i>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <b>Trích yếu : </b><i>@itemChinhSachBoSung.TrichYeu</i>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <b>Ngày ban hành : </b><i>@if (itemChinhSachBoSung.NgayBanHanh != null)
+                                                {@Html.Raw(itemChinhSachBoSung.NgayBanHanh.ToString("dd/MM/yyyy"))}</i>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <a style="margin-right:5px" id="" class="btn btn-primary btn-xs m-b-10" title="Sửa" href="~/Admin/ChinhSachUuDai/Edit/@itemChinhSachBoSung.Id"><i class="fa fa-pencil"></i></a>
+                                                <a style="margin-right:5px" class="btn btn-primary btn-xs m-b-10 btn-chuyenChinhSach" data-id="@itemChinhSachBoSung.Id" data-controller="ChinhSachUuDai"><i class="fa fa-mail-forward"></i> Luân chuyển</a>
+                                            </div>
+                                        </div>
+                                    }
+                                    <hr style="border-top: 1px dashed #8c8b8b">
+                                </div>
+                            </div>
+                        }
+                        @if (ViewBag.ShowDashboardPheDuyet == "true")
+                        {
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="textLogo"><i class="fa fa-pencil-square-o"></i>PHÊ DUYỆT - CHÍNH SÁCH ƯU ĐÃI <span style="color:red">[@ViewBag.totalRecordChinhSachChoDuyet]</span></div>
+                                    @foreach (var itemChinhSachChoDuyet in ViewBag.dsChinhSachChoDuyet)
+                                    {
+                                        <div class="form-group row" style="color: #168ec2">
+                                            <div class="col-sm-12">
+                                                <b>Số hiệu : </b><i>@itemChinhSachChoDuyet.SoHieuVanBan</i>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <b>Trích yếu : </b><i>@itemChinhSachChoDuyet.TrichYeu</i>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <b>Ngày ban hành : </b><i>@itemChinhSachChoDuyet.NgayBanHanh</i>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <a style="margin-right:5px" id="" class="btn btn-primary btn-xs m-b-10" title="Sửa" href="~/Admin/ChinhSachUuDai/Edit/@itemChinhSachChoDuyet.Id"><i class="fa fa-pencil"></i></a>
+                                                <a style="margin-right:5px" class="btn btn-primary btn-xs m-b-10 btn-chuyenChinhSach" data-id="@itemChinhSachChoDuyet.Id" data-controller="ChinhSachUuDai"><i class="fa fa-mail-forward"></i> Luân chuyển</a>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <hr style="border-top: 1px dashed #8c8b8b">
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @RenderPage("ActionModel.cshtml")
+}
+@* Quản lý công khai*@
+@if (ViewBag.ShowDashboardQLCongKhai == "true")
+{
+    <div class="row">
+        <div class="col-xl-6 col-md-6 col-12">
+            <a href="@CommonConstants.DomainName/Admin/ChinhSachUuDai/ListChoCongKhai">
+                <div class="info-box bg-primary">
+                    <span class="info-box-icon push-bottom"><i class="material-icons">folder</i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">CHÍNH SÁCH CHỜ CÔNG KHAI</span>
+                        <span class="info-box-number">
+                            @ViewBag.totalRecordChinhSachChoCongKhai
+                        </span>
+                        <div class="progress">
+                            <div class="progress-bar width-60"></div>
+                        </div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </a>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-xl-6 col-md-6 col-12">
+            <a href="@CommonConstants.DomainName/Admin/Content/ListChoCongKhai">
+                <div class="info-box bg-primary">
+                    <span class="info-box-icon push-bottom"><i class="material-icons">assignment</i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">TIN TỨC CHỜ CÔNG KHAI</span>
+                        <span class="info-box-number">
+                            @ViewBag.totalRecordTinTucChoCongKhai
+                        </span>
+                        <div class="progress">
+                            <div class="progress-bar width-60"></div>
+                        </div>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+            </a>
+            <!-- /.info-box -->
+        </div>
+    </div>
+}

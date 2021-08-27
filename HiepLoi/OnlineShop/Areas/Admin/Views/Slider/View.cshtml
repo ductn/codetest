@@ -1,0 +1,56 @@
+﻿@model Model.EF.Slider
+
+@{
+    ViewBag.Title = "Thông tin Slider Banner";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/_LayoutsPopup.cshtml";
+}
+@*@section header{
+        Thông tin người dùng
+    }*@
+@section jsFooter{
+
+    <script src="~/assets/jscontroller/SliderController.js"></script>
+}
+<script>
+    function cancel() {
+        window.location.href = '/Admin/Slider/Index';
+    }
+</script>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading bg-green">
+                <p class="m-b-0 text-white text-uppercase">Thông tin chung</p>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group row">
+                            <label class="control-label col-lg-3 col-sm-3">Loại</label>
+                            <div class="col-lg-9 col-sm-9">
+                                @ViewBag.Slider.IsType
+                            </div>
+                            <label class="control-label col-lg-3 col-sm-3">Tên</label>
+                            <div class="col-lg-9 col-sm-9">
+                                @ViewBag.Slider.Name
+                            </div>
+                            <label class="control-label col-lg-3 col-sm-3">Url</label>
+                            <div class="col-lg-9 col-sm-9">
+                                @ViewBag.Slider.Url
+                            </div>
+                            <label class="control-label col-lg-3 col-sm-3">Image</label>
+                            <div class="col-lg-9 col-sm-9">
+                                <img width="100" height="100" src="@ViewBag.MainDomain@ViewBag.Slider.Image" />
+                            </div>
+                            <label class="control-label col-lg-3 col-sm-3">Ghi chú</label>
+                            <div class="col-lg-9 col-sm-9">
+                                @Html.Raw(@ViewBag.Slider.Descripton)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

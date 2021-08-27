@@ -1,0 +1,312 @@
+﻿@model Model.EF.Product
+@using ClsCommon
+@{
+    ViewBag.Title = "ChiTietSanPham";
+    Layout = "~/Views/Shared/_LayoutGianHangNew.cshtml";
+}
+@section jsFooter{
+    <script src="@CommonConstants.DomainName/assets/client/js/controller/cartController.js"></script>
+}
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-lg-8 col-sm-12">
+            <section class="my-4">
+                <div class="bg-gray py-2 px-4"><h2 class="text-uppercase font-small pt-2">Hình ảnh</h2></div>
+                <div class="media text-md-left bg-light">
+                    <div class="row wow fadeIn" style="width:100%">
+                        <div class="col-md-7 mb-4">
+                            <div class="popup-gallery">
+                                <div class="col-md-12 col-sm-12 single pl-0">
+                                    <a href="@CommonConstants.DomainName/@Model.Image" class="col-md-3 col-sm-6"><img style="height:250px" src="@CommonConstants.DomainName/@Model.Image" alt="" class="w-100 img-thumbnail"></a>
+                                </div>
+                                <div class="col-md-12 col-sm-12 row pr-0">
+
+                                    @if (ViewBag.jsonProductImg != null) { 
+                                            foreach (var itjon in ViewBag.jsonProductImg)
+                                            {
+                                                string Comment = itjon.filename;
+                                                string Url = itjon.urldownload;
+                                            <a href="@CommonConstants.DomainName/@Url" class="col-md-4 col-sm-6"><img src="@CommonConstants.DomainName/@Url" alt="" class="w-100 img-thumbnail"></a>
+                                        }
+                                     }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 mb-4">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <buton style="font-size:9px;width:auto;border-radius:0px;padding:5px" class="btn btn-xs btn-primary"> <a style="color:white" href="#">Sản phẩm mới</a></buton>&nbsp;&nbsp;
+                                    <buton style="font-size:9px;width:auto;border-radius:0px;padding:5px" class="btn btn-xs btn-warning"><a style="color:white" href="#">Bán chạy nhất</a></buton>&nbsp;&nbsp;
+                                    @if (ViewBag.SoLuongSanPham == 0)
+                                    {
+                                        <buton style="font-size:9px;width:auto;border-radius:0px;padding:5px" class="btn btn-xs btn-danger"><a style="color:white" href="#">Cháy hàng</a></buton>
+                                    }
+                                </div>
+                            </div>
+                            @{
+                                dynamic Price = Model.Price;
+                                dynamic PromotionPrice = Model.PromotionPrice;
+                                if (Model.IsPromotion == true)
+                                {
+                                    if (@Price != null)
+                                    {
+                                        Price = @Price.ToString("#,##0.###").Replace(",", ".");
+                                    }
+                                    if (@PromotionPrice != null)
+                                    {
+                                        Price = @PromotionPrice.ToString("#,##0.###").Replace(",", ".");
+                                    }
+                                    <p style="font-size:25px;color:red"> @Price đ </p>
+                                }
+                                else
+                                {
+
+                                    if (@Price != null)
+                                    {
+                                        Price = @Price.ToString("#,##0.###").Replace(",", ".");
+                                    }
+                                    <p style="font-size:25px;color:red" class="total">@Price đ</p>
+                                }
+                            }
+                            <div class="lead font-weight-bold">@Model.Name</div>
+                            @if (ViewBag.SoLuongSanPham != 0)
+                            {
+                                <form class="d-flex justify-content-left w-100">
+                                    <!-- Default input -->
+                                    <div class="quality">
+                                        <!-- <span class="aria-label">Số lượng: </span> -->
+                                        <input type="number" style="margin-top:16px" id="quality" value="1" aria-label="Search" class="form-control" placeholder="Số lượng">
+                                    </div>
+                                    <div class="add-cart w-100">
+                                        <a style="color:white;padding:5px" class="btn btn-primary mt-3 addCartQuality" data-id="@Model.ID" data-idstore="@ViewBag.store.StoreId">
+                                            <img class="add-cart-icon" src="@CommonConstants.DomainName/assets/thongtindoanhnghiep/img/add-to-cart.png" alt="Đặt hàng" title="Đặt hàng">
+                                            Đặt hàng »
+                                        </a>
+                                    </div>
+                                </form>
+                            }
+                        </div>
+                </div>
+
+            </section>
+            <section class="my-4">
+                <div class="bg-gray py-2 px-4"><h2 class="text-uppercase font-small pt-2">Thông tin chi tiết về sản phẩm</h2></div>
+                <div class="media text-md-left bg-light">
+                    <div>
+                        <div class="share w-100 mb-4">
+                            <!-- Facebook -->
+                            <a class="fb-ic">
+                                <i class="fa fa-facebook font-samll text-white"> </i>
+                            </a>
+                            <!-- Twitter -->
+                            <a class="tw-ic">
+                                <i class="fa fa-twitter font-samll text-white"> </i>
+                            </a>
+                            <!--Instagram-->
+                            <a class="ins-ic">
+                                <i class="fa fa-instagram font-samll text-white"> </i>
+                            </a>
+
+                            <!--Youtube -->
+                            <a class="li-ic">
+                                <i class="fa text-white fa-envelope"> </i>
+                            </a>
+                        </div>
+
+                        <p class="content">
+                            @Html.Raw(Model.Description)
+                        </p>
+                    </div>
+                </div>
+            </section>
+        <section class="my-4">
+            <div class="bg-gray py-2 px-4"><h2 class="text-uppercase font-small pt-2">Sản phẩm đang bán</h2></div>
+            <div class="media text-md-left bg-light ">
+                <div class="pt-4 px-4">
+                    <div class="row blogs_page height">
+                        @if (ViewBag.ListAllProduct != null)
+                        {
+                            foreach (var item in ViewBag.ListAllProduct)
+                            {
+                                dynamic price = item.Price;
+                                if (item.IsPromotion == true)
+                                {
+                                    price = item.PromotionPrice;
+                                }
+                                <div class="booking-card col-md-4 col-sm-12 group mb-4" style="width:auto">
+                                    <div class="view overlay border bg-white border-bottom-0">
+                                         <a href="@CommonConstants.DomainName/gian-hang/san-pham-@Model.StoreId/@item.MetaTitle-@item.ID@Html.Raw(".html")">
+                                            <img class="card-img-top" src="@CommonConstants.DomainName/@item.Image" alt="Card image cap" >
+                                        </a>
+                                    </div>
+
+                                    <div class="card-body text-center border bg-white border-top-0">
+                                        <h4 class="card-title">@item.Name</h4>
+                                        <div class="maskbg-white px-4">
+                                            @{
+                                                var gia = "0";
+                                                if (@price != null)
+                                                {
+                                                    gia = @price.ToString("#,##0.###").Replace(",", ".");
+                                                }
+                                            }
+                                            <p class="text-orange">
+                                                <b>@gia đ</b>
+                                            </p>
+                                            <p class="add-cart">
+                                                <a style="color:white;padding:5px" data-id="@item.ID" data-idstore="@ViewBag.store.StoreId" class="btn btn-primary mt-3 font-small py-2 addCart">
+                                                    <img class="add-cart-icon" src="@CommonConstants.DomainName/assets/thongtindoanhnghiepnew/img/add-to-cart.png" alt="Đặt hàng" title="Đặt hàng">
+                                                    Đặt hàng »
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    @if (ViewBag.TotalPage > 1)
+                    {
+                        var pageDisplay = (int)ViewBag.MaxPage;
+                        int totalPage = (int)ViewBag.TotalPage;
+                        int currentPage = ((int)ViewBag.Page);
+
+                        // Create numeric links
+                        var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+                        var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+
+                        var link = @CommonConstants.DomainName + "/gian-hang/" + ViewBag.store.QueryString + "-" + ViewBag.store.StoreId + "/" + Model.MetaTitle + "-" + Model.ID + ".html";
+                        <nav aria-label="Page navigation example my-4">
+                            <ul class="pagination pg-blue">
+                                @if (currentPage > ViewBag.First)
+                                {
+                                    <li class="page-item"><a href="@link?page=@ViewBag.First" title="Trang đầu" class="first">Trang đầu</a></li>
+                                    <li class="page-item">
+                                        <a href="@link?page=@ViewBag.Prev" title="Trang trước" class="prev page-link"><i class="fa fa-angle-left"></i></a>
+                                    </li>
+
+                                }
+                                @for (int i = startPageIndex; i <= endPageIndex; i++)
+                                {
+                                    if (currentPage == i)
+                                    {
+
+                                        <li class="page-item active"> <a href="@link?page=@i" class="active page-link" title="Trang @i">@i</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item"><a href="@link?page=@i" title="Trang @i" class="pos page-link">@i</a></li>
+                                    }
+                                }
+                                @if (currentPage < totalPage)
+                                {
+                                    <li class="page-item"><a href="@link?page=@ViewBag.Next" class="next page-link" title="Trang sau"><i class="fa fa-angle-right"></i></a></li>
+                                    <li class="page-item"> <a href="@link?page=@ViewBag.Last" class="last page-link" title="Trang cuối">Trang cuối</a></li>
+                                }
+
+                            </ul>
+                        </nav>
+                    }
+                </div>
+            </div>
+        </section>
+    </div>
+        <div class="group2 col-lg-4 col-md-12 p-0 pl-4 pr-3">
+            <h2 class="mt-4 mb-0 py-3">Địa điểm</h2>
+            @Html.Raw(ViewBag.store.Map)
+
+            <h2 class="mt-4 mb-0">Hỗ trợ trực tuyến</h2>
+            <div class="bg-light p-4 contact">
+                <div class="support">
+                    <div class="title text-uppercase text-bold font-small">Đường dây hỗ trợ</div>
+
+                    <div class="phone">
+                        <h6 class="my-3">
+                            <a href="tel:@ViewBag.store.Phone" class="mr-3 orange">
+                                <img alt="" src="@CommonConstants.DomainName/assets/thongtindoanhnghiepnew/img/phone.png" class="pr-2">@ViewBag.store.Phone
+                            </a>
+                        </h6>
+                        <h6 class="my-3">
+                            <a href="tel:@ViewBag.Phone" class="mr-3 orange">
+                                <img alt="" src="@CommonConstants.DomainName/assets/thongtindoanhnghiepnew/img/phone.png" class="pr-2">@ViewBag.store.DiaChi
+                            </a>
+                        </h6>
+                        <p class="email mt-3"><i class="fa fa-envelope text-white mr-2"></i>Đang mở cửa  08:00 - 17:00 </p>
+                    </div>
+                </div>
+            </div>
+            <h2 class="mt-4 mb-0">Sản phẩm mới</h2>
+            <div class="bg-light">
+                <div class="top-products blogs new-product">
+                    <div class="p-4 row">
+                        @if (ViewBag.MoreProduct != null)
+                        {
+                            foreach (var item in ViewBag.MoreProduct)
+                            {
+                                <div class="mb-2 col-12">
+                                    <div class="btn-fb btn-sm p-0">
+                                        <a href="@CommonConstants.DomainName/gian-hang/san-pham-moi-@Model.StoreId/@item.MetaTitle-@item.ID@Html.Raw(".html")">
+                                            <img alt="" src="@CommonConstants.DomainName/@item.Image" class="w-25 pull-left">
+                                            <div class="pull-right w-75 px-4">
+                                                <p class="size-text">@item.Name</p>
+                                                <div class="maskbg-white">
+                                                    @{
+                                                        var gia = "0";
+                                                        if (@item.Price != null)
+                                                        {
+                                                            gia = @item.Price.ToString("#,##0.###").Replace(",", ".");
+                                                        }
+                                                    }
+                                                    <p class="text-orange"><b class="fa-18px">@gia đ</b></p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <h2 class="mt-4 mb-0">Sản phẩm bán chạy</h2>
+            <div class="bg-light">
+                <div class="top-products blogs new-product">
+                    <div class="p-4 row">
+                        @if (ViewBag.MoreProduct != null)
+                        {
+                            foreach (var item in ViewBag.MoreProduct)
+                            {
+                                dynamic price = item.Price;
+                                if (item.IsPromotion == true)
+                                {
+                                    price = item.PromotionPrice;
+                                }
+                                <div class="mb-2 col-12">
+                                    <div class="btn-fb btn-sm p-0">
+                                        <a href="@CommonConstants.DomainName/gian-hang/san-pham-ban-chay-@Model.StoreId/@item.MetaTitle-@item.ID@Html.Raw(".html")">
+                                            <img alt="" src="@CommonConstants.DomainName/@item.Image" class="w-25 pull-left">
+                                            <div class="pull-right w-75 px-4">
+                                                <p class="size-text">@item.Name</p>
+                                                @{
+                                                    var gia = "0";
+                                                    if (@item.Price != null)
+                                                    {
+                                                        gia = @item.Price.ToString("#,##0.###").Replace(",", ".");
+                                                    }
+                                                }
+                                                <div class="maskbg-white">
+                                                    <p class="text-orange"><b class="fa-18px">@gia đ</b></p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

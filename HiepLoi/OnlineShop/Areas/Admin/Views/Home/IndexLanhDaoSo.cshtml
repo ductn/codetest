@@ -1,0 +1,95 @@
+﻿@using ClsCommon;
+@{
+    ViewBag.Title = "IndexLanhDaoSo";
+    Layout = "~/Areas/Admin/Views/Shared/ecab/home/_Layouts.cshtml";
+}
+<link href="@CommonConstants.DomainName/assets/ecab/css/plus.css" rel="stylesheet" type="text/css" />
+<div class="track">
+    <div class="row display-flex col-lg-6 col-md-8">
+        <div class="col-md-6 m-b-10">
+            <div class="card no-border widget-loader-bar">
+                <div class="container-xs-height full-height box-shaddow">
+                    <div class="row-xs-height">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="all-caps align-items-center">Doanh nghiệp</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-xs-height">
+                        <div class="col-num">
+                            <div class="p-l-20 p-t-50 p-b-40 p-r-20">
+                                <h3 class="no-margin p-b-5">@ViewBag.tongDN</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 m-b-10">
+            <div class="card no-border widget-loader-bar">
+                <div class="container-xs-height full-height box-shaddow">
+                    <div class="row-xs-height">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="all-caps align-items-center">Hộ kinh doanh</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-xs-height">
+                        <div class="col-num">
+                            <div class="p-l-20 p-t-50 p-b-40 p-r-20">
+                                <h3 class="no-margin p-b-5">@ViewBag.tongHKD</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 m-b-10">
+            <div class="card no-border widget-loader-bar">
+                <div class="container-xs-height full-height box-shaddow">
+                    <div class="row-xs-height">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="all-caps align-items-center">Hợp tác xã</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-xs-height">
+                        <div class="col-num">
+                            <div class="p-l-20 p-t-50 p-b-40 p-r-20">
+                                <h3 class="no-margin p-b-5">@ViewBag.tongHTX</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 m-b-10">
+            <div class="card no-border widget-loader-bar">
+                <div class="container-xs-height full-height box-shaddow">
+                    <div class="row-xs-height">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="all-caps align-items-center">Nhà đầu tư</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-xs-height">
+                        <div class="col-num">
+                            <div class="p-l-20 p-t-50 p-b-40 p-r-20">
+                                <h3 class="no-margin p-b-5">@ViewBag.tongNDT</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row display-flex col-lg-6 col-md-8">
+        <div class="col-md-12">
+            <a data-module="6" data-url="@CommonConstants.DomainName/Admin/Home/DashboardLanhDaoSo" href="@CommonConstants.DomainName/Admin/Home/DashboardLanhDaoSo" type="button" class="Menu_Module btn btn-lg btn-primary"><i class="fa fa-angle-right m-r-5"></i> Báo cáo, thống kê </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,131 @@
+﻿@model Model.EF.Content
+@using ClsCommon;
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .blogs_page .view img, a > img {
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+    }
+
+    .view img {
+        width: 100% !important;
+    }
+
+    .blogs_page .view img {
+        max-width: initial !important;
+    }
+</style>
+@*<div class="content">
+        <div class="content_top">
+            <div class="heading">
+                <h3>@Model.Name</h3>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="section-group">
+            @Html.Raw(Model.Detail)
+            <ul>
+                @{
+                    var tags = (List<Model.EF.Tag>)ViewBag.Tags;
+                    foreach (var tag in tags)
+                    {
+                        <li><a href="/tag/@tag.ID">@tag.Name</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>*@
+<!-- InstanceBeginEditable name="Editable Region" -->
+<div class="container mb-5">
+    <div class="row">
+        <div class="group2 col-lg-9 col-sm-12">
+            <nav aria-label="breadcrumb" class="mt-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@CommonConstants.DomainName">Hiệp Lợi</a></li>
+                    <li class="breadcrumb-item"><a href="@CommonConstants.DomainName/tin-tuc.html">Tin tức</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+                </ol>
+            </nav>
+
+            <div class="bg-light pt-4 tab-pane">
+                <div>
+                    <i class="font-small mb-5 text-black-50">@Model.CreatedDate</i>
+                    <div class="share pull-right">
+                        <!-- Facebook -->
+                        <a class="fb-ic">
+                            <i class="fa fa-facebook font-samll white-text"> </i>
+                        </a>
+                        <!-- Twitter -->
+                        <a class="tw-ic">
+                            <i class="fa fa-twitter font-samll white-text"> </i>
+                        </a>
+                        <!--Instagram-->
+                        <a class="ins-ic">
+                            <i class="fa fa-instagram font-samll white-text"> </i>
+                        </a>
+
+                        <!--Youtube -->
+                        <a class="li-ic">
+                            <i class="fa white-text fa-envelope"> </i>
+                        </a>
+                    </div>
+                </div>
+                <h5 class="my-4 text-uppercase h5">
+                    <img alt="" src="img/icon2.png" class="pr-2 h-30px">@Model.Name
+                </h5>
+
+                <p class="content">
+                    @Html.Raw(Model.Detail)
+                </p>
+            </div>
+
+            <h3 class="mt-4 mb-3">
+                <img alt="" src="img/icon2.png" class="pr-2 h-30px"><span>Tin tức khác</span>
+            </h3>
+            <div class="row blogs_page height">
+                @foreach (var item in ViewBag.MoreContent)
+                {
+                    <div class="card col-md-4 col-sm-12 mb-4">
+                        <!-- Card image -->
+                        <div class="view overlay">
+                            <img class="card-img-top" src="@CommonConstants.DomainName@item.Image" alt="Card image cap">
+                            <a href="@CommonConstants.DomainName/tin-tuc/@item.MetaTitle-@item.ID@Html.Raw(".html")">
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+
+                        <!-- Card content -->
+                        <div class="card-body border bg-white">
+                            <i class="font-small mb-5 text-black-50">@item.CreatedDate</i>
+                            <p class="card-title blog_size-text">@item.Name</p>
+
+                            <a href="@CommonConstants.DomainName/tin-tuc/@item.MetaTitle-@item.ID@Html.Raw(".html")" class="btn btn-primary mt-3 font-small">Đọc thêm »</a>
+
+                        </div>
+
+                    </div>
+                }
+
+
+            </div>
+
+        </div>
+
+        <div class="group2 col-lg-3 col-md-12 p-0 pl-4 pr-3">
+            @*@{ Html.RenderAction("HoTroTrucTuyen", "Home");}
+
+            @{ Html.RenderAction("ThongTinTienIch", "Home");}
+
+            @{ Html.RenderAction("LienKetWeb", "Home");}
+
+            @{ Html.RenderAction("VideoGioiThieu", "Home");}*@
+
+        </div>
+    </div>
+</div>
+<!-- InstanceEndEditable -->

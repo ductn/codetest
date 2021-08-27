@@ -1,0 +1,39 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="modalRoles">
+    <div class="modal__dialog modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="titleRoles">CẬP NHẬT</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="frmSaveDataRole">
+                    <div class="form-group row">
+                        <label for="txtisController_Role" class="col-form-label col-lg-2 col-sm-3">Controller:</label>
+                        <div class="col-lg-10 col-sm-9">
+                            <input type="text" class="form-control" name="txtisController_Role" id="txtisController_Role">
+                            <input type="hidden" id="hidIDSysFunction" value="0" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="txtRoleID_Role" class="col-form-label col-lg-2 col-sm-3">RoleID:</label>
+                        <div class="col-lg-10 col-sm-9">
+                            <input type="text" class="form-control" name="txtRoleID_Role" id="txtRoleID_Role">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2 col-sm-3"></label>
+                        <div class="col-lg-10 col-sm-9" id="danh-sach-role">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btnSaveRole">Lưu</button>
+                <button type="button" class="btn btn-primary" id="btnSaveListRole">Tạo danh sách</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

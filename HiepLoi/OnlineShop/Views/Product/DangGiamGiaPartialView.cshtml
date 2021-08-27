@@ -1,0 +1,198 @@
+﻿@model List<Model.EF.Product>
+@using ClsCommon;
+@{ 
+    List<Model.ViewModel.ProductCategoryUnitViewModel> NhomSanPhams = ViewBag.NhomSanPhams;
+    int inum = 0;
+}
+<section class="vc_row pb-75">
+    <div class="container">
+        <div class="row">
+            <div class="lqd-column col-md-12">
+                <div class="liquid-portfolio-list">
+                    <div class="row">
+                        <div class="filter-section">
+                            <div class="lqd-column row">
+                                <div class="col-md-6 pull-left">
+                                    <div class="block-head-title d-flex">
+                                        <img src="images/icon-deal-section.svg" alt="" class="mr-2">
+                                        <div class="title-col">
+                                            <h2 class="main-title">
+                                                Sản phẩm đang giảm giá
+                                            </h2>
+                                            <div class="sub-title">
+                                                Deal hot mỗi ngày, săn hàng liền tay
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pull-right">
+                                    <div class="liquid-filter-items justify-content-between align-items-center">
+                                        <div class="liquid-filter-items-inner">
+                                            <ul class="filter-list filter-list-inline mb-0" id="pf-grid-2">
+                                                @foreach (var iNhom in NhomSanPhams)
+                                                {
+                                                    var Name = iNhom.ProductCategoryName;
+                                                    var filter = ".danggiamgia" + iNhom.ProductCategoryId;
+                                                    if (inum == 0)
+                                                    {
+                                                        <li class="active" data-filter="@filter"><span>@Name</span></li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="" data-filter="@filter"><span>@Name</span></li>
+                                                    }
+                                                    inum++;
+                                                }
+                                            </ul>
+                                            <a href="@CommonConstants.DomainName/san-pham-dang-giam-gia.html" class="mz-btn mz-btn-primary mz-btn-sm mz-btn-bdr-round tab-view-more-btn">
+                                                Xem tất cả
+                                            </a>
+                                        </div><!-- /.liquid-filter-items-inner -->
+                                    </div><!-- /.liquid-filter-items -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.row -->
+                <div id="SanPhamDangGiamGia" class="row liquid-portfolio-list-row" data-liquid-masonry="true" data-masonry-options='{ "filtersID": "#pf-grid-2"}' style="position: relative; height: 392px;">
+                    @foreach (var item in Model)
+                    {
+                        var link = CommonConstants.DomainName + "/chi-tiet/" + item.MetaTitle + "-" + item.ID;
+                        var images = CommonConstants.DomainName + item.Image;
+                        var Name = item.Name;
+                        var CateName = item.CategoryID;
+                        //var Price = (item.Price.HasValue ? item.Price.Value.ToString("N0") : "Liên hệ");
+                        var Price = (item.PromotionPrice.HasValue ? item.PromotionPrice.Value.ToString("N0") : "Liên hệ");
+                        var giaPhanTram = Math.Round((double)(item.PromotionPrice / (item.Price + item.PromotionPrice) * 100),0, MidpointRounding.AwayFromZero);
+                        var GioHang = CommonConstants.DomainName + "/them-gio-hang?productId=" + item.ID + "&quantity=1";
+                        var ProductCategoryParentId = "danggiamgia" + item.ProductCategoryParentId;
+                        <div class="lqd-column w-20 col-md-3 col-sm-6 masonry-item @ProductCategoryParentId">
+                            <div class="fancy-box fancy-box-tour fancy-box-heading-md">
+                                <div class="product-large-col">
+                                    <div data-product-id="" data-merchant-id="" class="product-today-deals-card product-item has-box">
+                                        <div class="product-today-deals-card__head">
+                                            <a href="@link" class="product-today-deals-card__img-field">
+                                                <div class="product-today-deals-card__img-field-inner">
+                                                    <img alt="Đang giảm @giaPhanTram% - @Name" src="@images" data-src="@images" class="product-today-deals-card__img ls-is-cached portrait">
+                                                </div>
+                                                <div class="product-today-deals-card__sale-tag">
+                                                    <span class="product-today-deals-card__flash-deal"><i class="product-today-deals-card__flash-deal-icon"></i></span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="product-today-deals-card__body">
+                                            <div class="product-today-deals-card__price-group">
+                                                <span class="product-today-deals-card__current-price">
+                                                    @Price <sup>đ</sup>
+                                                </span>
+                                            </div>
+                                            <div class="product-today-deals-card__title">
+                                                <a href="@CommonConstants.DomainName/chi-tiet/may-anh-sony-5" title="Đang giảm @giaPhanTram% - @Name" class="product-today-deals-card__title-inner">
+                                                    Đang giảm @giaPhanTram% - @Name
+                                                </a>
+                                            </div>
+                                            <div class="product-today-deals-card__control-btn-group">
+                                                <button class="mz-btn mz-btn-outline-primary mz-btn-bdr-round mz-btn-md product-today-deals-card__buy-now-btn">
+                                                    <div class="mz-btn__label-col">
+                                                        Mua ngay
+                                                    </div>
+                                                </button>
+                                                <a href="@GioHang" title="Thêm vào giỏ hàng" class="mz-btn mz-btn-gray mz-btn-bdr-circle mz-btn-md product-today-deals-card__add-cart-btn">
+                                                    <div class="mz-btn__icon-col"><i class="fal fa-cart-plus"></i></div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.fancy-box fancy-box-classes -->
+                        </div>
+                    }
+                </div><!-- /.row liquid-portfolio-list-row -->
+            </div><!-- /.liquid-portfolio-list -->
+        </div><!-- /.col-md-12 -->
+        <div class="clear"></div>
+        <div class="dealProSlider">
+            <div class="container">
+                <div class="carousel-container carousel-nav-floated carousel-nav-center carousel-nav-middle carousel-nav-md carousel-nav-square carousel-nav-solid carousel-dots-style4">
+                    <div class="carousel-items row" data-lqd-flickity='{"cellAlign":"center","prevNextButtons":true,"pageDots":true,"buttonsAppendTo":"self","autoPlay":3000}'>
+                        @foreach (var item in ViewBag.ViewCount)
+                        {
+                            var link = CommonConstants.DomainName + "/chi-tiet/" + item.MetaTitle + "-" + item.ID;
+                            var images = CommonConstants.DomainName + item.Image;
+                            var Name = item.Name;
+                            var CateName = item.CategoryID;
+                            //var Price = (item.Price.HasValue ? item.Price.Value.ToString("N0") : "Liên hệ");
+                            var Price = "";
+                            if (item.PromotionPrice > 0)
+                            {
+                                Price = item.PromotionPrice.ToString("N0");
+                            }
+                            else
+                            {
+                                Price = "Liên hệ";
+                            }
+                            var giaPhanTram = Math.Round((double)(item.PromotionPrice / (item.Price + item.PromotionPrice) * 100), 0, MidpointRounding.AwayFromZero);
+                            var GioHang = CommonConstants.DomainName + "/them-gio-hang?productId=" + item.ID + "&quantity=1";
+                            var ProductCategoryParentId = "danggiamgia" + item.ProductCategoryParentId;
+                            var ViewCount = "0";
+                            if (item.ViewCount != null && item.ViewCount != 0)
+                            {
+                                if (item.ViewCount > 1000)
+                                {
+                                    ViewCount = (item.ViewCount / 1000).ToString("N0") + "k";
+                                }
+                                else
+                                {
+                                    ViewCount = item.ViewCount.ToString("N0");
+                                }
+
+                            }
+                            <div class="carousel-item col-md-3 col-xs-6 px-1">
+                                <figure>
+                                    <div class="product-deal-slide-card-outer">
+                                        <div class="product-deal-slide-card product-item">
+                                            <!---->
+                                            <div class="product-deal-slide-card__left-col">
+                                                <a href="@link" class="product-deal-slide-card__img-outer">
+                                                    <img alt="@Name" src="@images" data-src="@images" class="product-deal-slide-card__img ls-is-cached lazyloaded">
+                                                </a>
+                                                <div class="product-deal-slide-card__btn-outer">
+                                                    <!---->
+                                                    <a href="@GioHang" class="mz-btn mz-btn-outline-gray mz-btn-bdr-round mz-btn-xs product-deal-slide-card__buy-now-btn">
+                                                        <!---->
+                                                        <div class="mz-btn__label-col">
+                                                            Mua ngay
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="product-deal-slide-card__right-col">
+                                                <a href="@link" title="@Name" class="product-deal-slide-card__title">
+                                                    @Name
+                                                    <div class="keyword-meta-item-wrap">
+                                                        <span class="keyword-meta-item">
+                                                            @ViewCount lượt tìm
+                                                        </span>
+                                                        <!---->
+                                                    </div>
+                                                </a>
+                                                <div class="product-deal-slide-card__price-group">
+                                                    <span class="product-deal-slide-card__current-price">@Price <sup>đ</sup></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </figure>
+                            </div><!-- /.carousel-item -->
+                        }
+                        </div><!-- /.carousel-items -->
+                </div><!-- /.carousel-container -->
+                <div class="view-more-btn-outer pt-65">
+                    <a href="@CommonConstants.DomainName/san-pham-dang-giam-gia.html" class="mz-btn mz-btn-outline-primary mz-btn-lg mz-btn-bdr-round view-more-btn">
+                        <span class="mz-btn__label-col">Xem tất cả</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.row -->
+</section>
